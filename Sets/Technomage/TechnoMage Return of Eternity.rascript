@@ -403,7 +403,7 @@ achievement(
 
 achievement(
     title = "Now We Are Talking", points = 5,
-    description = "Chapter 2 : Find the Sword",
+    description = "Chapter 2 : Get the Sword",
     id = 402923, badge = "455840", published = "27-02-24 00:03:16", modified = "27-02-24 00:03:16",
     trigger = 	CheckGameStage(0x02, 0x16) && 
     			HasLooted(Weapons, "SWORD")
@@ -411,7 +411,7 @@ achievement(
 
 achievement(
     title = "Are You Ore-Kay Rumtok", points = 3,
-    description = "Chapter 2 : Save Rumtok the miner",
+    description = "Chapter 2 : Save Rumtok the miner and get the Crowbar",
     id = 402925, badge = "455842", published = "27-02-24 00:21:48", modified = "27-02-24 00:21:48",
     trigger = 	CheckGameStage(0x02, 0x05) && 
     			HasLooted(Items, "CROWBAR")
@@ -634,8 +634,8 @@ achievement(
 )
 
 achievement(
-    title = "Chapter 4 : Mystical Tool", points = 5,
-    description = "Get the Radar",
+    title = "Mystical Tool", points = 5,
+    description = "Chapter 4 : Get the Radar",
     id = 403198, badge = "456177", published = "28-02-24 12:00:16", modified = "28-02-24 12:00:16",
     trigger = 	CheckGameStage(0x04, 0x18) && 
     			HasLooted(Tools, "RADAR")
