@@ -299,6 +299,35 @@ function PrevDecreased(address){
 	return prev(address) > address
 }
 
+//Check if player changed the Equipment
+function HasChangedEquipment(){
+    return  prev(Curr_equ) >= 1 &&
+            prev(Curr_equ) <= 8 &&
+            Curr_equ >= 1 &&
+            Curr_equ <= 8 &&
+            prev(Curr_equ) != Curr_equ
+}
+
+//Check if player changed the equipment
+function HasChangedWeapon(){
+    return prev(Curr_weapon) != Curr_weapon
+}
+
+//Check if player changed the Tool
+function HasChangedTool(){
+    return prev(Curr_tools) != Curr_tools
+}
+
+//Check if player changed the Spell
+function HasChangedSpell(){
+
+    return  prev(Curr_spell) >= 1 &&
+            prev(Curr_spell) <= 8 &&
+            Curr_spell >= 1 &&
+            Curr_spell <= 8 &&
+            prev(Curr_spell) != Curr_spell
+}
+
 //ACHIEVEMENTS 
 
 //Check GameStage then if the current Event ID is the Dialog with NPC Glacnore after giving him a tip for information.
@@ -319,16 +348,18 @@ achievement(
     title = "Thirst for Knowledge", points = 2,
     description = "Chapter 1 : Read all the 7 books at the Library",
     id = 402913, badge = "455830", published = "26-02-24 23:24:32", modified = "26-02-24 23:24:32",
-    trigger = 	CheckGameStage(0x01, 0x09) && 
-    			tally(7, 
-                  once(EventPlaceHolder[2] == 0x53455957), 
-                  once(EventPlaceHolder[2] == 0x59534543), 
-                  once(EventPlaceHolder[1] == 0x5F35304B), 
-                  once(EventPlaceHolder[1] == 0x5F36304B), 
-                  once(EventPlaceHolder[1] == 0x5F37304B), 
-                  once(EventPlaceHolder[1] == 0x5F34304B), 
-                  once(EventPlaceHolder[1] == 0x5F33304B), 
-          	    byte(0x091E8C) > 0x00)
+    trigger = 	 measured(
+                    tally(7, 
+                        once(EventPlaceHolder[2] == 0x53455957), 
+                        once(EventPlaceHolder[2] == 0x59534543), 
+                        once(EventPlaceHolder[1] == 0x5F35304B), 
+                        once(EventPlaceHolder[1] == 0x5F36304B), 
+                        once(EventPlaceHolder[1] == 0x5F37304B), 
+                        once(EventPlaceHolder[1] == 0x5F34304B), 
+                        once(EventPlaceHolder[1] == 0x5F33304B), 
+                        byte(0x091E8C) > 0x00), 
+                    when=CheckGameStage(0x01, 0x09),
+                    format="raw"))
 )
 
 //Check GameStage then if the current Event ID is the Dialog with Uncle Rissen first meeting. 
@@ -630,7 +661,7 @@ achievement(
     description = "Reach level 5",
     id = 403120, badge = "456093", published = "28-02-24 00:52:35", modified = "28-02-24 00:52:35",
     trigger = 	InGame() && 
-    			LevelUp(4, 5)
+    			trigger_when(LevelUp(4, 5))
 )
 
 achievement(
@@ -787,7 +818,7 @@ achievement(
     description = "Reach level 10",
     id = 403598, badge = "456626", published = "29-02-24 20:23:15", modified = "29-02-24 20:23:15",
     trigger = 	InGame() && 
-    			LevelUp(9, 10)
+    			trigger_when(LevelUp(9, 10))
 )
 
 achievement(
@@ -979,7 +1010,7 @@ achievement(
     description = "Reach level 15",
     id = 403661, badge = "456681", published = "01-03-24 02:16:45", modified = "01-03-24 02:16:45",
     trigger = 	InGame() && 
-    			LevelUp(14, 15)
+    			trigger_when(LevelUp(14, 15))
 )
 
 achievement(
@@ -1101,7 +1132,7 @@ achievement(
     description = "Reach level 20",
     id = 403744, badge = "456915", published = "01-03-24 15:55:20", modified = "01-03-24 15:55:20",
     trigger = 	InGame() && 
-    			LevelUp(19, 20)
+    			trigger_when(LevelUp(19, 20))
 )
 
 //Check the GameStage then if all the Crystals have been placed during the fight. As final requirement, a check
@@ -1127,7 +1158,7 @@ achievement(
     id = 403826, badge = "457144", published = "02-03-24 01:01:09", modified = "02-03-24 01:01:09",
     trigger = 	CheckGameStage(0x08, 0x04) && 
     			disable_when(CheckGameStage(0x08, 0x04) && PlayerAnim == PlayerAnimList["DAMAGE"] ) && 
-              	HasLooted(Seals, "COMBAT")
+              	trigger_when(HasLooted(Seals, "COMBAT"))
 )
 
 //Check the GameStage then pause if player use any kind of potion/antidote or change the equipment. As final requirement
@@ -1137,14 +1168,14 @@ achievement(
     description = "Chapter 8 : Finish the arena of Defence without changing your equipment or taking any potion",
     id = 403827, badge = "457143", published = "02-03-24 01:44:47", modified = "02-03-24 01:44:47",
     trigger = 	CheckGameStage(0x08, 0x07) &&
-    			disable_when(CheckGameStage(0x08, 0x07) && Curr_equ != 0x01) &&
+    			disable_when(CheckGameStage(0x08, 0x07) && HasChangedEquipment()) &&
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_H"]))) && 
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_H"]))) && 
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_C"]))) && 
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_C"]))) && 
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["HERB"]))) && 
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["ANTIDOTE"]))) &&
-    			HasLooted(Seals, "DEFENCE")
+    			trigger_when(HasLooted(Seals, "DEFENCE"))
 )
 
 //Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
@@ -1154,7 +1185,7 @@ achievement(
     description = "Chapter 1 : Kill the giant rat without taking damage",
     id = 404047, badge = "457423", published = "02-03-24 21:31:24", modified = "02-03-24 21:31:24",
     trigger = 	CheckGameStage(0x01, 0x0B) && 
-    			GiantRatHp == 0x00 &&
+    			trigger_when(GiantRatHp == 0x00) &&
     			disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"] )
 )
 
@@ -1179,7 +1210,7 @@ achievement(
 )
 
 
-// RICH PRESENCE
+/* RICH PRESENCE
 
 Lookup:Chapter1
 0x02=At Mr Vesneggs' house in DreamerTown
@@ -1275,4 +1306,4 @@ Display:
 ?0x0a1740=6?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤ - Chapter 6 - @Chapter6(0x0a1744)
 ?0x0a1740=7?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 7 - @Chapter7(0x0a1744)
 ?0x0a1740=8?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤ - Chapter 8 - @Chapter8(0x0a1744)
-Saving the world of Gothos
+Saving the world of Gothos*/
