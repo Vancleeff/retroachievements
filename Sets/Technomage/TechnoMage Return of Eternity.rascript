@@ -433,14 +433,6 @@ achievement(
 )
 
 achievement(
-    title = "Bon Appetit", points = 5,
-    description = "Chapter 2 : Get rid of Baras",
-    id = 402922, badge = "455839", type="progression",
-    trigger = 	CheckGameStage(0x02, 0x08) && 
-    			HasDropped(Items, "STEWOIL")
-)
-
-achievement(
     title = "Now We Are Talking", points = 5,
     description = "Chapter 2 : Get the Sword",
     id = 402923, badge = "455840", type="progression", 
