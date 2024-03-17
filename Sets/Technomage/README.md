@@ -125,6 +125,9 @@ Inspect every tombs at the cemetary of SteamerTown
 #### Resourceful
 To get this done, you can't buy the Cork from Lars, at the store. You will need to find 6 Corks around the city. They are in containers, just inspect everething and destroy every crates and you should be good. Their position are random so I can't give you their exact position.
 
+#### Machinist
+You will have to kill the Scrapyard Monster without taking any damage. I highly suggest you to keep the mana potions found during this chapter for this fight. Be very careful at the beginning of the fight and use sideways to reach the boss cause the main access seems to trigger some weird damage from unknown source at the beginning of the fight. After that, it's
+
 #### Plumber
 At the end of the chapter, during the Water Tanks riddle, you will have to solve it in 4 moves. When you are facing the Tanks gauges, use the left one 3 times then the front one once and you should get the achievement.
 
@@ -166,6 +169,15 @@ Discover 100% of the map in The Hive - Graves
 #### Cube of Intelligence
 During the Fight with the Giant Spider, turn around the walls the North West corner and you'll find the Cube. Don't use it if you want to unlock the "4d6" achievement.
 If you missed it, you will have a second opportunity to have that cube at Yayzn's shop in ShachTown, during chapter 7 but it will cost 200 golds.
+
+#### Arachnophobia
+You will have to kill the Giant Spider without taking any damage. I highly suggest you to keep the mana potions found during this chapter for this fight. Here's a pattern to speed up the first half of the fight : You have to hide yourself behind the walls at each corner of the room, the Giant Spider will position herself in front of one of the side of the corner, waiting for her prey. Just leave by the other side and kick her ass and move back to your position.
+ - Do this 2 times
+ - The third time, cast a fireball cause if you hit her with a melee weapon, she will hit you with a nasty jump
+ - The fourth time, she will trick you and will move directly after you leave your hideout, operation abort, step back.
+ - Repeat this process until 50% of her HP bar
+ - After that, she will start to jump and invoke baby spiders from time to time. The pattern will be way more chaotic so I suggest you to only use spells until the end of the fight. Be super careful with all the baby spiders and take your time to kill'em all to avoid taking damage from them.
+ You can also playing it like a maggot and only use spells, but it will takes a lot of time and you will probably run out of mana potion and will have to wait for the natural regeneration to cast your spell. (again, be careful with baby spiders)
 
 ## Chapter 4 (13 achievements)
 

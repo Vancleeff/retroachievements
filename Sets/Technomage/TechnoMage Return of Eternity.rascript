@@ -175,11 +175,14 @@ SelectedGUIValue = {
 //BOSSES
 BossGauge  = byte(0x0a0610)
 GiantRatHp = byte(0x1C35D0)
+ScrapyardBossHp = byte(0x1c3180)
+GiantSpiderBossHp = byte(0x1c19c8)
 
 // These addresses contain the current Event ID, it can be a dialog, a starting quest, a solved puzzle or even a played music.
 // The problem is that when the ID change, the placeholders are not flushed and if the event A is longer than event B,
 // the residual part of event A will still be there so it's important to always check on the most significative and unique
-// part of the Event ID and truncate after the last full covered byte to avoid previous residual parts. (if not possible, avoid that method) 
+// part of the Event ID and truncate after the last full covered byte to avoid previous residual parts. (if not possible, avoid that method)
+// These Event ID are shared between all the versions of the game, making it a better option than dialog ID for language compatibility. 
 EventPlaceHolder = [
     dword(0x0B71E0),
     dword(0x0B71E4),
@@ -246,7 +249,7 @@ function CheckInQuestLog(key)
 }
 
 //Check wether the player performs a transition between two chapters. Used to trigger story related achievements (Chapter X)
-function ChapterTransition(last, next) => prior(ChapterID) == last && ChapterID == next
+function ChapterTransition(last, next) => prev(ChapterID) == last && ChapterID == next
 
 //Check if the player is in a specific gamestage which consists on a pair of current chapter and room
 function CheckGameStage(chapter, room) => ChapterID == chapter && RoomID == room
@@ -276,7 +279,11 @@ function HasDropped(ArraySrc, key){
 
 //Check if the player reached a specific level.
 function LevelUp(from, to){
-  	return prev(PlayerLvl) == from && PlayerLvl == to
+  	return  InGame() &&
+            prev(PlayerLvl) == from &&
+            measured(
+                PlayerLvl == to, 
+                format="raw")
 }
 
 //Check if address increased to target since last frame
@@ -284,9 +291,10 @@ function PrevIncreasedTo(address, target){
 	return prev(address) < target && address >= target
 }
 
-//Check if address increased to target since last value
+//Used to check if a skill increased to a specific target when level up. prior <= target is used because the game increase 
+//every skills at each level up.
 function PriorIncreasedTo(address, target){
-	return prior(address) < target && address >= target
+	return prior(address) <= target && address >= target
 }
 
 //Check if address increased since last frame
@@ -299,7 +307,7 @@ function PrevDecreased(address){
 	return prev(address) > address
 }
 
-//Check if player changed the Equipment
+//Check if player has changed the Equipment
 function HasChangedEquipment(){
     return  prev(Curr_equ) >= 1 &&
             prev(Curr_equ) <= 8 &&
@@ -308,38 +316,47 @@ function HasChangedEquipment(){
             prev(Curr_equ) != Curr_equ
 }
 
-//Check if player changed the equipment
+//Check if player has changed the equipment
 function HasChangedWeapon(){
-    return prev(Curr_weapon) != Curr_weapon
+       return  prev(Curr_weapon) >= 1 &&
+            prev(Curr_weapon) <= 8 &&
+            Curr_weapon >= 1 &&
+            Curr_weapon <= 8 &&
+            prev(Curr_weapon) != Curr_weapon
 }
 
-//Check if player changed the Tool
+//Check if player has changed the Tool
 function HasChangedTool(){
-    return prev(Curr_tools) != Curr_tools
+        return  prev(Curr_tools) >= 1 &&
+            prev(Curr_tools) <= 4 &&
+            Curr_tools >= 1 &&
+            Curr_tools <= 4 &&
+            prev(Curr_tools) != Curr_tools
 }
 
-//Check if player changed the Spell
+//Check if player has changed the Spell
 function HasChangedSpell(){
-
     return  prev(Curr_spell) >= 1 &&
-            prev(Curr_spell) <= 8 &&
+            prev(Curr_spell) <= 7 &&
             Curr_spell >= 1 &&
-            Curr_spell <= 8 &&
+            Curr_spell <= 7 &&
             prev(Curr_spell) != Curr_spell
 }
 
 //ACHIEVEMENTS 
 
 //Check GameStage then if the current Event ID is the Dialog with NPC Glacnore after giving him a tip for information.
-//Additionally, a check is made to ensure the gold has been decreased during the event. 
-//Prior is okay here because giving Glacnore 5 gold is the only way to loose money in chapter 1.
+//Additionally, a check is made to ensure the gold has been decreased during the event.
+//The use of prior instead of prev is because the timing is not always perfect and can prevent the achievement to be triggered.
+//There's almost no risk that the decrement detected by the prior function could comes from another action as Glacnore 
+//is the only way to spend money in chapter 1. 
 achievement(
     title = "A Fresh Start for Glacnore", points = 1,
     description = "Chapter 1 : Give Glacnore 5 golds for his information",
-    id = 402912, badge = "455829", published = "26-02-24 23:24:06", modified = "26-02-24 23:24:06",
+    id = 402912, badge = "455829", type="missable",
     trigger = 	CheckGameStage(1,8) &&
     			all_of(CompareArrays([1095517985, 1380929091, 1229414213, 1313424726, 20294], EventPlaceHolder, 1), a => a) &&
-				prior(PlayerGold) > PlayerGold
+				prior(PlayerGold) == PlayerGold + 5
 )
 
 //Check GameStage then if the current Event ID is the Reading of the targetted books and collect the hits on a dummy 
@@ -347,7 +364,7 @@ achievement(
 achievement(
     title = "Thirst for Knowledge", points = 2,
     description = "Chapter 1 : Read all the 7 books at the Library",
-    id = 402913, badge = "455830", published = "26-02-24 23:24:32", modified = "26-02-24 23:24:32",
+    id = 402913, badge = "455830", type="missable", 
     trigger = 	 measured(
                     tally(7, 
                         once(EventPlaceHolder[2] == 0x53455957), 
@@ -359,14 +376,14 @@ achievement(
                         once(EventPlaceHolder[1] == 0x5F33304B), 
                         byte(0x091E8C) > 0x00), 
                     when=CheckGameStage(0x01, 0x09),
-                    format="raw"))
+                    format="raw")
 )
 
 //Check GameStage then if the current Event ID is the Dialog with Uncle Rissen first meeting. 
 achievement(
     title = "Family Business", points = 3,
     description = "Chapter 1 : Visit your Uncle Rissen",
-    id = 402914, badge = "455831", published = "26-02-24 23:24:58", modified = "26-02-24 23:24:58",
+    id = 402914, badge = "455831", type="progression", 
     trigger = 	CheckGameStage(0x01, 0x0B) &&
     			all_of(CompareArrays([0x53534952, 0x315F4E45, 0x4B4C4154], EventPlaceHolder, 1), a => a)
 )
@@ -375,7 +392,7 @@ achievement(
 achievement(
     title = "Toothpick", points = 5,
     description = "Chapter 1 : Find the Dagger",
-    id = 402916, badge = "455833", published = "26-02-24 23:33:52", modified = "26-02-24 23:33:52",
+    id = 402916, badge = "455833", type="progression",
     trigger = 	CheckGameStage(0x01, 0x0B) && 
     			HasLooted(Weapons, "DAGGER")
 )
@@ -385,7 +402,7 @@ achievement(
 achievement(
     title = "None Shall Compass", points = 5,
     description = "Chapter 1 : Kill the giant rat and get the compass",
-    id = 402917, badge = "455834", published = "26-02-24 23:34:49", modified = "26-02-24 23:34:49",
+    id = 402917, badge = "455834", type="progression", 
     trigger = 	CheckGameStage(0x01, 0x0B) &&
     			GiantRatHp == 0x00 && 
     			HasLooted(Items, "COMPASS")
@@ -395,7 +412,7 @@ achievement(
 achievement(
     title = "Unusual Quest", points = 5,
     description = "Chapter 1 : Clear the rats from Mr Vesnegg's cellar",
-    id = 402918, badge = "455835", published = "26-02-24 23:35:43", modified = "26-02-24 23:35:43",
+    id = 402918, badge = "455835", 
     trigger = CheckGameStage(0x01, 0x02) &&
               any_of(CheckInQuestLog(0x53544152), a=>a)
 )
@@ -404,7 +421,7 @@ achievement(
 achievement(
     title = "It’s Just the Beginning", points = 2,
     description = "Reach level 2",
-    id = 402919, badge = "455836", published = "26-02-24 23:36:13", modified = "26-02-24 23:36:13",
+    id = 402919, badge = "455836",
     trigger = 	InGame() && 
     			LevelUp(1, 2)
 )
@@ -412,13 +429,14 @@ achievement(
 achievement(
     title = "Chapter 2", points = 10,
     description = "Leave Dreamertown",
-    id = 402920, badge = "455837", published = "26-02-24 23:36:20", modified = "26-02-24 23:36:20",
-    trigger = ChapterTransition(0x01, 0x02)
+    id = 402920, badge = "455837", type="progression", 
+    trigger =   InGame() && 
+                ChapterTransition(0x01, 0x02)
 )
 achievement(
     title = "Cube of Strength", points = 3,
     description = "Chapter 2 : Get a magic cube of strength",
-    id = 402921, badge = "455838", published = "26-02-24 23:49:15", modified = "26-02-24 23:49:15",
+    id = 402921, badge = "455838", type="missable", 
     trigger = 	InGame() && 
     			HasLooted(Cubes, "STR")
 )
@@ -427,7 +445,7 @@ achievement(
 achievement(
     title = "Bon Appetit", points = 5,
     description = "Chapter 2 : Get rid of Baras",
-    id = 402922, badge = "455839", published = "26-02-24 23:59:06", modified = "26-02-24 23:59:06",
+    id = 402922, badge = "455839", type="progression",
     trigger = 	CheckGameStage(0x02, 0x08) && 
     			HasDropped(Items, "STEWOIL")
 )
@@ -435,7 +453,7 @@ achievement(
 achievement(
     title = "Now We Are Talking", points = 5,
     description = "Chapter 2 : Get the Sword",
-    id = 402923, badge = "455840", published = "27-02-24 00:03:16", modified = "27-02-24 00:03:16",
+    id = 402923, badge = "455840", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x16) && 
     			HasLooted(Weapons, "SWORD")
 )
@@ -443,7 +461,7 @@ achievement(
 achievement(
     title = "Are You Ore-Kay Rumtok", points = 3,
     description = "Chapter 2 : Save Rumtok the miner and get the Crowbar",
-    id = 402925, badge = "455842", published = "27-02-24 00:21:48", modified = "27-02-24 00:21:48",
+    id = 402925, badge = "455842", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x05) && 
     			HasLooted(Items, "CROWBAR")
 )
@@ -451,7 +469,7 @@ achievement(
 achievement(
     title = "On Fire", points = 5,
     description = "Chapter 2 : Find out what's going on at the graveyard and learn the Fireball spell",
-    id = 402926, badge = "455843", published = "27-02-24 00:30:37", modified = "27-02-24 00:30:37",
+    id = 402926, badge = "455843", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x0D) && 
     			HasLooted(Spells, "FIREBALL")
 )
@@ -459,7 +477,7 @@ achievement(
 achievement(
     title = "I See Dead People", points = 5,
     description = "Chapter 2 : Reach the end of the Crypt and get the Ankh Amulet",
-    id = 403069, badge = "456007", published = "27-02-24 18:25:36", modified = "27-02-24 18:25:36",
+    id = 403069, badge = "456007", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x03) && 
     			HasLooted(Equipments, "ANKH")
 )
@@ -468,7 +486,7 @@ achievement(
 achievement(
     title = "Open Day", points = 3,
     description = "Chapter 2 : Gain access to your father's house",
-    id = 403070, badge = "456008", published = "27-02-24 18:32:51", modified = "27-02-24 18:32:51",
+    id = 403070, badge = "456008", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x13) && 
     			prior(byte(0x0A1744)) == 0x08
 )
@@ -476,7 +494,7 @@ achievement(
 achievement(
     title = "Hopscotch", points = 5,
     description = "Chapter 2 : Kill the Scrapyard Monster and get the control wheele",
-    id = 403071, badge = "456063", published = "27-02-24 19:31:12", modified = "27-02-24 19:31:12",
+    id = 403071, badge = "456063", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x0B) && 
     			HasLooted(Items, "CWHEEL")
 )
@@ -487,7 +505,7 @@ achievement(
 achievement(
     title = "Resourceful", points = 5,
     description = "Chapter 2 : Seal the burst steam pipes without buying a cork from Lars",
-    id = 403079, badge = "456067", published = "27-02-24 21:30:50", modified = "27-02-24 21:30:50",
+    id = 403079, badge = "456067", type="missable", 
     trigger = 	ChapterID == 0x02 &&
     			Items["LARS_CORK"] == 0x01 &&
     			any_of(CheckInQuestLog(0x4B524F43), a=>a)
@@ -505,20 +523,25 @@ WaterTankWheelAnim = byte(0x139440)
 achievement(
     title = "Plumber", points = 5,
     description = "Chapter 2 : Resolve the water tank puzzle in SteamerTown in as few turns as possible",
-    id = 403081, badge = "456070", published = "27-02-24 22:29:34", modified = "27-02-24 22:29:34",
-    trigger = 	prior(WaterTank1Lvl) == 0x03 &&
+    id = 403081, badge = "456070", type="missable", 
+    trigger = 	CheckGameStage(0x02, 0x0a) &&
+                prior(WaterTank1Lvl) == 0x03 &&
 				WaterTank1Lvl == 0x02 &&
 				prior(WaterTank2Lvl) == 0x03 &&
 				WaterTank2Lvl == 0x02 && 
 				prior(WaterTank3Lvl) == 0x00 && 
 				WaterTank3Lvl == 0x02 && 
-				unless(tally(5,(prev(WaterTankWheelAnim) == 0x00 && WaterTankWheelAnim == 0x01), byte(0x091E86)== 0x04))
+				disable_when(tally(5,
+                    (prev(WaterTank1Lvl) != WaterTank1Lvl) ||
+                     (prev(WaterTank2Lvl) != WaterTank2Lvl) || 
+                     (prev(WaterTank3Lvl) != WaterTank3Lvl), 
+                     byte(0x091E86)== 0x04), until=prev(WaterTank1Lvl) == 0x05 && WaterTank1Lvl ==0x06)
 )
 
 achievement(
     title = "Chapter 3", points = 10,
     description = "Get the Ring of Life and enter The Hive",
-    id = 403082, badge = "456071", published = "27-02-24 22:31:46", modified = "27-02-24 22:31:46",
+    id = 403082, badge = "456071", type="progression", 
     trigger = ChapterTransition(0x02, 0x03)
 )
 
@@ -526,7 +549,7 @@ achievement(
 achievement(
     title = "Ferdinand Magellan", points = 3,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Entrance",
-    id = 403083, badge = "456072", published = "27-02-24 22:44:04", modified = "27-02-24 22:44:04",
+    id = 403083, badge = "456072", type="missable",
     trigger = 	CheckGameStage(0x03, 0x01) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
 )
@@ -536,7 +559,7 @@ achievement(
 achievement(
     title = "Mystic Wisdom", points = 2,
     description = "Reach lvl 7 in Mysticism and unlock the first perk",
-    id = 403087, badge = "456073", published = "27-02-24 23:16:03", modified = "27-02-24 23:16:03",
+    id = 403087, badge = "456073", 
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 7)
 )
@@ -544,7 +567,7 @@ achievement(
 achievement(
     title = "Rothschild", points = 5,
     description = "Have 500 golds in your pockets",
-    id = 403088, badge = "456074", published = "27-02-24 23:16:12", modified = "27-02-24 23:16:12",
+    id = 403088, badge = "456074", type="missable", 
     trigger = 	InGame() && 
     			PrevIncreasedTo(PlayerGold, 500)
 )
@@ -552,7 +575,7 @@ achievement(
 achievement(
     title = "Father and Son", points = 5,
     description = "Chapter 3 : Find your father somewhere in the Hive and get the Bombs",
-    id = 403089, badge = "456075", published = "27-02-24 23:20:20", modified = "27-02-24 23:20:20",
+    id = 403089, badge = "456075", type="progression", 
     trigger = 	CheckGameStage(0x03, 0x02) && 
     			HasLooted(Tools, "BOMB")
 )
@@ -560,7 +583,7 @@ achievement(
 achievement(
     title = "Marco Polo", points = 3,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Godon",
-    id = 403090, badge = "456077", published = "27-02-24 23:24:07", modified = "27-02-24 23:24:07",
+    id = 403090, badge = "456077", type="missable", 
     trigger = 	CheckGameStage(0x03, 0x02) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F], Map, 1), a=>a)
 )
@@ -568,7 +591,7 @@ achievement(
 achievement(
     title = "Francisco Pizarro", points = 3,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Passage",
-    id = 403091, badge = "456082", published = "27-02-24 23:33:47", modified = "27-02-24 23:33:47",
+    id = 403091, badge = "456082", type="missable", 
     trigger = 	CheckGameStage(0x03, 0x03) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F], Map, 1), a=>a)
 )
@@ -576,7 +599,7 @@ achievement(
 achievement(
     title = "Don't Mace With Me", points = 5,
     description = "Chapter 3 : Get the War Mace",
-    id = 403092, badge = "456079", published = "27-02-24 23:34:47", modified = "27-02-24 23:34:47",
+    id = 403092, badge = "456079", type="progression", 
     trigger = 	CheckGameStage(0x03, 0x04) && 
     			HasLooted(Weapons, "MACE")
 )
@@ -584,7 +607,7 @@ achievement(
 achievement(
     title = "Henry Hudson", points = 3,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Fredo",
-    id = 403093, badge = "456083", published = "27-02-24 23:42:00", modified = "27-02-24 23:42:00",
+    id = 403093, badge = "456083", type="missable", 
     trigger = 	CheckGameStage(0x03, 0x04) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1F], Map, 1), a=>a)
 )
@@ -592,7 +615,7 @@ achievement(
 achievement(
     title = "I Know It Was You Fredo", points = 5,
     description = "Chapter 3 : Meet Fredo and learn the Ice Claw spell",
-    id = 403094, badge = "456081", published = "27-02-24 23:42:32", modified = "27-02-24 23:42:32",
+    id = 403094, badge = "456081", type="progression", 
     trigger = 	CheckGameStage(0x03, 0x04) && 
     			HasLooted(Spells, "ICECLAW")
 )
@@ -603,7 +626,7 @@ achievement(
 achievement(
     title = "Vasco Da Gama", points = 3,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Labyrinth",
-    id = 403096, badge = "456085", published = "28-02-24 00:13:04", modified = "28-02-24 00:13:04",
+    id = 403096, badge = "456085", type="missable", 
     trigger = 	CheckGameStage(0x03, 0x05) && 
 				MusicPlayed == 0x17B0 &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
@@ -612,7 +635,7 @@ achievement(
 achievement(
     title = "Tough Boy", points = 2,
     description = "Increase your Strength to 10",
-    id = 403098, badge = "456087", published = "28-02-24 00:22:03", modified = "28-02-24 00:22:03",
+    id = 403098, badge = "456087", 
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerSTR, 10)
 )
@@ -620,7 +643,7 @@ achievement(
 achievement(
     title = "RPG Scenarists Love Crystals", points = 5,
     description = "Chapter 3 : Get the Green Crystal",
-    id = 403099, badge = "456088", published = "28-02-24 00:33:49", modified = "28-02-24 00:33:49",
+    id = 403099, badge = "456088", type="progression",
     trigger = 	CheckGameStage(0x03, 0x07) && 
     			HasLooted(Crystals, "GREEN")
 )
@@ -628,7 +651,7 @@ achievement(
 achievement(
     title = "Bartolomeu Dias", points = 3,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Steep Tauron",
-    id = 403116, badge = "456089", published = "28-02-24 00:37:49", modified = "28-02-24 00:37:49",
+    id = 403116, badge = "456089", type="missable",
     trigger = 	CheckGameStage(0x03, 0x07) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
 )
@@ -636,7 +659,7 @@ achievement(
 achievement(
     title = "Christopher Columbus", points = 3,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Graves",
-    id = 403117, badge = "456090", published = "28-02-24 00:48:53", modified = "28-02-24 00:48:53",
+    id = 403117, badge = "456090", type="missable",
     trigger = 	CheckGameStage(0x03, 0x09) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1F], Map, 1), a=>a)
 )
@@ -644,7 +667,7 @@ achievement(
 achievement(
     title = "Cube of Intelligence", points = 3,
     description = "Chapter 3 : Get a magic cube that increase your intelligence",
-    id = 403118, badge = "456091", published = "28-02-24 00:52:07", modified = "28-02-24 00:52:07",
+    id = 403118, badge = "456091", type="progression", 
     trigger = 	InGame() && 
     			HasLooted(Cubes, "INT")
 )
@@ -652,22 +675,21 @@ achievement(
 achievement(
     title = "Chapter 4", points = 10,
     description = "Kill the giant spider and reach the Fairy Forest",
-    id = 403119, badge = "456092", published = "28-02-24 00:52:18", modified = "28-02-24 00:52:18",
+    id = 403119, badge = "456092", type="progression", 
     trigger = ChapterTransition(0x03, 0x04)
 )
 
 achievement(
     title = "Rookie", points = 5,
     description = "Reach level 5",
-    id = 403120, badge = "456093", published = "28-02-24 00:52:35", modified = "28-02-24 00:52:35",
-    trigger = 	InGame() && 
-    			trigger_when(LevelUp(4, 5))
+    id = 403120, badge = "456093",
+    trigger = 	LevelUp(4, 5)
 )
 
 achievement(
     title = "Mystical Tool", points = 5,
     description = "Chapter 4 : Get the Radar",
-    id = 403198, badge = "456177", published = "28-02-24 12:00:16", modified = "28-02-24 12:00:16",
+    id = 403198, badge = "456177", type="progression",
     trigger = 	CheckGameStage(0x04, 0x18) && 
     			HasLooted(Tools, "RADAR")
 )
@@ -676,7 +698,7 @@ achievement(
 achievement(
     title = "Fairy Gold", points = 3,
     description = "Chapter 4 : Find a bee stying and mantis silk for the fairy gold",
-    id = 403337, badge = "456264", published = "28-02-24 22:30:32", modified = "28-02-24 22:30:32",
+    id = 403337, badge = "456264",
     trigger = 	CheckGameStage(0x04, 0x04) && 
     			HasLooted(Items, "FGOLD")
 )
@@ -685,7 +707,7 @@ achievement(
 achievement(
     title = "Shrinking Potion", points = 3,
     description = "Chapter 4 : Find the three seals and a Silverweed for Duna",
-    id = 403338, badge = "456265", published = "28-02-24 22:31:23", modified = "28-02-24 22:31:23",
+    id = 403338, badge = "456265",
     trigger = 	CheckGameStage(0x04, 0x18) && 
     			HasLooted(Items, "SH_POTION")
 )
@@ -693,7 +715,7 @@ achievement(
 achievement(
     title = "The Faster of Two Weevils", points = 5,
     description = "Chapter 4 : Win the beetle race and get the speed boots",
-    id = 403339, badge = "456266", published = "28-02-24 22:53:39", modified = "28-02-24 22:53:39",
+    id = 403339, badge = "456266", type="progression",
     trigger = 	CheckGameStage(0x04, 0x01) && 
     			HasLooted(Tools, "BOOTS")
 )
@@ -701,7 +723,7 @@ achievement(
 achievement(
     title = "I Don’t Like Raga Oh No I Kill Him", points = 5,
     description = "Chapter 4 : Defeat Raga, save Gwen and learn the Viper's Vortex spell",
-    id = 403340, badge = "456267", published = "28-02-24 23:04:19", modified = "28-02-24 23:04:19",
+    id = 403340, badge = "456267", type="progression",
     trigger = 	CheckGameStage(0x04, 0x05) && 
     			HasLooted(Spells, "VORTEX")
 )
@@ -709,7 +731,7 @@ achievement(
 achievement(
     title = "Jacques Cartier", points = 3,
     description = "Chapter 4 : Discover 100% of the map in The Fairy Forest - Fairy Meadows",
-    id = 403341, badge = "456268", published = "28-02-24 23:08:16", modified = "28-02-24 23:08:16",
+    id = 403341, badge = "456268", type="missable",
     trigger = 	CheckGameStage(0x04, 0x04) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x07], Map, 1), a=>a)
 )
@@ -717,7 +739,7 @@ achievement(
 achievement(
     title = "Wise Man", points = 2,
     description = "Increase your Intelligence to 10",
-    id = 403342, badge = "456269", published = "28-02-24 23:20:18", modified = "28-02-24 23:20:18",
+    id = 403342, badge = "456269",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerINT, 10)
 )
@@ -725,7 +747,7 @@ achievement(
 achievement(
     title = "Mystic Strength", points = 3,
     description = "Reach lvl 14 in Mysticism and unlock the second perk",
-    id = 403343, badge = "456270", published = "28-02-24 23:20:29", modified = "28-02-24 23:20:29",
+    id = 403343, badge = "456270",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 14)
 )
@@ -734,7 +756,7 @@ achievement(
 achievement(
     title = "Musician", points = 3,
     description = "Chapter 4 : Soothe jakhul and enter the Inner Forest",
-    id = 403344, badge = "456271", published = "28-02-24 23:20:52", modified = "28-02-24 23:20:52",
+    id = 403344, badge = "456271", 
     trigger = 	CheckGameStage(0x04, 0x06) && 
     			prior(byte(0x0A1744)) == 0x1D
 )
@@ -742,7 +764,7 @@ achievement(
 achievement(
     title = "Magic Amulet", points = 5,
     description = "Chapter 4 : Return to Dahlia and receive the Magic Amulet",
-    id = 403582, badge = "456590", published = "29-02-24 19:01:23", modified = "29-02-24 19:01:23",
+    id = 403582, badge = "456590", type="progression",
     trigger = 	CheckGameStage(0x04, 0x0B) && 
     			HasLooted(Equipments, "AMULETMAGIC")
 )
@@ -750,7 +772,7 @@ achievement(
 achievement(
     title = "James Cook", points = 3,
     description = "Chapter 4 : Discover 100% of the map in The Inner Forest",
-    id = 403583, badge = "456596", published = "29-02-24 19:07:28", modified = "29-02-24 19:07:28",
+    id = 403583, badge = "456596", type="missable",
     trigger = 	CheckGameStage(0x04, 0x1D) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0x7F], Map, 1), a=>a)
 )
@@ -758,7 +780,7 @@ achievement(
 achievement(
     title = "Call of The Void", points = 1,
     description = "Chapter 4 : In Jelon, jump into the void after the Fairy guard reminds you that you have no wings",
-    id = 403584, badge = "456597", published = "29-02-24 19:08:45", modified = "29-02-24 19:08:45",
+    id = 403584, badge = "456597", type="missable",
     trigger = 	CheckGameStage(0x04, 0x02) &&
     			all_of(CompareArrays([1380013383, 828322372, 1263288660], EventPlaceHolder, 1), a => a) &&
     			prior(PlayerAnim) == GetAnimValue("FALL") && 
@@ -768,7 +790,7 @@ achievement(
 achievement(
     title = "Rockefeller", points = 10,
     description = "Have 1000 golds in your pockets",
-    id = 403591, badge = "456604", published = "29-02-24 19:20:37", modified = "29-02-24 19:20:37",
+    id = 403591, badge = "456604", type="missable",
     trigger = 	InGame() && 
     			PrevIncreasedTo(PlayerGold, 1000)
 )
@@ -776,7 +798,7 @@ achievement(
 achievement(
     title = "Branch Merged", points = 5,
     description = "Chapter 4 : Give the tree guardian his old branch back and get the Bow",
-    id = 403592, badge = "456605", published = "29-02-24 19:25:00", modified = "29-02-24 19:25:00",
+    id = 403592, badge = "456605", type="progression",
     trigger = 	CheckGameStage(0x04, 0x1D) &&
     			HasLooted(Weapons, "BOW")
 )
@@ -784,7 +806,7 @@ achievement(
 achievement(
     title = "Cube Of Mysticism", points = 3,
     description = "Chapter 4 : Get a magic cube that increase your Mysticism",
-    id = 403594, badge = "456622", published = "29-02-24 19:52:01", modified = "29-02-24 19:52:01",
+    id = 403594, badge = "456622", type="missable",
     trigger = 	InGame() && 
     			HasLooted(Cubes, "MYS")
 )
@@ -792,7 +814,7 @@ achievement(
 achievement(
     title = "Is That a Wand in Your Pocket", points = 3,
     description = "Chapter 4 : Bring Horpach's magic wand back",
-    id = 403595, badge = "456623", published = "29-02-24 20:05:53", modified = "29-02-24 20:05:53",
+    id = 403595, badge = "456623", type="progression",
     trigger = 	CheckGameStage(0x04, 0x07) && 
     			HasDropped(Items, "WAND")
 )
@@ -800,7 +822,7 @@ achievement(
 achievement(
     title = "The Plot Thickens", points = 5,
     description = "Chapter 4 : Get the Yellow Crystal",
-    id = 403596, badge = "456624", published = "29-02-24 20:13:22", modified = "29-02-24 20:13:22",
+    id = 403596, badge = "456624", type="progression",
     trigger = 	CheckGameStage(0x04, 0x07) && 
     			HasLooted(Crystals, "YELLOW")
 )
@@ -808,7 +830,7 @@ achievement(
 achievement(
     title = "Smiling Princess", points = 5,
     description = "Chapter 4 : Get the Princess to smile again and get the Chain Mail Coat",
-    id = 403597, badge = "456625", published = "29-02-24 20:18:50", modified = "29-02-24 20:18:50",
+    id = 403597, badge = "456625", type="progression",
     trigger = 	CheckGameStage(0x04, 0x07) && 
     			HasLooted(Equipments, "CHAINMAIL")
 )
@@ -816,15 +838,14 @@ achievement(
 achievement(
     title = "Journeyman", points = 5,
     description = "Reach level 10",
-    id = 403598, badge = "456626", published = "29-02-24 20:23:15", modified = "29-02-24 20:23:15",
-    trigger = 	InGame() && 
-    			trigger_when(LevelUp(9, 10))
+    id = 403598, badge = "456626",
+    trigger = 	LevelUp(9, 10)
 )
 
 achievement(
     title = "Solid Like a Rock", points = 2,
     description = "Increase your Constitution to 10",
-    id = 403599, badge = "456627", published = "29-02-24 20:23:23", modified = "29-02-24 20:23:23",
+    id = 403599, badge = "456627",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerCON, 10)
 )
@@ -832,7 +853,7 @@ achievement(
 achievement(
     title = "Samuel De Champlain", points = 3,
     description = "Chapter 4 : Discover 100% of the map in The Dark Forest 1",
-    id = 403600, badge = "456628", published = "29-02-24 20:32:57", modified = "29-02-24 20:32:57",
+    id = 403600, badge = "456628", type="missable",
     trigger = 	CheckGameStage(0x04, 0x1A) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01], Map, 1), a=>a)
 )
@@ -840,14 +861,14 @@ achievement(
 achievement(
     title = "Chapter 5", points = 10,
     description = "Beat the Giant Toad in the Dark Forest and reach The Canyon",
-    id = 403602, badge = "456629", published = "29-02-24 20:42:59", modified = "29-02-24 20:42:59",
+    id = 403602, badge = "456629", type="progression",
     trigger = ChapterTransition(0x04, 0x05)
 )
 
 achievement(
     title = "Leif Ericson", points = 3,
     description = "Chapter 5 : Discover 100% of the map in The Canyon - Passage",
-    id = 403603, badge = "456630", published = "29-02-24 21:00:23", modified = "29-02-24 21:00:23",
+    id = 403603, badge = "456630", type="missable",
     trigger = 	CheckGameStage(0x05, 0x02) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
@@ -855,7 +876,7 @@ achievement(
 achievement(
     title = "Cube of Constitution", points = 3,
     description = "Chapter 5 : Get a magic cube that increase your Constitution",
-    id = 403604, badge = "456634", published = "29-02-24 21:03:00", modified = "29-02-24 21:03:00",
+    id = 403604, badge = "456634", type="missable",
     trigger = 	InGame() && 
     			HasLooted(Cubes, "CON")
 )
@@ -863,7 +884,7 @@ achievement(
 achievement(
     title = "4d6", points = 10,
     description = "Have one of each cubes in your inventory",
-    id = 403605, badge = "456635", published = "29-02-24 21:03:57", modified = "29-02-24 21:03:57",
+    id = 403605, badge = "456635", type="missable",
     trigger = 	InGame() &&
     			Cubes["STR"] >= 0x01 && 
     			Cubes["INT"] >= 0x01 && 
@@ -874,7 +895,7 @@ achievement(
 achievement(
     title = "Hookey Dookey", points = 5,
     description = "Chapter 5 : Meet Dagomar and get the Grappling Hook",
-    id = 403607, badge = "456636", published = "29-02-24 21:26:31", modified = "29-02-24 21:26:31",
+    id = 403607, badge = "456636", type="progression",
     trigger = 	CheckGameStage(0x05, 0x14) && 
     			HasLooted(Tools, "HOOK")
 )
@@ -882,7 +903,7 @@ achievement(
 achievement(
     title = "Hammer Time", points = 5,
     description = "Chapter 5 : Get the Hammer",
-    id = 403608, badge = "456637", published = "29-02-24 21:31:22", modified = "29-02-24 21:31:22",
+    id = 403608, badge = "456637", type="progression",
     trigger = 	CheckGameStage(0x05, 0x11) && 
 				HasLooted(Weapons, "HAMMER")
 )
@@ -890,7 +911,7 @@ achievement(
 achievement(
     title = "Don't Forget Your Umbrella", points = 5,
     description = "Chapter 5 : Learn the Meteor Storm spell",
-    id = 403614, badge = "456643", published = "29-02-24 21:38:54", modified = "29-02-24 21:38:54",
+    id = 403614, badge = "456643", type="progression",
     trigger = 	CheckGameStage(0x05, 0x12) && 
     			HasLooted(Spells, "METEOR")
 )
@@ -898,7 +919,7 @@ achievement(
 achievement(
     title = "Heigh Hooo", points = 5,
     description = "Chapter 5 : Gain entry to the old mine and get the Stoneskin Belt",
-    id = 403618, badge = "456648", published = "29-02-24 22:34:42", modified = "29-02-24 22:34:42",
+    id = 403618, badge = "456648", type="progression",
     trigger = 	CheckGameStage(0x05, 0x06) && 
     			HasLooted(Equipments, "BELT")
 )
@@ -906,7 +927,7 @@ achievement(
 achievement(
     title = "Third Times a Charm", points = 5,
     description = "Chapter 5 : Get the Blue Crystal",
-    id = 403620, badge = "456650", published = "29-02-24 22:55:39", modified = "29-02-24 22:55:39",
+    id = 403620, badge = "456650", type="progression",
     trigger = 	CheckGameStage(0x05, 0x06) && 
     			HasLooted(Crystals, "BLUE")
 )
@@ -914,14 +935,14 @@ achievement(
 achievement(
     title = "Chapter 6", points = 10,
     description = "Beat the Deranged Machine and reach the High Mountains",
-    id = 403621, badge = "456651", published = "29-02-24 22:59:55", modified = "29-02-24 22:59:55",
+    id = 403621, badge = "456651", type="progression",
     trigger = ChapterTransition(0x05, 0x06)
 )
 
 achievement(
     title = "Mystic Charged Attack", points = 5,
     description = "Reach lvl 21 in Mysticism and unlock the third perk",
-    id = 403622, badge = "456652", published = "29-02-24 23:02:11", modified = "29-02-24 23:02:11",
+    id = 403622, badge = "456652", type="missable",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 21)
 )
@@ -929,7 +950,7 @@ achievement(
 achievement(
     title = "Nobel Prize", points = 5,
     description = "Increase your Intelligence to 20",
-    id = 403623, badge = "456653", published = "29-02-24 23:02:36", modified = "29-02-24 23:02:36",
+    id = 403623, badge = "456653",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerINT, 20)
 )
@@ -937,7 +958,7 @@ achievement(
 achievement(
     title = "Stop Bullying Him", points = 5,
     description = "Chapter 6 : Help Bullyforth and get the Merlin's Cape",
-    id = 403624, badge = "456654", published = "29-02-24 23:08:42", modified = "29-02-24 23:08:42",
+    id = 403624, badge = "456654", type="progression",
     trigger = 	CheckGameStage(0x06, 0x0D) && 
     			HasLooted(Equipments, "CAPE")
 )
@@ -945,7 +966,7 @@ achievement(
 achievement(
     title = "Zheng He", points = 3,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Snow World",
-    id = 403625, badge = "456655", published = "29-02-24 23:09:39", modified = "29-02-24 23:09:39",
+    id = 403625, badge = "456655", type="missable",
     trigger = 	CheckGameStage(0x06, 0x0D) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
@@ -953,7 +974,7 @@ achievement(
 achievement(
     title = "Upgraded Bow", points = 5,
     description = "Chapter 6 : Find the Fire and Water arrows",
-    id = 403626, badge = "456656", published = "29-02-24 23:10:53", modified = "29-02-24 23:10:53",
+    id = 403626, badge = "456656", type="progression",
     trigger = 	CheckGameStage(0x06, 0x01) && 
     			HasLooted(Weapons, "WATER_ARROW")
 )
@@ -961,7 +982,7 @@ achievement(
 achievement(
     title = "Roald Amundsen", points = 3,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Intra Muros",
-    id = 403628, badge = "456671", published = "01-03-24 01:34:06", modified = "01-03-24 01:34:06",
+    id = 403628, badge = "456671", type="missable",
     trigger = 	CheckGameStage(0x06, 0x05) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F], Map, 1), a=>a)
 )
@@ -969,7 +990,7 @@ achievement(
 achievement(
     title = "Now You Can See the Light", points = 5,
     description = "Chapter 6 : Find the librarian's spectacles and get the fourth Crystal",
-    id = 403643, badge = "456672", published = "01-03-24 01:35:50", modified = "01-03-24 01:35:50",
+    id = 403643, badge = "456672", type="progression",
     trigger = 	CheckGameStage(0x06, 0x04) && 
     			HasLooted(Crystals, "RED")
 )
@@ -977,7 +998,7 @@ achievement(
 achievement(
     title = "Thunder", points = 5,
     description = "Chapter 6 : Find the Magic Lightning spell",
-    id = 403655, badge = "456675", published = "01-03-24 01:42:44", modified = "01-03-24 01:42:44",
+    id = 403655, badge = "456675", type="progression",
     trigger = 	CheckGameStage(0x06, 0x04) && 
     			HasLooted(Spells, "THUNDER")
 )
@@ -985,7 +1006,7 @@ achievement(
 achievement(
     title = "Sir Francis Drake", points = 3,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Library",
-    id = 403656, badge = "456676", published = "01-03-24 01:45:12", modified = "01-03-24 01:45:12",
+    id = 403656, badge = "456676", type="missable",
     trigger = 	CheckGameStage(0x06, 0x04) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
@@ -993,14 +1014,14 @@ achievement(
 achievement(
     title = "Chapter 7", points = 10,
     description = "Free the dragon Ar-Khan, save Talis and reach the Volcano",
-    id = 403657, badge = "456677", published = "01-03-24 02:01:20", modified = "01-03-24 02:01:20",
+    id = 403657, badge = "456677", type="progression",
     trigger = ChapterTransition(0x06, 0x07)
 )
 
 achievement(
     title = "Battlemage", points = 5,
     description = "Chapter 7 : Find the Magic Battle Shield spell",
-    id = 403660, badge = "456680", published = "01-03-24 02:16:37", modified = "01-03-24 02:16:37",
+    id = 403660, badge = "456680", type="progression",
     trigger = 	CheckGameStage(0x07, 0x05) && 
     			HasLooted(Spells, "SHIELD")
 )
@@ -1008,15 +1029,14 @@ achievement(
 achievement(
     title = "Veteran", points = 5,
     description = "Reach level 15",
-    id = 403661, badge = "456681", published = "01-03-24 02:16:45", modified = "01-03-24 02:16:45",
-    trigger = 	InGame() && 
-    			trigger_when(LevelUp(14, 15))
+    id = 403661, badge = "456681",
+    trigger = 	LevelUp(14, 15)
 )
 
 achievement(
     title = "Berserker", points = 5,
     description = "Increase your Strength to 20",
-    id = 403662, badge = "456682", published = "01-03-24 02:21:07", modified = "01-03-24 02:21:07",
+    id = 403662, badge = "456682",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerSTR, 20)
 )
@@ -1024,7 +1044,7 @@ achievement(
 achievement(
     title = "Lumberjack", points = 5,
     description = "Chapter 7 : Find the Axe",
-    id = 403729, badge = "456772", published = "01-03-24 12:12:37", modified = "01-03-24 12:12:37",
+    id = 403729, badge = "456772", type="progression",
     trigger = 	CheckGameStage(0x07, 0x01) && 
     			HasLooted(Weapons, "AXE")
 )
@@ -1032,7 +1052,7 @@ achievement(
 achievement(
     title = "Ballots Box", points = 5,
     description = "Chapter 7 : Find three voting coins for Mulorne and get the Experience Amulet",
-    id = 403730, badge = "456774", published = "01-03-24 13:00:45", modified = "01-03-24 13:00:45",
+    id = 403730, badge = "456774", type="progression",
     trigger = 	CheckGameStage(0x07, 0x01) && 
     			HasLooted(Equipments, "AMULETXP")
 )
@@ -1040,7 +1060,7 @@ achievement(
 achievement(
     title = "I’m Dreaming of a White Crystal", points = 5,
     description = "Chapter 7 : Get the White Crystal",
-    id = 403731, badge = "456902", published = "01-03-24 13:22:12", modified = "01-03-24 13:22:12",
+    id = 403731, badge = "456902", type="progression",
     trigger = 	CheckGameStage(0x07, 0x03) && 
     			HasLooted(Crystals, "WHITE")
 )
@@ -1048,7 +1068,7 @@ achievement(
 achievement(
     title = "Shake Shake", points = 5,
     description = "Chapter 7 : Kill the Lind Wyrm and get the Earthquake spell",
-    id = 403732, badge = "456903", published = "01-03-24 13:30:54", modified = "01-03-24 13:30:54",
+    id = 403732, badge = "456903", type="progression",
     trigger = 	CheckGameStage(0x07, 0x04) && 
     			HasLooted(Spells, "QUAKE")
 )
@@ -1056,7 +1076,7 @@ achievement(
 achievement(
     title = "Tank", points = 5,
     description = "Increase your Constitution to 20",
-    id = 403733, badge = "456904", published = "01-03-24 13:39:56", modified = "01-03-24 13:39:56",
+    id = 403733, badge = "456904",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerCON, 20)
 )
@@ -1064,14 +1084,14 @@ achievement(
 achievement(
     title = "Chapter 8", points = 10,
     description = "Free the dragon Ar-Khan, save Talis and reach the Volcano",
-    id = 403735, badge = "456906", published = "01-03-24 13:44:06", modified = "01-03-24 13:44:06",
+    id = 403735, badge = "456906", type="progression",
     trigger = ChapterTransition(0x07, 0x08)
 )
 
 achievement(
     title = "Mercator", points = 3,
     description = "Chapter 8 : Discover 100% of the map in The Ruins - Beach",
-    id = 403736, badge = "456907", published = "01-03-24 13:52:09", modified = "01-03-24 13:52:09",
+    id = 403736, badge = "456907", type="missable",
     trigger = 	CheckGameStage(0x08, 0x06) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0x07], Map, 1), a=>a)
 )
@@ -1079,7 +1099,7 @@ achievement(
 achievement(
     title = "Mystic Energy Drain", points = 10,
     description = "Reach lvl 28 in Mysticism and unlock the fourth perk",
-    id = 403737, badge = "456908", published = "01-03-24 14:01:44", modified = "01-03-24 14:01:44",
+    id = 403737, badge = "456908", type="missable",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 28)
 )
@@ -1087,7 +1107,7 @@ achievement(
 achievement(
     title = "White Knight", points = 5,
     description = "Chapter 8 : Save Talis and get the Gloves of Dexterity",
-    id = 403738, badge = "456909", published = "01-03-24 14:14:36", modified = "01-03-24 14:14:36",
+    id = 403738, badge = "456909", type="progression",
     trigger = 	CheckGameStage(0x08, 0x0B) && 
     			HasLooted(Equipments, "GLOVES")
 )
@@ -1095,7 +1115,7 @@ achievement(
 achievement(
     title = "Merchant", points = 10,
     description = "Have 4000 golds in your pockets (You will have to sell a lot of your stuff)",
-    id = 403741, badge = "456604", published = "01-03-24 15:48:40", modified = "01-03-24 15:48:40",
+    id = 403741, badge = "456604", type="missable",
     trigger = 	InGame() && 
     			PrevIncreasedTo(PlayerGold, 4000)
 )
@@ -1103,7 +1123,7 @@ achievement(
 achievement(
     title = "Master of the Arena", points = 10,
     description = "Chapter 8 : Finish all the arena and place all the seals",
-    id = 403742, badge = "456913", published = "01-03-24 15:54:58", modified = "01-03-24 15:54:58",
+    id = 403742, badge = "456913", type="progression",
     trigger = CheckGameStage(0x08, 0x02) && tally(8, 
                   once(prev(Seals["MYST"]) == 0x01), 
                   once(prev(Seals["COMBAT"]) == 0x01), 
@@ -1119,7 +1139,7 @@ achievement(
 achievement(
     title = "Master", points = 10,
     description = "Max out one of your skill",
-    id = 403743, badge = "456914", published = "01-03-24 15:55:08", modified = "01-03-24 15:55:08",
+    id = 403743, badge = "456914", type="missable",
     trigger = 	InLvlUpGUI() && 
                 ((PriorIncreasedTo(PlayerSTR, 40)) ||
                 (PriorIncreasedTo(PlayerINT, 40))  ||
@@ -1130,9 +1150,8 @@ achievement(
 achievement(
     title = "Legend", points = 10,
     description = "Reach level 20",
-    id = 403744, badge = "456915", published = "01-03-24 15:55:20", modified = "01-03-24 15:55:20",
-    trigger = 	InGame() && 
-    			trigger_when(LevelUp(19, 20))
+    id = 403744, badge = "456915", type="missable",
+    trigger = 	LevelUp(19, 20)
 )
 
 //Check the GameStage then if all the Crystals have been placed during the fight. As final requirement, a check
@@ -1140,7 +1159,7 @@ achievement(
 achievement(
     title = "The Hero of Gothos", points = 25,
     description = "Chapter 8 : Defeat Dagomar and save Gothos. Congratulation !",
-    id = 403745, badge = "456916", published = "01-03-24 16:01:36", modified = "01-03-24 16:01:36",
+    id = 403745, badge = "456916", type="win_condition",
     trigger = 	CheckGameStage(0x08, 0x01) && 
     			Crystals["BLUE"] == 0x00 && 
     			Crystals["WHITE"] == 0x00 && 
@@ -1155,7 +1174,7 @@ achievement(
 achievement(
     title = "Gladiator", points = 10,
     description = "Chapter 8 : Finish the arena of weapons without taking any damage",
-    id = 403826, badge = "457144", published = "02-03-24 01:01:09", modified = "02-03-24 01:01:09",
+    id = 403826, badge = "457144", type="missable",
     trigger = 	CheckGameStage(0x08, 0x04) && 
     			disable_when(CheckGameStage(0x08, 0x04) && PlayerAnim == PlayerAnimList["DAMAGE"] ) && 
               	trigger_when(HasLooted(Seals, "COMBAT"))
@@ -1166,7 +1185,7 @@ achievement(
 achievement(
     title = "I Can Do It Half Naked", points = 10,
     description = "Chapter 8 : Finish the arena of Defence without changing your equipment or taking any potion",
-    id = 403827, badge = "457143", published = "02-03-24 01:44:47", modified = "02-03-24 01:44:47",
+    id = 403827, badge = "457143", type="missable",
     trigger = 	CheckGameStage(0x08, 0x07) &&
     			disable_when(CheckGameStage(0x08, 0x07) && HasChangedEquipment()) &&
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_H"]))) && 
@@ -1183,127 +1202,62 @@ achievement(
 achievement(
     title = "Mouse Trap", points = 10,
     description = "Chapter 1 : Kill the giant rat without taking damage",
-    id = 404047, badge = "457423", published = "02-03-24 21:31:24", modified = "02-03-24 21:31:24",
+    id = 404047, badge = "457423", type="missable",
     trigger = 	CheckGameStage(0x01, 0x0B) && 
     			trigger_when(GiantRatHp == 0x00) &&
     			disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"] )
+)
+
+//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Machinist", points = 10,
+    description = "Chapter 2 : Kill the Scrapyard Monster without taking damage",
+    type="missable",
+    trigger =   CheckGameStage(0x02, 0x0B) && 
+                trigger_when(ScrapyardBossHp == 0x00) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"] )
+)
+
+
+//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Arachnophobia", points = 10,
+    description = "Chapter 3 : Kill the Giant Spider without taking damage",
+    id = 408632, badge = "463368", type="missable",
+    trigger =   CheckGameStage(0x03, 0x0a) && 
+                trigger_when(GiantSpiderBossHp == 0x00) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"] )
 )
 
 //Check the GameStage then add hits for every tomb inspected through their EVENT ID.
 achievement(
     title = "Gravedigger", points = 1,
     description = "Chapter 2 : Inspect every tombs at the cemetary of SteamerTown",
-    id = 404098, badge = "457529", published = "03-03-24 00:16:27", modified = "03-03-24 00:16:27",
-    trigger = 	(CheckGameStage(0x02, 0x09) || 
-    			CheckGameStage(0x02, 0x0d)) && 
-    			tally(9, 
-                  once(EventPlaceHolder[2] == 0x3145), 
-                  once(EventPlaceHolder[2] == 0x3245), 
-                  once(EventPlaceHolder[2] == 0x3345), 
-                  once(EventPlaceHolder[2] == 0x3445), 
-                  once(EventPlaceHolder[2] == 0x3545), 
-                  once(EventPlaceHolder[2] == 0x3645), 
-                  once(EventPlaceHolder[2] == 0x3745), 
-                  once(EventPlaceHolder[2] == 0x3845), 
-                  once(EventPlaceHolder[2] == 0x3945), 
-              	byte(0x0A1744) == 0xFF)
+    id = 404098, badge = "457529", type="missable",
+    trigger = 	(CheckGameStage(0x02, 0x09) || CheckGameStage(0x02, 0x0d))&&
+                measured(
+                    tally(9, 
+                        once(EventPlaceHolder[2] == 0x3145), 
+                        once(EventPlaceHolder[2] == 0x3245), 
+                        once(EventPlaceHolder[2] == 0x3345), 
+                        once(EventPlaceHolder[2] == 0x3445), 
+                        once(EventPlaceHolder[2] == 0x3545), 
+                        once(EventPlaceHolder[2] == 0x3645), 
+                        once(EventPlaceHolder[2] == 0x3745), 
+                        once(EventPlaceHolder[2] == 0x3845), 
+                        once(EventPlaceHolder[2] == 0x3945), 
+                        PlayerLvl == 0xff), 
+                    format="raw")
 )
 
+//Check the GameStage then Event ID associated to the scene where the mother yell at Melvin for jumping on the table.
+achievement(
+    title = "Grown up, Melvin", points = 1,
+    description = "Chapter 1 : jump on your mom's table",
+    id = 408142, badge = "462417", type="missable",
+    trigger =   CheckGameStage(1,5) &&
+                all_of(CompareArrays([0x4f545554, 0x41545f52, 0x00454c42], EventPlaceHolder, 1), a => a)
+)
 
-/* RICH PRESENCE
-
-Lookup:Chapter1
-0x02=At Mr Vesneggs' house in DreamerTown
-0x03=At Mrs Sengarn's house in DreamerTown
-0x04=At Mrs Encende's house in DreamerTown
-0x05=At Home in DreamerTown
-0x06=At the school of DreamerTown
-0x07=At the Wine shop of DreamerTown
-0x08=At the Inn of DreamerTown
-0x09=At the Library of DreamerTown
-0x0a=At the High Council of DreamerTown
-0x0b=Fighting rats in Uncle Rissen's basement in DreamerTown
-0x0c=Finding a way to escape DreamerTown
-0x0d=At Danny's house in DreamerTown
-*=Helping people in DreamerTown
-
-Lookup:Chapter2
-0x01-0x3=Fighting demons and ghosts in the Crypt of SteamerTown
-0x04-0x8=Saving Rumtok in the mines of SteamerTown
-0x09=At the cemetary of SteamerTown
-0x0a=At the Scrapyard in SteamerTown
-0x0b=Fighting a Boss at the Scrapyard of SteamerTown
-0x0d=At the cemetary of SteamerTown during the night 👻
-0x10=At Ol'Raake's house in SteamerTown
-0x11=Disturbing Fulo's nap in SteamerTown
-0x13=At a parent's house, looking for something
-0x14=At the forge of SteamerTown
-0x15=Eating some Tumpo's stew at the restaurant of SteamerTown
-0x16=Searching for explosives at the warehouse in SteamerTown
-0x17=At Lars' shop in SteamerTown
-*=Searching a parent in SteamerTown
-
-Lookup:Chapter3
-0x01-0x08 = Fighting monsters in The Hive
-0x0a = Fighting a Giant Spider in The Hive
-*=Trying to save a parent in The Hive
-
-Lookup:Chapter4
-0x01,0x10-0x11=Helping Fairies in Tsa Jelon
-0x02,0x07-0x08=Helping Fairies in Jelon
-0x03=Exploring the Clearing in the Fairy Forest
-0x04=Exploring the Meadow in the Fairy Forest
-0x05=Fighting Goblins at the Fort in the Fairy Forest
-0x06=Exploring the Bridge zone in the Fairy Forest
-0x09=Visiting Irwen, the Mistress of Winter
-0x0a=Competing in a Beetle race in Tsa Jelon
-0x15=At Lysinthia's house in Tsa Jelon
-0x16=At Siniver's house in Tsa Jelon
-0x17=At Merina's house in Tsa Jelon
-0x18=Exploring Stonehenge in the Fairy Forest
-0x19=Exploring the Pool of Eternal Ice in the Fairy Forest
-0x1a-0x1b=Exploring the Dark Forest
-0x1c=Fighting a Giant Toad in the Dark Forest
-0x1d=Exploring the Inner Forest
-*=Helping Fairies in the Fairy Forest
-
-Lookup:Chapter5
-0x07 = Fighting a Deranged Machine in The Canyon
-*=Exploring The Canyon
-
-Lookup:Chapter6
-0x01=Exploring the Entrance of The Tower
-0x02=Exploring the Conference rooms in The Tower
-0x04=Exploring the library in The Tower
-0x05=Exploring Intra Muros level in The Tower
-0x0d=Exploring the High Mountains
-0x11=Fighting Yor-Khan at the top of The Tower
-*=Exploring The Tower
-
-Lookup:Chapter7
-0x02-0x03,0x08=Exploring the dungeon beneath ShachTown
-0x04=Fighting the Lindworm in the dungeon beneath ShachTown
-0x06-0x07=Exploring the Volcano
-*=Helping people in ShachTown
-
-Lookup:Chapter8
-0x01=Fighting the Final Boss in the Temple
-0x04=Fighting in the Arena of Weapons
-0x07=Surviving in the Arena of Defence
-0x05=Solving riddles in the Arena of Mysticism
-0x03=Practicing spells in the Arena of Magic
-0x06=Exploring the Beach
-0x0b=Exploring the Jungle
-*=Exploring The Temple
-
-Display:
-?0x0a1740=0?On the Title Screen
-?0x0a1740=1?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 1 - @Chapter1(0x0a1744)
-?0x0a1740=2?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤ - Chapter 2 - @Chapter2(0x0a1744)
-?0x0a1740=3?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 3 - @Chapter3(0x0a1744)
-?0x0a1740=4?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤ - Chapter 4 - @Chapter4(0x0a1744)
-?0x0a1740=5?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 5 - @Chapter5(0x0a1744)
-?0x0a1740=6?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤ - Chapter 6 - @Chapter6(0x0a1744)
-?0x0a1740=7?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 7 - @Chapter7(0x0a1744)
-?0x0a1740=8?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤ - Chapter 8 - @Chapter8(0x0a1744)
-Saving the world of Gothos*/
