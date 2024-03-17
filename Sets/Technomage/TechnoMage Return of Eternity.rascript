@@ -1,7 +1,6 @@
 // TechnoMage: Return of Eternity
 // #ID = 16280
 
-
 //GLOBAL
 ChapterID = byte(0x0A1740)
 RoomID = byte(0x0A1744)
@@ -194,6 +193,13 @@ EventPlaceHolder = [
     dword(0x0B71FC),
 ]
 
+
+//Water tanks in SteamerTown used for "Resourceful" Achievement
+WaterTank1Lvl = byte(0x1f14b2)
+WaterTank2Lvl = byte(0x1f14b3)
+WaterTank3Lvl = byte(0x1f14b4)
+WaterTankWheelAnim = byte(0x139440)
+
 //Build and return requirements to checks if two arrays contain same values
 //src: the array of value to compare
 //with: data source
@@ -362,7 +368,7 @@ achievement(
 //Check GameStage then if the current Event ID is the Reading of the targetted books and collect the hits on a dummy 
 //to reach 7 (the numbers of books in the Library).
 achievement(
-    title = "Thirst for Knowledge", points = 2,
+    title = "Thirst for Knowledge", points = 1,
     description = "Chapter 1 : Read all the 7 books at the Library",
     id = 402913, badge = "455830", type="missable", 
     trigger = 	 measured(
@@ -381,7 +387,7 @@ achievement(
 
 //Check GameStage then if the current Event ID is the Dialog with Uncle Rissen first meeting. 
 achievement(
-    title = "Family Business", points = 3,
+    title = "Family Business", points = 2,
     description = "Chapter 1 : Visit your Uncle Rissen",
     id = 402914, badge = "455831", type="progression", 
     trigger = 	CheckGameStage(0x01, 0x0B) &&
@@ -390,7 +396,7 @@ achievement(
 
 //Check GameStage then compare prev/current qty of the Dagger Item
 achievement(
-    title = "Toothpick", points = 5,
+    title = "Toothpick", points = 2,
     description = "Chapter 1 : Find the Dagger",
     id = 402916, badge = "455833", type="progression",
     trigger = 	CheckGameStage(0x01, 0x0B) && 
@@ -410,7 +416,7 @@ achievement(
 
 //Simply check if the player has reached level 2 (from level 1)
 achievement(
-    title = "It’s Just the Beginning", points = 2,
+    title = "It’s Just the Beginning", points = 1,
     description = "Reach level 2",
     id = 402919, badge = "455836",
     trigger = 	InGame() && 
@@ -433,7 +439,7 @@ achievement(
 )
 
 achievement(
-    title = "Now We Are Talking", points = 5,
+    title = "Now We Are Talking", points = 2,
     description = "Chapter 2 : Get the Sword",
     id = 402923, badge = "455840", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x16) && 
@@ -441,7 +447,7 @@ achievement(
 )
 
 achievement(
-    title = "Are You Ore-Kay Rumtok", points = 3,
+    title = "Are You Ore-Kay Rumtok", points = 2,
     description = "Chapter 2 : Save Rumtok the miner and get the Crowbar",
     id = 402925, badge = "455842", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x05) && 
@@ -449,7 +455,7 @@ achievement(
 )
 
 achievement(
-    title = "On Fire", points = 5,
+    title = "On Fire", points = 2,
     description = "Chapter 2 : Find out what's going on at the graveyard and learn the Fireball spell",
     id = 402926, badge = "455843", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x0D) && 
@@ -457,7 +463,7 @@ achievement(
 )
 
 achievement(
-    title = "I See Dead People", points = 5,
+    title = "I See Dead People", points = 2,
     description = "Chapter 2 : Reach the end of the Crypt and get the Ankh Amulet",
     id = 403069, badge = "456007", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x03) && 
@@ -466,7 +472,7 @@ achievement(
 
 //For this one, the check is on the transition between room 8 and 13.
 achievement(
-    title = "Open Day", points = 3,
+    title = "Open Day", points = 2,
     description = "Chapter 2 : Gain access to your father's house",
     id = 403070, badge = "456008", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x13) && 
@@ -492,12 +498,6 @@ achievement(
     			Items["LARS_CORK"] == 0x01 &&
     			any_of(CheckInQuestLog(0x4B524F43), a=>a)
 )
-
-//Water tanks in SteamerTown used for "Resourceful" Achievement
-WaterTank1Lvl = byte(0x1f14b2)
-WaterTank2Lvl = byte(0x1f14b3)
-WaterTank3Lvl = byte(0x1f14b4)
-WaterTankWheelAnim = byte(0x139440)
 
 //Checking The water tanks levels for the completed puzzle state.
 //Then checking if player triggered the animation of the wheel to count the number of tries
@@ -530,7 +530,7 @@ achievement(
 
 //Check Gamestage and compare the maps data to check if every zone are completely reveal
 achievement(
-    title = "Ferdinand Magellan", points = 3,
+    title = "Ferdinand Magellan", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Entrance",
     id = 403083, badge = "456072", type="missable",
     trigger = 	CheckGameStage(0x03, 0x01) && 
@@ -540,7 +540,7 @@ achievement(
 //Check if we are on LvlUp GUI to avoid triggering that kind of achievement since you can change the points allocation
 //till you leave the LvlUp GUI, which could lead to exploits. These achievement are triggered after closing the window.
 achievement(
-    title = "Mystic Wisdom", points = 2,
+    title = "Mystic Wisdom", points = 1,
     description = "Reach lvl 7 in Mysticism and unlock the first perk",
     id = 403087, badge = "456073", 
     trigger = 	InLvlUpGUI() && 
@@ -548,7 +548,7 @@ achievement(
 )
 
 achievement(
-    title = "Rothschild", points = 5,
+    title = "Rothschild", points = 2,
     description = "Have 500 golds in your pockets",
     id = 403088, badge = "456074", type="missable", 
     trigger = 	InGame() && 
@@ -556,7 +556,7 @@ achievement(
 )
 
 achievement(
-    title = "Father and Son", points = 5,
+    title = "Father and Son", points = 2,
     description = "Chapter 3 : Find your father somewhere in the Hive and get the Bombs",
     id = 403089, badge = "456075", type="progression", 
     trigger = 	CheckGameStage(0x03, 0x02) && 
@@ -564,7 +564,7 @@ achievement(
 )
 
 achievement(
-    title = "Marco Polo", points = 3,
+    title = "Marco Polo", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Godon",
     id = 403090, badge = "456077", type="missable", 
     trigger = 	CheckGameStage(0x03, 0x02) && 
@@ -572,7 +572,7 @@ achievement(
 )
 
 achievement(
-    title = "Francisco Pizarro", points = 3,
+    title = "Francisco Pizarro", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Passage",
     id = 403091, badge = "456082", type="missable", 
     trigger = 	CheckGameStage(0x03, 0x03) && 
@@ -580,7 +580,7 @@ achievement(
 )
 
 achievement(
-    title = "Don't Mace With Me", points = 5,
+    title = "Don't Mace With Me", points = 2,
     description = "Chapter 3 : Get the War Mace",
     id = 403092, badge = "456079", type="progression", 
     trigger = 	CheckGameStage(0x03, 0x04) && 
@@ -588,7 +588,7 @@ achievement(
 )
 
 achievement(
-    title = "Henry Hudson", points = 3,
+    title = "Henry Hudson", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Fredo",
     id = 403093, badge = "456083", type="missable", 
     trigger = 	CheckGameStage(0x03, 0x04) && 
@@ -596,7 +596,7 @@ achievement(
 )
 
 achievement(
-    title = "I Know It Was You Fredo", points = 5,
+    title = "I Know It Was You Fredo", points = 2,
     description = "Chapter 3 : Meet Fredo and learn the Ice Claw spell",
     id = 403094, badge = "456081", type="progression", 
     trigger = 	CheckGameStage(0x03, 0x04) && 
@@ -607,7 +607,7 @@ achievement(
 //the game change the Room id before the new map data, leading to an instant trigger when entering room id 5.
 //The condition is the music played in Room 5, which is different from room 4 and loaded with maps data
 achievement(
-    title = "Vasco Da Gama", points = 3,
+    title = "Vasco Da Gama", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Labyrinth",
     id = 403096, badge = "456085", type="missable", 
     trigger = 	CheckGameStage(0x03, 0x05) && 
@@ -624,7 +624,7 @@ achievement(
 )
 
 achievement(
-    title = "RPG Scenarists Love Crystals", points = 5,
+    title = "RPG Scenarists Love Crystals", points = 2,
     description = "Chapter 3 : Get the Green Crystal",
     id = 403099, badge = "456088", type="progression",
     trigger = 	CheckGameStage(0x03, 0x07) && 
@@ -632,7 +632,7 @@ achievement(
 )
 
 achievement(
-    title = "Bartolomeu Dias", points = 3,
+    title = "Bartolomeu Dias", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Steep Tauron",
     id = 403116, badge = "456089", type="missable",
     trigger = 	CheckGameStage(0x03, 0x07) &&
@@ -640,7 +640,7 @@ achievement(
 )
 
 achievement(
-    title = "Christopher Columbus", points = 3,
+    title = "Christopher Columbus", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Graves",
     id = 403117, badge = "456090", type="missable",
     trigger = 	CheckGameStage(0x03, 0x09) &&
@@ -664,14 +664,14 @@ achievement(
 )
 
 achievement(
-    title = "Rookie", points = 5,
+    title = "Rookie", points = 2,
     description = "Reach level 5",
     id = 403120, badge = "456093",
     trigger = 	LevelUp(4, 5)
 )
 
 achievement(
-    title = "Mystical Tool", points = 5,
+    title = "Mystical Tool", points = 2,
     description = "Chapter 4 : Get the Radar",
     id = 403198, badge = "456177", type="progression",
     trigger = 	CheckGameStage(0x04, 0x18) && 
@@ -679,7 +679,7 @@ achievement(
 )
 
 achievement(
-    title = "The Faster of Two Weevils", points = 5,
+    title = "The Faster of Two Weevils", points = 2,
     description = "Chapter 4 : Win the beetle race and get the speed boots",
     id = 403339, badge = "456266", type="progression",
     trigger = 	CheckGameStage(0x04, 0x01) && 
@@ -695,7 +695,7 @@ achievement(
 )
 
 achievement(
-    title = "Jacques Cartier", points = 3,
+    title = "Jacques Cartier", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Fairy Forest - Fairy Meadows",
     id = 403341, badge = "456268", type="missable",
     trigger = 	CheckGameStage(0x04, 0x04) &&
@@ -711,7 +711,7 @@ achievement(
 )
 
 achievement(
-    title = "Mystic Strength", points = 3,
+    title = "Mystic Strength", points = 2,
     description = "Reach lvl 14 in Mysticism and unlock the second perk",
     id = 403343, badge = "456270",
     trigger = 	InLvlUpGUI() && 
@@ -719,7 +719,7 @@ achievement(
 )
 
 achievement(
-    title = "Magic Amulet", points = 5,
+    title = "Magic Amulet", points = 2,
     description = "Chapter 4 : Return to Dahlia and receive the Magic Amulet",
     id = 403582, badge = "456590", type="progression",
     trigger = 	CheckGameStage(0x04, 0x0B) && 
@@ -727,7 +727,7 @@ achievement(
 )
 
 achievement(
-    title = "James Cook", points = 3,
+    title = "James Cook", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Inner Forest",
     id = 403583, badge = "456596", type="missable",
     trigger = 	CheckGameStage(0x04, 0x1D) &&
@@ -745,7 +745,7 @@ achievement(
 )
 
 achievement(
-    title = "Rockefeller", points = 10,
+    title = "Rockefeller", points = 5,
     description = "Have 1000 golds in your pockets",
     id = 403591, badge = "456604", type="missable",
     trigger = 	InGame() && 
@@ -753,7 +753,7 @@ achievement(
 )
 
 achievement(
-    title = "Branch Merged", points = 5,
+    title = "Branch Merged", points = 2,
     description = "Chapter 4 : Give the tree guardian his old branch back and get the Bow",
     id = 403592, badge = "456605", type="progression",
     trigger = 	CheckGameStage(0x04, 0x1D) &&
@@ -769,7 +769,7 @@ achievement(
 )
 
 achievement(
-    title = "Is That a Wand in Your Pocket", points = 3,
+    title = "Is That a Wand in Your Pocket", points = 2,
     description = "Chapter 4 : Bring Horpach's magic wand back",
     id = 403595, badge = "456623", type="progression",
     trigger = 	CheckGameStage(0x04, 0x07) && 
@@ -777,7 +777,7 @@ achievement(
 )
 
 achievement(
-    title = "The Plot Thickens", points = 5,
+    title = "The Plot Thickens", points = 2,
     description = "Chapter 4 : Get the Yellow Crystal",
     id = 403596, badge = "456624", type="progression",
     trigger = 	CheckGameStage(0x04, 0x07) && 
@@ -785,7 +785,7 @@ achievement(
 )
 
 achievement(
-    title = "Smiling Princess", points = 5,
+    title = "Smiling Princess", points = 2,
     description = "Chapter 4 : Get the Princess to smile again and get the Chain Mail Coat",
     id = 403597, badge = "456625", type="progression",
     trigger = 	CheckGameStage(0x04, 0x07) && 
@@ -793,7 +793,7 @@ achievement(
 )
 
 achievement(
-    title = "Journeyman", points = 5,
+    title = "Journeyman", points = 3,
     description = "Reach level 10",
     id = 403598, badge = "456626",
     trigger = 	LevelUp(9, 10)
@@ -808,7 +808,7 @@ achievement(
 )
 
 achievement(
-    title = "Samuel De Champlain", points = 3,
+    title = "Samuel De Champlain", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Dark Forest 1",
     id = 403600, badge = "456628", type="missable",
     trigger = 	CheckGameStage(0x04, 0x1A) &&
@@ -824,7 +824,7 @@ achievement(
 )
 
 achievement(
-    title = "Leif Ericson", points = 3,
+    title = "Leif Ericson", points = 5,
     description = "Chapter 5 : Discover 100% of the map in The Canyon - Passage",
     id = 403603, badge = "456630", type="missable",
     trigger = 	CheckGameStage(0x05, 0x02) &&
@@ -851,7 +851,7 @@ achievement(
 )
 
 achievement(
-    title = "Hookey Dookey", points = 5,
+    title = "Hookey Dookey", points = 2,
     description = "Chapter 5 : Meet Dagomar and get the Grappling Hook",
     id = 403607, badge = "456636", type="progression",
     trigger = 	CheckGameStage(0x05, 0x14) && 
@@ -859,7 +859,7 @@ achievement(
 )
 
 achievement(
-    title = "Hammer Time", points = 5,
+    title = "Hammer Time", points = 2,
     description = "Chapter 5 : Get the Hammer",
     id = 403608, badge = "456637", type="progression",
     trigger = 	CheckGameStage(0x05, 0x11) && 
@@ -867,7 +867,7 @@ achievement(
 )
 
 achievement(
-    title = "Don't Forget Your Umbrella", points = 5,
+    title = "Don't Forget Your Umbrella", points = 2,
     description = "Chapter 5 : Learn the Meteor Storm spell",
     id = 403614, badge = "456643", type="progression",
     trigger = 	CheckGameStage(0x05, 0x12) && 
@@ -875,7 +875,7 @@ achievement(
 )
 
 achievement(
-    title = "Heigh Hooo", points = 5,
+    title = "Heigh Hooo", points = 2,
     description = "Chapter 5 : Gain entry to the old mine and get the Stoneskin Belt",
     id = 403618, badge = "456648", type="progression",
     trigger = 	CheckGameStage(0x05, 0x06) && 
@@ -883,7 +883,7 @@ achievement(
 )
 
 achievement(
-    title = "Third Times a Charm", points = 5,
+    title = "Third Times a Charm", points = 2,
     description = "Chapter 5 : Get the Blue Crystal",
     id = 403620, badge = "456650", type="progression",
     trigger = 	CheckGameStage(0x05, 0x06) && 
@@ -899,7 +899,7 @@ achievement(
 )
 
 achievement(
-    title = "Mystic Charged Attack", points = 5,
+    title = "Mystic Charged Attack", points = 3,
     description = "Reach lvl 21 in Mysticism and unlock the third perk",
     id = 403622, badge = "456652", type="missable",
     trigger = 	InLvlUpGUI() && 
@@ -907,7 +907,7 @@ achievement(
 )
 
 achievement(
-    title = "Nobel Prize", points = 5,
+    title = "Nobel Prize", points = 3,
     description = "Increase your Intelligence to 20",
     id = 403623, badge = "456653",
     trigger = 	InLvlUpGUI() && 
@@ -915,7 +915,7 @@ achievement(
 )
 
 achievement(
-    title = "Stop Bullying Him", points = 5,
+    title = "Stop Bullying Him", points = 2,
     description = "Chapter 6 : Help Bullyforth and get the Merlin's Cape",
     id = 403624, badge = "456654", type="progression",
     trigger = 	CheckGameStage(0x06, 0x0D) && 
@@ -923,7 +923,7 @@ achievement(
 )
 
 achievement(
-    title = "Zheng He", points = 3,
+    title = "Zheng He", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Snow World",
     id = 403625, badge = "456655", type="missable",
     trigger = 	CheckGameStage(0x06, 0x0D) &&
@@ -931,7 +931,7 @@ achievement(
 )
 
 achievement(
-    title = "Upgraded Bow", points = 5,
+    title = "Upgraded Bow", points = 2,
     description = "Chapter 6 : Find the Fire and Water arrows",
     id = 403626, badge = "456656", type="progression",
     trigger = 	CheckGameStage(0x06, 0x01) && 
@@ -939,7 +939,7 @@ achievement(
 )
 
 achievement(
-    title = "Roald Amundsen", points = 3,
+    title = "Roald Amundsen", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Intra Muros",
     id = 403628, badge = "456671", type="missable",
     trigger = 	CheckGameStage(0x06, 0x05) &&
@@ -947,7 +947,7 @@ achievement(
 )
 
 achievement(
-    title = "Now You Can See the Light", points = 5,
+    title = "Now You Can See the Light", points = 2,
     description = "Chapter 6 : Find the librarian's spectacles and get the fourth Crystal",
     id = 403643, badge = "456672", type="progression",
     trigger = 	CheckGameStage(0x06, 0x04) && 
@@ -955,7 +955,7 @@ achievement(
 )
 
 achievement(
-    title = "Thunder", points = 5,
+    title = "Thunder", points = 2,
     description = "Chapter 6 : Find the Magic Lightning spell",
     id = 403655, badge = "456675", type="progression",
     trigger = 	CheckGameStage(0x06, 0x04) && 
@@ -963,7 +963,7 @@ achievement(
 )
 
 achievement(
-    title = "Sir Francis Drake", points = 3,
+    title = "Sir Francis Drake", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Library",
     id = 403656, badge = "456676", type="missable",
     trigger = 	CheckGameStage(0x06, 0x04) &&
@@ -979,7 +979,7 @@ achievement(
 )
 
 achievement(
-    title = "Battlemage", points = 5,
+    title = "Battlemage", points = 2,
     description = "Chapter 7 : Find the Magic Battle Shield spell",
     id = 403660, badge = "456680", type="progression",
     trigger = 	CheckGameStage(0x07, 0x05) && 
@@ -994,7 +994,7 @@ achievement(
 )
 
 achievement(
-    title = "Berserker", points = 5,
+    title = "Berserker", points = 3,
     description = "Increase your Strength to 20",
     id = 403662, badge = "456682",
     trigger = 	InLvlUpGUI() && 
@@ -1002,7 +1002,7 @@ achievement(
 )
 
 achievement(
-    title = "Lumberjack", points = 5,
+    title = "Lumberjack", points = 2,
     description = "Chapter 7 : Find the Axe",
     id = 403729, badge = "456772", type="progression",
     trigger = 	CheckGameStage(0x07, 0x01) && 
@@ -1010,7 +1010,7 @@ achievement(
 )
 
 achievement(
-    title = "Ballots Box", points = 5,
+    title = "Ballots Box", points = 2,
     description = "Chapter 7 : Find three voting coins for Mulorne and get the Experience Amulet",
     id = 403730, badge = "456774", type="progression",
     trigger = 	CheckGameStage(0x07, 0x01) && 
@@ -1018,7 +1018,7 @@ achievement(
 )
 
 achievement(
-    title = "I’m Dreaming of a White Crystal", points = 5,
+    title = "I’m Dreaming of a White Crystal", points = 2,
     description = "Chapter 7 : Get the White Crystal",
     id = 403731, badge = "456902", type="progression",
     trigger = 	CheckGameStage(0x07, 0x03) && 
@@ -1034,7 +1034,7 @@ achievement(
 )
 
 achievement(
-    title = "Tank", points = 5,
+    title = "Tank", points = 3,
     description = "Increase your Constitution to 20",
     id = 403733, badge = "456904",
     trigger = 	InLvlUpGUI() && 
@@ -1050,7 +1050,7 @@ achievement(
 )
 
 achievement(
-    title = "Mercator", points = 3,
+    title = "Mercator", points = 5,
     description = "Chapter 8 : Discover 100% of the map in The Ruins - Beach",
     id = 403736, badge = "456907", type="missable",
     trigger = 	CheckGameStage(0x08, 0x06) &&
@@ -1058,7 +1058,7 @@ achievement(
 )
 
 achievement(
-    title = "Mystic Energy Drain", points = 10,
+    title = "Mystic Energy Drain", points = 5,
     description = "Reach lvl 28 in Mysticism and unlock the fourth perk",
     id = 403737, badge = "456908", type="missable",
     trigger = 	InLvlUpGUI() && 
@@ -1066,7 +1066,7 @@ achievement(
 )
 
 achievement(
-    title = "White Knight", points = 5,
+    title = "White Knight", points = 2,
     description = "Chapter 8 : Save Talis and get the Gloves of Dexterity",
     id = 403738, badge = "456909", type="progression",
     trigger = 	CheckGameStage(0x08, 0x0B) && 
@@ -1082,7 +1082,7 @@ achievement(
 )
 
 achievement(
-    title = "Master of the Arena", points = 10,
+    title = "Master of the Arena", points = 5,
     description = "Chapter 8 : Finish all the arena and place all the seals",
     id = 403742, badge = "456913", type="progression",
     trigger = CheckGameStage(0x08, 0x02) && tally(8, 
