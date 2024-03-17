@@ -408,15 +408,6 @@ achievement(
     			HasLooted(Items, "COMPASS")
 )
 
-//Achievement To remove
-achievement(
-    title = "Unusual Quest", points = 5,
-    description = "Chapter 1 : Clear the rats from Mr Vesnegg's cellar",
-    id = 402918, badge = "455835", 
-    trigger = CheckGameStage(0x01, 0x02) &&
-              any_of(CheckInQuestLog(0x53544152), a=>a)
-)
-
 //Simply check if the player has reached level 2 (from level 1)
 achievement(
     title = "It’s Just the Beginning", points = 2,
@@ -441,7 +432,6 @@ achievement(
     			HasLooted(Cubes, "STR")
 )
 
-//Achievement To remove
 achievement(
     title = "Bon Appetit", points = 5,
     description = "Chapter 2 : Get rid of Baras",
@@ -542,7 +532,8 @@ achievement(
     title = "Chapter 3", points = 10,
     description = "Get the Ring of Life and enter The Hive",
     id = 403082, badge = "456071", type="progression", 
-    trigger = ChapterTransition(0x02, 0x03)
+    trigger =   InGame() && 
+                ChapterTransition(0x02, 0x03)
 )
 
 //Check Gamestage and compare the maps data to check if every zone are completely reveal
@@ -676,7 +667,8 @@ achievement(
     title = "Chapter 4", points = 10,
     description = "Kill the giant spider and reach the Fairy Forest",
     id = 403119, badge = "456092", type="progression", 
-    trigger = ChapterTransition(0x03, 0x04)
+    trigger =   InGame() && 
+                ChapterTransition(0x03, 0x04)
 )
 
 achievement(
@@ -692,24 +684,6 @@ achievement(
     id = 403198, badge = "456177", type="progression",
     trigger = 	CheckGameStage(0x04, 0x18) && 
     			HasLooted(Tools, "RADAR")
-)
-
-//Achievement To remove
-achievement(
-    title = "Fairy Gold", points = 3,
-    description = "Chapter 4 : Find a bee stying and mantis silk for the fairy gold",
-    id = 403337, badge = "456264",
-    trigger = 	CheckGameStage(0x04, 0x04) && 
-    			HasLooted(Items, "FGOLD")
-)
-
-//Achievement To remove
-achievement(
-    title = "Shrinking Potion", points = 3,
-    description = "Chapter 4 : Find the three seals and a Silverweed for Duna",
-    id = 403338, badge = "456265",
-    trigger = 	CheckGameStage(0x04, 0x18) && 
-    			HasLooted(Items, "SH_POTION")
 )
 
 achievement(
@@ -750,15 +724,6 @@ achievement(
     id = 403343, badge = "456270",
     trigger = 	InLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 14)
-)
-
-//Achievement To remove
-achievement(
-    title = "Musician", points = 3,
-    description = "Chapter 4 : Soothe jakhul and enter the Inner Forest",
-    id = 403344, badge = "456271", 
-    trigger = 	CheckGameStage(0x04, 0x06) && 
-    			prior(byte(0x0A1744)) == 0x1D
 )
 
 achievement(
@@ -862,7 +827,8 @@ achievement(
     title = "Chapter 5", points = 10,
     description = "Beat the Giant Toad in the Dark Forest and reach The Canyon",
     id = 403602, badge = "456629", type="progression",
-    trigger = ChapterTransition(0x04, 0x05)
+    trigger =   InGame() && 
+                ChapterTransition(0x04, 0x05)
 )
 
 achievement(
@@ -936,7 +902,8 @@ achievement(
     title = "Chapter 6", points = 10,
     description = "Beat the Deranged Machine and reach the High Mountains",
     id = 403621, badge = "456651", type="progression",
-    trigger = ChapterTransition(0x05, 0x06)
+    trigger =   InGame() && 
+                ChapterTransition(0x05, 0x06)
 )
 
 achievement(
@@ -1015,7 +982,8 @@ achievement(
     title = "Chapter 7", points = 10,
     description = "Free the dragon Ar-Khan, save Talis and reach the Volcano",
     id = 403657, badge = "456677", type="progression",
-    trigger = ChapterTransition(0x06, 0x07)
+    trigger =   InGame() && 
+                ChapterTransition(0x06, 0x07)
 )
 
 achievement(
@@ -1085,7 +1053,8 @@ achievement(
     title = "Chapter 8", points = 10,
     description = "Free the dragon Ar-Khan, save Talis and reach the Volcano",
     id = 403735, badge = "456906", type="progression",
-    trigger = ChapterTransition(0x07, 0x08)
+    trigger =   InGame() && 
+                ChapterTransition(0x07, 0x08)
 )
 
 achievement(
