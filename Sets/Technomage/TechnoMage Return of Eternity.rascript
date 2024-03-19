@@ -171,6 +171,11 @@ SelectedGUIValue = {
 	"MYSBAR": 0x80093aa4,
 }
 
+//Specific event triggers
+Triggers = {
+    "MOM_PISSED_OFF" : byte(0x136b1f)
+}
+
 //BOSSES
 BossGauge  = byte(0x0a0610)
 GiantRatHp = byte(0x1C35D0)
@@ -235,13 +240,18 @@ function InGame(){
 	return(never(InTitleScreen()) && never(InCredits()))
 }
 
-//Check if the player is on the point allocation window (lvl up)
-function InLvlUpGUI(){
-	return SelectedGUI != SelectedGUIValue["XPBAR"] && 
+//Check if the player has finished assigning points (lvl up)
+function HasClosedLvlUpGUI(){
+	return (SelectedGUI != SelectedGUIValue["XPBAR"] && 
 		SelectedGUI != SelectedGUIValue["STRBAR"] && 
 		SelectedGUI != SelectedGUIValue["INTBAR"] && 
 		SelectedGUI != SelectedGUIValue["CONBAR"] && 
-		SelectedGUI != SelectedGUIValue["MYSBAR"]
+		SelectedGUI != SelectedGUIValue["MYSBAR"]) &&
+        (prev(SelectedGUI) == SelectedGUIValue["XPBAR"] || 
+        prev(SelectedGUI) == SelectedGUIValue["STRBAR"] || 
+        prev(SelectedGUI) == SelectedGUIValue["INTBAR"] || 
+        prev(SelectedGUI) == SelectedGUIValue["CONBAR"] || 
+        prev(SelectedGUI) == SelectedGUIValue["MYSBAR"])
 }
 
 //Check in every quest log for a QUEST ID and check the completion
@@ -292,7 +302,7 @@ function LevelUp(from, to){
                 format="raw")
 }
 
-//Check if address increased to target since last frame
+//Check if address increased to (or beyond) target since last frame
 function PrevIncreasedTo(address, target){
 	return prev(address) < target && address >= target
 }
@@ -301,6 +311,16 @@ function PrevIncreasedTo(address, target){
 //every skills at each level up.
 function PriorIncreasedTo(address, target){
 	return prior(address) <= target && address >= target
+}
+
+//Check if address increased from one value to another one since last frame
+function PrevFromTo(address, from, to){
+    return prev(address) < address
+}
+
+//Check if address increased from one value to another one since last changed value
+function PriorFromTo(address, from, to){
+    return prev(address) < address
 }
 
 //Check if address increased since last frame
@@ -543,7 +563,7 @@ achievement(
     title = "Mystic Wisdom", points = 1,
     description = "Reach lvl 7 in Mysticism and unlock the first perk",
     id = 403087, badge = "456073", 
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 7)
 )
 
@@ -619,7 +639,7 @@ achievement(
     title = "Tough Boy", points = 2,
     description = "Increase your Strength to 10",
     id = 403098, badge = "456087", 
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerSTR, 10)
 )
 
@@ -706,7 +726,7 @@ achievement(
     title = "Wise Man", points = 2,
     description = "Increase your Intelligence to 10",
     id = 403342, badge = "456269",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerINT, 10)
 )
 
@@ -714,7 +734,7 @@ achievement(
     title = "Mystic Strength", points = 2,
     description = "Reach lvl 14 in Mysticism and unlock the second perk",
     id = 403343, badge = "456270",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 14)
 )
 
@@ -803,7 +823,7 @@ achievement(
     title = "Solid Like a Rock", points = 2,
     description = "Increase your Constitution to 10",
     id = 403599, badge = "456627",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerCON, 10)
 )
 
@@ -902,7 +922,7 @@ achievement(
     title = "Mystic Charged Attack", points = 3,
     description = "Reach lvl 21 in Mysticism and unlock the third perk",
     id = 403622, badge = "456652", type="missable",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 21)
 )
 
@@ -910,7 +930,7 @@ achievement(
     title = "Nobel Prize", points = 3,
     description = "Increase your Intelligence to 20",
     id = 403623, badge = "456653",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerINT, 20)
 )
 
@@ -997,7 +1017,7 @@ achievement(
     title = "Berserker", points = 3,
     description = "Increase your Strength to 20",
     id = 403662, badge = "456682",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerSTR, 20)
 )
 
@@ -1037,7 +1057,7 @@ achievement(
     title = "Tank", points = 3,
     description = "Increase your Constitution to 20",
     id = 403733, badge = "456904",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerCON, 20)
 )
 
@@ -1061,7 +1081,7 @@ achievement(
     title = "Mystic Energy Drain", points = 5,
     description = "Reach lvl 28 in Mysticism and unlock the fourth perk",
     id = 403737, badge = "456908", type="missable",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
     			PriorIncreasedTo(PlayerMYS, 28)
 )
 
@@ -1101,7 +1121,7 @@ achievement(
     title = "Master", points = 10,
     description = "Max out one of your skill",
     id = 403743, badge = "456914", type="missable",
-    trigger = 	InLvlUpGUI() && 
+    trigger = 	HasClosedLvlUpGUI() && 
                 ((PriorIncreasedTo(PlayerSTR, 40)) ||
                 (PriorIncreasedTo(PlayerINT, 40))  ||
                 (PriorIncreasedTo(PlayerCON, 40))  ||
