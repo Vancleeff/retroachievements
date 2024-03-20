@@ -178,6 +178,7 @@ Triggers = {
 
 //BOSSES
 BossGauge  = byte(0x0a0610)
+BossGaugeValue  = word(0x0a4324)
 GiantRatHp = byte(0x1C35D0)
 ScrapyardBossHp = byte(0x1c3180)
 GiantSpiderBossHp = byte(0x1c19c8)
@@ -315,12 +316,12 @@ function PriorIncreasedTo(address, target){
 
 //Check if address increased from one value to another one since last frame
 function PrevFromTo(address, from, to){
-    return prev(address) < address
+    return prev(address) == from && address == to
 }
 
 //Check if address increased from one value to another one since last changed value
 function PriorFromTo(address, from, to){
-    return prev(address) < address
+    return prior(address) == from && address == to
 }
 
 //Check if address increased since last frame
@@ -572,6 +573,7 @@ achievement(
     description = "Have 500 golds in your pockets",
     id = 403088, badge = "456074", type="missable", 
     trigger = 	InGame() && 
+                byte(0x0a304c) != 1 &&
     			PrevIncreasedTo(PlayerGold, 500)
 )
 
@@ -769,6 +771,7 @@ achievement(
     description = "Have 1000 golds in your pockets",
     id = 403591, badge = "456604", type="missable",
     trigger = 	InGame() && 
+                byte(0x0a304c) != 1 &&
     			PrevIncreasedTo(PlayerGold, 1000)
 )
 
@@ -1185,8 +1188,9 @@ achievement(
     description = "Chapter 1 : Kill the giant rat without taking damage",
     id = 404047, badge = "457423", type="missable",
     trigger = 	CheckGameStage(0x01, 0x0B) && 
-    			trigger_when(GiantRatHp == 0x00) &&
-    			disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"] )
+                PriorFromTo(BossGauge, 0, 1) &&
+    			trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+    			disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=prev(BossGauge) == 0 && BossGauge == 1)
 )
 
 //Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
@@ -1196,8 +1200,9 @@ achievement(
     description = "Chapter 2 : Kill the Scrapyard Monster without taking damage",
     type="missable",
     trigger =   CheckGameStage(0x02, 0x0B) && 
-                trigger_when(ScrapyardBossHp == 0x00) &&
-                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"] )
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=prev(BossGauge) == 0 && BossGauge == 1)
 )
 
 
@@ -1208,8 +1213,9 @@ achievement(
     description = "Chapter 3 : Kill the Giant Spider without taking damage",
     id = 408632, badge = "463368", type="missable",
     trigger =   CheckGameStage(0x03, 0x0a) && 
-                trigger_when(GiantSpiderBossHp == 0x00) &&
-                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"] )
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=prev(BossGauge) == 0 && BossGauge == 1)
 )
 
 //Check the GameStage then add hits for every tomb inspected through their EVENT ID.
