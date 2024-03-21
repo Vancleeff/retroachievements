@@ -8,7 +8,7 @@
 **Release date :** 06-29-2001
 
 ## Set presentation
-The game follows a very linear path with no side-quest, every single quest that are present in the game is part of the main story and mandatory for progression.\3
+The game follows a very linear path with no side-quest, every single quest that are present in the game is part of the main story and mandatory for progression.\
 Therefore, I've decided to create achievements only for quests where the reward is a unique item such as new weapons, spells or tools.\
 As Technomage is a chill and easy little RPG, the set doesn't contains hardcore achievements. Some may represent a challenge but nothing too daunting. The entire set can be completed in a single playthrough but players need to pay attention to many missable cheevos.\
 I hope you enjoy the game !
@@ -70,18 +70,29 @@ I highly suggest you to maximize your Strength to get more damage during your pl
 While it's almost impossible to miss the lvl 15 achievement, reaching lvl 40 can be missed if you skipped too much enemies during your playthrough.
 Try to kill everything, everywhere, this way you will also get all the "Discover 100% of Map X" achievements and earn a lot of money for "Gold related" cheevos.
 
-## Chapter 1 (7 achievements)
+## Chapter 1 (8 achievements)
 
 ### Achievements - not missable, just play the game
 
-| Achievements       | Description |
-|--------------------| --- |
-| Family Business    | Visit your Uncle Rissen |
-| Toothpick          | Find the Dagger |
+| Achievements       | Description                            |
+|--------------------|----------------------------------------|
+| Family Business    | Visit your Uncle Rissen                |
+| Toothpick          | Find the Dagger                        |
 | None Shall Compass | Kill the giant rat and get the compass |
-| Chapter 2          | Leave Dreamertown |
+| Chapter 2          | Leave Dreamertown                      |
 
 ### Missable Achievements
+
+| Achievements               | Description                               |
+|----------------------------|-------------------------------------------|
+| Grown up, Melvin           | Jump on your mom's table                  |
+| Thirst for Knowledge       | Read all the 7 books at the Library       |
+| A Fresh Start for Glacnore | Give Glacnore 5 golds for his information |
+| Mouse Trap                 | Kill the giant rat without taking damage  |
+
+#### Grown up, Melvin
+After the introduction, leave your room and jump on the table to piss off your mom.
+Congratulation, you are now a true badass.
 
 #### Thirst for Knowledge
 Go to the Library of DreamerTown, bring back the books to the librarian 
@@ -94,29 +105,31 @@ Go to the Inn and talk to Glacnore, he will ask you 5 golds to give an informati
 During the fight with the Giant Rat, in Uncle Rissen's basement, kill the Boss without taking any damage.\
 It's not that hard if you get the good timing. Try to approach him and he will attack you, avoid it by moving backward and immediately go back to him to hit once and move back again. Don't try to hit twice or there's high chance that the rats will touch you on his second attack, he's fast. Repeat the strategy a dozen of time and you're good.
 
-## Chapter 2 (11 achievements)
+## Chapter 2 (12 achievements)
 
 ### Achievements - not missable, just play the game
 
-| Achievements           | Description                            |
-|------------------------|----------------------------------------|
-| Now We Are Talking     | Get the Sword                          |
-| Are You Ore-Kay Rumtok | Save Rumtok the miner and get the Crowbar                        |
-| On Fire                | Find out what's going on at the graveyard and learn the Fireball spell |
-| I See Dead People      | Reach the end of the Crypt and get the Ankh AmuletReach the end of the Crypt and get the Ankh Amulet                  |
-| Open Day               | Gain access to your father's house                 |
-| Hopscotch              | Kill the Scrapyard Monster and get the control wheele                  |
-| Chapter 3              | Get the Ring of Life and enter The Hive              |
+| Achievements           | Description                                                                                          |
+|------------------------|------------------------------------------------------------------------------------------------------|
+| Now We Are Talking     | Get the Sword                                                                                        |
+| Are You Ore-Kay Rumtok | Save Rumtok the miner and get the Crowbar                                                            |
+| On Fire                | Find out what's going on at the graveyard and learn the Fireball spell                               |
+| I See Dead People      | Reach the end of the Crypt and get the Ankh AmuletReach the end of the Crypt and get the Ankh Amulet |
+| Open Day               | Gain access to your father's house                                                                   |
+| Hopscotch              | Kill the Scrapyard Monster and get the control wheele                                                |
+| Chapter 3              | Get the Ring of Life and enter The Hive                                                              |
 
 ### Missable Achievements
 
-| Achievements     | Description |
-|------------------| --- |
-| Cube of Strength | Get a magic cube of strength |
-| Resourceful      | Seal the burst steam pipes without buying a cork from Lars |
-| Plumber          |  Resolve the water tank puzzle in SteamerTown in as few turns as possible |
+| Achievements      | Description                                                              |
+|-------------------|--------------------------------------------------------------------------|
+| Cube of Strength  | Get a magic cube of strength                                             |
+| Resourceful       | Seal the burst steam pipes without buying a cork from Lars               |
+| Gravedigger       | Inspect every tombs at the cemetary of SteamerTown                       |
+| Plumber           | Resolve the water tank puzzle in SteamerTown in as few turns as possible |
+| Machinist         | Kill the Scrapyard Monster without taking damage                         |
 
-#### #### Cube of Strength
+#### Cube of Strength
 Go to the store of SteamerTown and buy the cube from Lars, it will cost you 200 golds so be sure to not buying other stuff first. Don't use it if you want to unlock the "4d6" achievement.
 
 #### Gravedigger
@@ -131,19 +144,31 @@ You will have to kill the Scrapyard Monster without taking any damage. I highly 
 #### Plumber
 At the end of the chapter, during the Water Tanks riddle, you will have to solve it in 4 moves. When you are facing the Tanks gauges, use the left one 3 times then the front one once and you should get the achievement.
 
-## Chapter 3 (13 achievements)
+## Chapter 3 (14 achievements)
 
 ### Achievements - not missable, just play the game
 
-| Achievements                 | Description                            |
-|------------------------------|----------------------------------------|
-| Father and Son               | Find your father somewhere in the Hive and get the Bombs                      |
-| Don't Mace With Me           | Get the War Mace                       |
-| I Know It Was You Fredo      | Meet Fredo and learn the Ice Claw spell |
-| RPG Scenarists Love Crystals | Get the Green Crystal                |
-| Chapter 4                    | Kill the giant spider and reach the Fairy Forest                 |
+| Achievements                 | Description                                                          |
+|------------------------------|----------------------------------------------------------------------|
+| Father and Son               | Find your father somewhere in the Hive and get the Bombs             |
+| Don't Mace With Me           | Get the War Mace                                                     |
+| I Know It Was You Fredo      | Meet Fredo and learn the Ice Claw spell                              |
+| RPG Scenarists Love Crystals | Get the Green Crystal                                                |
+| Chapter 4                    | Kill the giant spider and reach the Fairy Forest                     |
 
 ### Missable Achievements
+
+| Achievements           | Description                                                     |
+|------------------------|-----------------------------------------------------------------|
+| Ferdinand Magellan     | Chapter 3 : Discover 100% of the map in The Hive - Entrance     |
+| Marco Polo             | Chapter 3 : Discover 100% of the map in The Hive - Godon        |
+| Francisco Pizarro      | Chapter 3 : Discover 100% of the map in The Hive - Passage      |
+| Henry Hudson           | Chapter 3 : Discover 100% of the map in The Hive - Fredo        |
+| Vasco Da Gama          | Chapter 3 : Discover 100% of the map in The Hive - Labyrinth    |
+| Bartolomeu Dias        | Chapter 3 : Discover 100% of the map in The Hive - Steep Tauron |
+| Christopher Columbus   | Chapter 3 : Discover 100% of the map in The Hive - Graves       |
+| Cube of Intelligence   | Chapter 3 : Get a magic cube that increase your intelligence    |
+| Arachnophobia          | Chapter 3 : Kill the Giant Spider without taking damage         |
 
 #### Ferdinand Magellan
 Discover 100% of the map in The Hive - Entrance
@@ -179,22 +204,31 @@ You will have to kill the Giant Spider without taking any damage. I highly sugge
  - After that, she will start to jump and invoke baby spiders from time to time. The pattern will be way more chaotic so I suggest you to only use spells until the end of the fight. Be super careful with all the baby spiders and take your time to kill'em all to avoid taking damage from them.
  You can also playing it like a maggot and only use spells, but it will takes a lot of time and you will probably run out of mana potion and will have to wait for the natural regeneration to cast your spell. (again, be careful with baby spiders)
 
-## Chapter 4 (13 achievements)
+## Chapter 4 (14 achievements)
 
 ### Achievements - not missable, just play the game
 
-| Achievements       | Description                                                 |
-|--------------------|-------------------------------------------------------------|
-| The Faster of Two Weevils    | Win the beetle race and get the speed boots                 |
-| I Don’t Like Raga Oh No I Kill Him         | Defeat Raga, save Gwen and learn the Viper's Vortex spell   |
-| Magic Amulet | Return to Dahlia and receive the Magic Amulet               |
-| Branch Merged        | Give the tree guardian his old branch back and get the Bow  |
-|Is That a Wand in Your Pocket         | Bring Horpach's magic wand back                             |
-|The Plot Thickens       | Get the Yellow Crystal                                      |
-|Smiling Princess       | Get the Princess to smile again and get the Chain Mail Coat |
-|Chapter 5       | Beat the Giant Toad in the Dark Forest and reach The Canyon |
+| Achievements                       | Description                                                 |
+|------------------------------------|-------------------------------------------------------------|
+| Mystical Tool                      | Get the Radar                                               |
+| The Faster of Two Weevils          | Win the beetle race and get the speed boots                 |
+| I Don’t Like Raga Oh No I Kill Him | Defeat Raga, save Gwen and learn the Viper's Vortex spell   |
+| Magic Amulet                       | Return to Dahlia and receive the Magic Amulet               |
+| Branch Merged                      | Give the tree guardian his old branch back and get the Bow  |
+| Is That a Wand in Your Pocket      | Bring Horpach's magic wand back                             |
+| The Plot Thickens                  | Get the Yellow Crystal                                      |
+| Smiling Princess                   | Get the Princess to smile again and get the Chain Mail Coat |
+| Chapter 5                          | Beat the Giant Toad in the Dark Forest and reach The Canyon |
 
 ### Missable Achievements
+
+| Achievements         | Description                                                                           |
+|----------------------|---------------------------------------------------------------------------------------|
+| Jacques Cartier      | Discover 100% of the map in The Fairy Forest - Fairy Meadows                          |
+| James Cook           | Discover 100% of the map in The Inner Forest                                          |
+| Call of The Void     | In Jelon, jump into the void after the Fairy guard reminds you that you have no wings |
+| Cube Of Mysticism    | Get a magic cube that increase your Mysticism                                         |
+| Samuel De Champlain  | Discover 100% of the map in The Dark Forest 1                                         |
 
 #### Jacques Cartier
 Discover 100% of the map in The Fairy Forest - Fairy Meadows
@@ -211,20 +245,26 @@ Go to the shop of Jelon (Meriven at the Inn) and buy the Cube. Don't use it if y
 #### Samuel De Champlain
 Discover 100% of the map in The Dark Forest 1
 
-## Chapter 5 (11 achievements)
+## Chapter 5 (9 achievements)
 
 ### Achievements - not missable, just play the game
 
-| Achievements       | Description                            |
-|--------------------|----------------------------------------|
-| Hookey Dookey         | Meet Dagomar and get the Grappling Hook              |
-| Hammer Time | Get the Hammer |
-| Don't Forget Your Umbrella        |  Learn the Meteor Storm spell  |
-|Heigh Hooo        |  Gain entry to the old mine and get the Stoneskin Belt           |
-|Third Times a Charm      | Get the Blue Crystal       |
-|Chapter 6     | Beat the Deranged Machine and reach the High Mountains       |
+| Achievements               | Description                                            |
+|----------------------------|--------------------------------------------------------|
+| Hookey Dookey              | Meet Dagomar and get the Grappling Hook                |
+| Hammer Time                | Get the Hammer                                         |
+| Don't Forget Your Umbrella | Learn the Meteor Storm spell                           |
+| Heigh Hooo                 | Gain entry to the old mine and get the Stoneskin Belt  |
+| Third Times a Charm        | Get the Blue Crystal                                   |
+| Chapter 6                  | Beat the Deranged Machine and reach the High Mountains |
 
 ### Missable Achievements
+
+| Achievements                 | Description                                      |
+|------------------------------|--------------------------------------------------|
+| Leif Ericson                 | Discover 100% of the map in The Canyon - Passage |
+| Cube of Constitution         | Get a magic cube that increase your Constitution |
+| 4d6                          | Have one of each cubes in your inventory         |
 
 #### Leif Ericson
 Discover 100% of the map in The Canyon - Passage
@@ -235,24 +275,25 @@ At the Shach Camp at the beginning of the chapter, buy the cube from Torlore for
 #### 4d6
 After buying the last cube and if you kept the three others, you will get the achievement.
 
-#### Cube Of Mysticism
-Go to the shop of Jelon (Meriven at the Inn) and buy the Cube.
-
-#### Samuel De Champlain
-Discover 100% of the map in The Dark Forest 1
-
-## Chapter 6 (7 achievements)
+## Chapter 6 (8 achievements)
 
 ### Achievements - not missable, just play the game
 
-| Achievements       | Description                            |
-|--------------------|----------------------------------------|
-|Upgraded Bow    |Find the Fire and Water arrows    |
-| Now You Can See the Light |Find the librarian's spectacles and get the fourth Crystal |
-| Thunder      |  Find the Magic Lightning spell  |
-|Chapter 7     | Free the dragon Ar-Khan, save Talis and reach the Volcano          |
+| Achievements              | Description                                                |
+|---------------------------|------------------------------------------------------------|
+| Stop Bullying Him         | Help Bullyforth and get the Merlin's Cape                  |
+| Upgraded Bow              | Find the Fire and Water arrows                             |
+| Now You Can See the Light | Find the librarian's spectacles and get the fourth Crystal |
+| Thunder                   | Find the Magic Lightning spell                             |
+| Chapter 7                 | Free the dragon Ar-Khan, save Talis and reach the Volcano  |
 
 ### Missable Achievements
+
+| Achievements           | Description                                         |
+|------------------------|-----------------------------------------------------|
+| Zheng He               | Discover 100% of the map in The Tower - Snow World  |
+| Roald Amundsen         | Discover 100% of the map in The Tower - Intra Muros |
+| Sir Francis Drake      | Discover 100% of the map in The Tower - Library     |
 
 #### Zheng He
 Discover 100% of the map in The Tower - Snow World
@@ -267,16 +308,16 @@ Discover 100% of the map in The Tower - Library
 
 ### Achievements - not missable, just play the game
 
-| Achievements                    | Description                            |
-|---------------------------------|----------------------------------------|
-| Battlemage                      | Find the Magic Battle Shield spell   |
-| Lumberjack                      |Find the Axe |
-| Ballots Box                     |Find three voting coins for Mulorne and get the Experience Amulet |
-| I’m Dreaming of a White Crystal | Get the White Crystal  |
-| Shake Shake                     |  Kill the Lind Wyrm and get the Earthquake spell          |
-| Chapter 8                       | Free the dragon Ar-Khan, save Talis and reach the Volcano          |
+| Achievements                    | Description                                                       |
+|---------------------------------|-------------------------------------------------------------------|
+| Battlemage                      | Find the Magic Battle Shield spell                                |
+| Lumberjack                      | Find the Axe                                                      |
+| Ballots Box                     | Find three voting coins for Mulorne and get the Experience Amulet |
+| I’m Dreaming of a White Crystal | Get the White Crystal                                             |
+| Shake Shake                     | Kill the Lind Wyrm and get the Earthquake spell                   |
+| Chapter 8                       | Free the dragon Ar-Khan, save Talis and reach the Volcano         |
 
-## Chapter 7 (5 achievements)
+## Chapter 8 (6 achievements)
 
 ### Achievements - not missable, just play the game
 
@@ -287,6 +328,15 @@ Discover 100% of the map in The Tower - Library
 | The Hero of Gothos              | Defeat Dagomar and save Gothos. Congratulation !          |
 
 ### Missable Achievements
+
+| Achievements           | Description                                                                       |
+|------------------------|-----------------------------------------------------------------------------------|
+| Mercator               | Discover 100% of the map in The Ruins - Beach                                     |
+| Gladiator              | Finish the arena of weapons without taking any damage                             |
+| I Can Do It Half Naked | Finish the arena of Defence without changing your equipment or taking any potion  |
+
+#### Mercator
+Discover 100% of the map in The Ruins - Beach
 
 #### Gladiator
 Finish the arena of weapons without taking any damage. Just hit and run and be careful between fights to be at the center of the arena to avoid their first attack.
