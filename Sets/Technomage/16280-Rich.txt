@@ -1,0 +1,96 @@
+Lookup:Chapter1
+0x02=At Mr Vesneggs' house in DreamerTown
+0x03=At Mrs Sengarn's house in DreamerTown
+0x04=At Mrs Encende's house in DreamerTown
+0x05=At Home in DreamerTown
+0x06=At the school of DreamerTown
+0x07=At the Wine shop of DreamerTown
+0x08=At the Inn of DreamerTown
+0x09=At the Library of DreamerTown
+0x0a=At the High Council of DreamerTown
+0x0b=Fighting rats in Uncle Rissen's basement in DreamerTown
+0x0c=Finding a way to escape DreamerTown
+0x0d=At Danny's house in DreamerTown
+*=Helping people in DreamerTown
+
+Lookup:Chapter2
+0x01-0x3=Fighting demons and ghosts in the Crypt of SteamerTown
+0x04-0x8=Saving Rumtok in the mines of SteamerTown
+0x09=At the cemetary of SteamerTown
+0x0a=At the Scrapyard in SteamerTown
+0x0b=Fighting a Boss at the Scrapyard of SteamerTown
+0x0d=At the cemetary of SteamerTown during the night 👻
+0x10=At Ol'Raake's house in SteamerTown
+0x11=Disturbing Fulo's nap in SteamerTown
+0x13=At a parent's house, looking for something
+0x14=At the forge of SteamerTown
+0x15=Eating some Tumpo's stew at the restaurant of SteamerTown
+0x16=Searching for explosives at the warehouse in SteamerTown
+0x17=At Lars' shop in SteamerTown
+*=Searching a parent in SteamerTown
+
+Lookup:Chapter3
+0x01-0x08 = Fighting monsters in The Hive
+0x0a = Fighting a Giant Spider in The Hive
+*=Trying to save a parent in The Hive
+
+Lookup:Chapter4
+0x01,0x10-0x11=Helping Fairies in Tsa Jelon
+0x02,0x07-0x08=Helping Fairies in Jelon
+0x03=Exploring the Clearing in the Fairy Forest
+0x04=Exploring the Meadow in the Fairy Forest
+0x05=Fighting Goblins at the Fort in the Fairy Forest
+0x06=Exploring the Bridge zone in the Fairy Forest
+0x09=Visiting Irwen, the Mistress of Winter
+0x0a=Competing in a Beetle race in Tsa Jelon
+0x15=At Lysinthia's house in Tsa Jelon
+0x16=At Siniver's house in Tsa Jelon
+0x17=At Merina's house in Tsa Jelon
+0x18=Exploring Stonehenge in the Fairy Forest
+0x19=Exploring the Pool of Eternal Ice in the Fairy Forest
+0x1a-0x1b=Exploring the Dark Forest
+0x1c=Fighting a Giant Toad in the Dark Forest
+0x1d=Exploring the Inner Forest
+*=Helping Fairies in the Fairy Forest
+
+Lookup:Chapter5
+0x07 = Fighting a Deranged Machine in The Canyon
+*=Exploring The Canyon
+
+Lookup:Chapter6
+0x01=Exploring the Entrance of The Tower
+0x02=Exploring the Conference rooms in The Tower
+0x04=Exploring the library in The Tower
+0x05=Exploring Intra Muros level in The Tower
+0x0d=Exploring the High Mountains
+0x11=Fighting Yor-Khan at the top of The Tower
+*=Exploring The Tower
+
+Lookup:Chapter7
+0x02-0x03,0x08=Exploring the dungeon beneath ShachTown
+0x04=Fighting the Lindworm in the dungeon beneath ShachTown
+0x06-0x07=Exploring the Volcano
+*=Helping people in ShachTown
+
+Lookup:Chapter8
+0x01=Fighting the Final Boss in the Temple
+0x04=Fighting in the Arena of Weapons
+0x07=Surviving in the Arena of Defence
+0x05=Solving riddles in the Arena of Mysticism
+0x03=Practicing spells in the Arena of Magic
+0x06=Exploring the Beach
+0x0b=Exploring the Jungle
+*=Exploring The Temple
+
+Display:
+?0xX0b71e0=1145393731_0xX0b71e4=5461065?Watching the credits
+?0xX0b71e0=1230262351_0xX0b71e4=5459535?On the Title screen
+?0x0a1740=1?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 1 - @Chapter1(0x0a1744)
+?0x0a1740=2?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 2 - @Chapter2(0x0a1744)
+?0x0a1740=3?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 3 - @Chapter3(0x0a1744)
+?0x0a1740=4?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 4 - @Chapter4(0x0a1744)
+?0x0a1740=5?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 5 - @Chapter5(0x0a1744)
+?0x0a1740=6?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 6 - @Chapter6(0x0a1744)
+?0x0a1740=7?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 7 - @Chapter7(0x0a1744)
+?0x0a1740=8?Lvl @Number(0xHab93c) | @Number(0xH1c3a20)/@Number(0x0ab92c)❤️ - Chapter 8 - @Chapter8(0x0a1744)
+Saving the world of Gothos

@@ -210,6 +210,9 @@ WaterTankWheelAnim = byte(0x139440)
 //src: the array of value to compare
 //with: data source
 //mode: 1 => equals, 2 => different
+
+function IsLoadingASave() => byte(0x0a304c) == 1
+
 function CompareArrays(src, with, mode){
   res = []
   if(mode == 1)
@@ -238,7 +241,7 @@ function InCredits(){
 
 //Check if the player is in the game and not on the Title Screen or the Credits
 function InGame(){
-	return(never(InTitleScreen()) && never(InCredits()))
+	return(never(InTitleScreen()) && never(InCredits()) && never(IsLoadingASave()))
 }
 
 //Check if the player has finished assigning points (lvl up)
@@ -369,6 +372,7 @@ function HasChangedSpell(){
             Curr_spell <= 7 &&
             prev(Curr_spell) != Curr_spell
 }
+
 
 //ACHIEVEMENTS 
 
@@ -573,7 +577,6 @@ achievement(
     description = "Have 500 golds in your pockets",
     id = 403088, badge = "456074", type="missable", 
     trigger = 	InGame() && 
-                byte(0x0a304c) != 1 &&
     			PrevIncreasedTo(PlayerGold, 500)
 )
 
@@ -771,7 +774,6 @@ achievement(
     description = "Have 1000 golds in your pockets",
     id = 403591, badge = "456604", type="missable",
     trigger = 	InGame() && 
-                byte(0x0a304c) != 1 &&
     			PrevIncreasedTo(PlayerGold, 1000)
 )
 
