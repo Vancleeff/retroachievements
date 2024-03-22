@@ -432,7 +432,7 @@ achievement(
 //Additionally, it checks if the Giant Rat HP is equals to zero.
 achievement(
     title = "None Shall Compass", points = 5,
-    description = "Chapter 1 : Kill the giant rat and get the compass",
+    description = "Chapter 1 : Kill the Giant Rat and get the Compass",
     id = 402917, badge = "455834", type="progression", 
     trigger = 	CheckGameStage(0x01, 0x0B) &&
     			GiantRatHp == 0x00 && 
@@ -457,7 +457,7 @@ achievement(
 )
 achievement(
     title = "Cube of Strength", points = 3,
-    description = "Chapter 2 : Get a magic cube of strength",
+    description = "Chapter 2 : Get a Magic Cube of Strength",
     id = 402921, badge = "455838", type="missable", 
     trigger = 	InGame() && 
     			HasLooted(Cubes, "STR")
@@ -472,7 +472,7 @@ achievement(
 )
 
 achievement(
-    title = "Are You Ore-Kay Rumtok", points = 2,
+    title = "Are You Ore-Kay Rumtok?!", points = 2,
     description = "Chapter 2 : Save Rumtok the miner and get the Crowbar",
     id = 402925, badge = "455842", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x05) && 
@@ -528,7 +528,7 @@ achievement(
 //Then checking if player triggered the animation of the wheel to count the number of tries
 //Correct way to trigger is 3x WaterTank 2 then 1x WaterTank 3 (4 moves)
 achievement(
-    title = "Plumber", points = 5,
+    title = "It's a me, Melvin!", points = 5,
     description = "Chapter 2 : Resolve the water tank puzzle in SteamerTown in as few turns as possible",
     id = 403081, badge = "456070", type="missable", 
     trigger = 	CheckGameStage(0x02, 0x0a) &&
@@ -621,7 +621,7 @@ achievement(
 )
 
 achievement(
-    title = "I Know It Was You Fredo", points = 2,
+    title = "I Know It Was You Fredo!", points = 2,
     description = "Chapter 3 : Meet Fredo and learn the Ice Claw spell",
     id = 403094, badge = "456081", type="progression", 
     trigger = 	CheckGameStage(0x03, 0x04) && 
@@ -649,7 +649,7 @@ achievement(
 )
 
 achievement(
-    title = "RPG Scenarists Love Crystals", points = 2,
+    title = "Crystals?! Really?!", points = 2,
     description = "Chapter 3 : Get the Green Crystal",
     id = 403099, badge = "456088", type="progression",
     trigger = 	CheckGameStage(0x03, 0x07) && 
@@ -705,14 +705,14 @@ achievement(
 
 achievement(
     title = "The Faster of Two Weevils", points = 2,
-    description = "Chapter 4 : Win the beetle race and get the speed boots",
+    description = "Chapter 4 : Win the beetle race and get the Speed Boots",
     id = 403339, badge = "456266", type="progression",
     trigger = 	CheckGameStage(0x04, 0x01) && 
     			HasLooted(Tools, "BOOTS")
 )
 
 achievement(
-    title = "I Don’t Like Raga Oh No I Kill Him", points = 5,
+    title = "I Don’t Like Raga, Oh No, I Kill Him!", points = 5,
     description = "Chapter 4 : Defeat Raga, save Gwen and learn the Viper's Vortex spell",
     id = 403340, badge = "456267", type="progression",
     trigger = 	CheckGameStage(0x04, 0x05) && 
@@ -794,7 +794,7 @@ achievement(
 )
 
 achievement(
-    title = "Is That a Wand in Your Pocket", points = 2,
+    title = "Is That a Wand in Your Pocket?", points = 2,
     description = "Chapter 4 : Bring Horpach's magic wand back",
     id = 403595, badge = "456623", type="progression",
     trigger = 	CheckGameStage(0x04, 0x07) && 
@@ -1169,7 +1169,7 @@ achievement(
 //Check the GameStage then pause if player use any kind of potion/antidote or change the equipment. As final requirement
 //Player need to finish the arena and get the Seal of Defence.
 achievement(
-    title = "I Can Do It Half Naked", points = 10,
+    title = "I Can Do It Half Naked!", points = 10,
     description = "Chapter 8 : Finish the arena of Defence without changing your equipment or taking any potion",
     id = 403827, badge = "457143", type="missable",
     trigger = 	CheckGameStage(0x08, 0x07) &&
@@ -1243,7 +1243,7 @@ achievement(
 
 //Check the GameStage then Event ID associated to the scene where the mother yell at Melvin for jumping on the table.
 achievement(
-    title = "Grown up, Melvin", points = 1,
+    title = "Grown up, Melvin!", points = 1,
     description = "Chapter 1 : jump on your mom's table",
     id = 408142, badge = "462417", type="missable",
     trigger =   CheckGameStage(1,5) &&
