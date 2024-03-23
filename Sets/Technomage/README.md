@@ -114,7 +114,7 @@ It's not that hard if you get the good timing. Try to approach him and he will a
 | Now We Are Talking     | Get the Sword                                                                                        |
 | Are You Ore-Kay Rumtok | Save Rumtok the miner and get the Crowbar                                                            |
 | On Fire                | Find out what's going on at the graveyard and learn the Fireball spell                               |
-| I See Dead People      | Reach the end of the Crypt and get the Ankh AmuletReach the end of the Crypt and get the Ankh Amulet |
+| I See Dead People      | Reach the end of the Crypt and get the Ankh Amulet 	                                                |
 | Open Day               | Gain access to your father's house                                                                   |
 | Hopscotch              | Kill the Scrapyard Monster and get the control wheele                                                |
 | Chapter 3              | Get the Ring of Life and enter The Hive                                                              |
@@ -160,21 +160,22 @@ At the end of the chapter, during the Water Tanks riddle, you will have to solve
 
 | Achievements           | Description                                                     |
 |------------------------|-----------------------------------------------------------------|
-| Ferdinand Magellan     | Chapter 3 : Discover 100% of the map in The Hive - Entrance     |
-| Marco Polo             | Chapter 3 : Discover 100% of the map in The Hive - Godon        |
-| Francisco Pizarro      | Chapter 3 : Discover 100% of the map in The Hive - Passage      |
-| Henry Hudson           | Chapter 3 : Discover 100% of the map in The Hive - Fredo        |
-| Vasco Da Gama          | Chapter 3 : Discover 100% of the map in The Hive - Labyrinth    |
-| Bartolomeu Dias        | Chapter 3 : Discover 100% of the map in The Hive - Steep Tauron |
-| Christopher Columbus   | Chapter 3 : Discover 100% of the map in The Hive - Graves       |
-| Cube of Intelligence   | Chapter 3 : Get a magic cube that increase your intelligence    |
-| Arachnophobia          | Chapter 3 : Kill the Giant Spider without taking damage         |
+| Ferdinand Magellan     | Discover 100% of the map in The Hive - Entrance     |
+| Marco Polo             | Discover 100% of the map in The Hive - Godon        |
+| Francisco Pizarro      | Discover 100% of the map in The Hive - Passage      |
+| Henry Hudson           | Discover 100% of the map in The Hive - Fredo        |
+| Vasco Da Gama          | Discover 100% of the map in The Hive - Labyrinth    |
+| Bartolomeu Dias        | Discover 100% of the map in The Hive - Steep Tauron |
+| Christopher Columbus   | Discover 100% of the map in The Hive - Graves       |
+| Cube of Intelligence   | Get a magic cube that increase your intelligence    |
+| Arachnophobia          | Kill the Giant Spider without taking damage         |
 
 #### Ferdinand Magellan
 Discover 100% of the map in The Hive - Entrance
 
 #### Marco Polo
 Discover 100% of the map in The Hive - Godon
+Be super careful on this one. If you go meet your father too quickly without discovered everything before, you will not be able to go back and miss the achievement. Make a save at the beginning of the lvl.
 
 #### Francisco Pizarro
 Discover 100% of the map in The Hive - Passage
@@ -325,7 +326,7 @@ Discover 100% of the map in The Tower - Library
 |---------------------------------|-----------------------------------------------------------|
 | White Knight                    | Save Talis and get the Gloves of Dexterity                |
 | Master of the Arena             | Finish all the arena and place all the seals              |
-| The Hero of Gothos              | Defeat Dagomar and save Gothos. Congratulation !          |
+| The Hero of Gothos              | Defeat Ramogad and save Gothos. Congratulation !          |
 
 ### Missable Achievements
 
