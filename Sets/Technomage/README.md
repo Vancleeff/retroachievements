@@ -51,13 +51,13 @@ If you want a detailed playthrough, you can check this one : https://gamefaqs.ga
 To reach 4000 golds, you will have to sell a lot of potions which will make your playthrough harder to finish (but still feasible).
 There's not a lot of shop in the game so be sure to take every opportunity to sell some of your stuff. Here's the list of shops : 
 * SteamerTown - Lars' Shop
-* Jelon - Miriven at the Inn
+* Jelon - Lonicera's Shop
 * Canyon - Torlore at the Shach Camp
 * ShachTown - Yayzn at the Market place\
 \
 
-Selling 1/3 of your stuff should be enough to reach the 4000 golds in chapter 8.\
-Be sure to always kill every enemies and destroy every crates to collect a lot of money and of course, try to not take too much damage to have more potions to sell.
+Selling 1/3 of your stuff should be enough to reach 4000 golds in chapter 8.\
+Be sure to always kill every enemies and destroy every crates to collect a lot of money and of course, try to take as few damage as possible to keep more potions for selling
 
 ### Tips for "Mystic Energy Drain/Mystic Charged Attack " achievements
 To reach lvl 28 in Mysticism, you'll have to attribute 8 points to the skill or 7 if you found and used a cube.
@@ -67,7 +67,7 @@ To reach lvl 40 in one skill, you'll have to focus on one of your skill and attr
 I highly suggest you to maximize your Strength to get more damage during your playthrough.
 
 ### Tips for "Legend" achievement
-While it's almost impossible to miss the lvl 15 achievement, reaching lvl 40 can be missed if you skipped too much enemies during your playthrough.
+While it's almost impossible to miss the lvl 15 achievement, reaching lvl 20 can be missed if you skipped too much enemies during your playthrough.
 Try to kill everything, everywhere, this way you will also get all the "Discover 100% of Map X" achievements and earn a lot of money for "Gold related" cheevos.
 
 ## Chapter 1 (8 achievements)
