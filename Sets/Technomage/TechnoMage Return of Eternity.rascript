@@ -1068,7 +1068,7 @@ achievement(
 
 achievement(
     title = "Chapter 8", points = 10,
-    description = "Free the dragon Ar-Khan, save Talis and reach the Volcano",
+    description = "Solve Atlaran's riddle, get the stardust and fly to a myterious tropical island",
     id = 403735, badge = "456906", type="progression",
     trigger =   InGame() && 
                 ChapterTransition(0x07, 0x08)
@@ -1100,7 +1100,7 @@ achievement(
 
 achievement(
     title = "Merchant", points = 10,
-    description = "Have 4000 golds in your pockets (You will have to sell a lot of your stuff)",
+    description = "Have 4000 golds in your pockets, get ready to do business",
     id = 403741, badge = "456604", type="missable",
     trigger = 	InGame() && 
     			PrevIncreasedTo(PlayerGold, 4000)
@@ -1108,7 +1108,7 @@ achievement(
 
 achievement(
     title = "Master of the Arena", points = 5,
-    description = "Chapter 8 : Finish all the arena and place all the seals",
+    description = "Chapter 8 : Finish all arenas and place the seals on their pedestals",
     id = 403742, badge = "456913", type="progression",
     trigger = CheckGameStage(0x08, 0x02) && tally(8, 
                   once(prev(Seals["MYST"]) == 0x01), 

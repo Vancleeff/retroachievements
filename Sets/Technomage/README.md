@@ -205,7 +205,7 @@ You will have to kill the Giant Spider without taking any damage. I highly sugge
  - After that, she will start to jump and invoke baby spiders from time to time. The pattern will be way more chaotic so I suggest you to only use spells until the end of the fight. Be super careful with all the baby spiders and take your time to kill'em all to avoid taking damage from them.
  You can also playing it like a maggot and only use spells, but it will takes a lot of time and you will probably run out of mana potion and will have to wait for the natural regeneration to cast your spell. (again, be careful with baby spiders)
 
-## Chapter 4 (14 achievements)
+## Chapter 4 (15 achievements)
 
 ### Achievements - not missable, just play the game
 
@@ -230,6 +230,7 @@ You will have to kill the Giant Spider without taking any damage. I highly sugge
 | Call of The Void     | In Jelon, jump into the void after the Fairy guard reminds you that you have no wings |
 | Cube Of Mysticism    | Get a magic cube that increase your Mysticism                                         |
 | Samuel De Champlain  | Discover 100% of the map in The Dark Forest 1                                         |
+| Toadally Destroyed   | Kill the Giant Toad without taking damage                                            |
 
 #### Jacques Cartier
 Discover 100% of the map in The Fairy Forest - Fairy Meadows
@@ -245,6 +246,15 @@ Go to the shop of Jelon (Meriven at the Inn) and buy the Cube. Don't use it if y
 
 #### Samuel De Champlain
 Discover 100% of the map in The Dark Forest 1
+
+#### Toadally Destroyed
+You will have to kill the Giant Toad without taking any damage from him or from his critters. The most important thing to do during the fight is to take care of these critters as the boss will continue to throw more of them at you during the fight, they are fast and unpredictable so you better have to kill them as soon as possible to avoid being submerged. Prefer ranged attack with your spells to kill the minions.
+Try to always hide yourself under the trees when the boss is in the air, this way he will not be able to land on your head. Once he's on the ground, he will make one of these attacks : 
+ - The boss will turn back and throw Critters at you. Move immediatly and kill them asap
+ - The boss will attack you from range with his tong. Dodge it and hit the boss 2-3 times
+ - The boss will Blow at you to try to push you in the water. Dodge it and hit the boss 2-3 times
+You will notice that there's a bee hive in the tree. If you hit it, the boss will come to eat those bees, letting you some time to hit the boss 7-8 times. You can do it 3 times before the hive is destroyed. You can easily remove 40% of his life this way, without any risk of being hit, I suggest you use it halfway through the fight. 
+You will probably have to practice a little to learn the pattern but it's not super hard.
 
 ## Chapter 5 (9 achievements)
 
@@ -309,14 +319,14 @@ Discover 100% of the map in The Tower - Library
 
 ### Achievements - not missable, just play the game
 
-| Achievements                    | Description                                                       |
+| Achievements                    | Description                                                        |
 |---------------------------------|-------------------------------------------------------------------|
 | Battlemage                      | Find the Magic Battle Shield spell                                |
 | Lumberjack                      | Find the Axe                                                      |
 | Ballots Box                     | Find three voting coins for Mulorne and get the Experience Amulet |
 | I’m Dreaming of a White Crystal | Get the White Crystal                                             |
-| Shake Shake                     | Kill the Lind Wyrm and get the Earthquake spell                   |
-| Chapter 8                       | Free the dragon Ar-Khan, save Talis and reach the Volcano         |
+| Shake Shake                     | Kill the Lind Wyrm and get the Earthquake spell                    |
+| Chapter 8                       | Solve Atlaran's riddle, get the stardust and fly to a myterious tropical island          |
 
 ## Chapter 8 (6 achievements)
 
@@ -325,7 +335,7 @@ Discover 100% of the map in The Tower - Library
 | Achievements                    | Description                                               |
 |---------------------------------|-----------------------------------------------------------|
 | White Knight                    | Save Talis and get the Gloves of Dexterity                |
-| Master of the Arena             | Finish all the arena and place all the seals              |
+| Master of the Arena             | Finish all arenas and place the seals on their pedestals              |
 | The Hero of Gothos              | Defeat Ramogad and save Gothos. Congratulation !          |
 
 ### Missable Achievements
