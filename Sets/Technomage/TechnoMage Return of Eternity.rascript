@@ -376,6 +376,15 @@ function HasChangedSpell(){
 
 //ACHIEVEMENTS 
 
+//Check the GameStage then Event ID associated to the scene where the mother yell at Melvin for jumping on the table.
+achievement(
+    title = "Grown up, Melvin!", points = 1,
+    description = "Chapter 1 : jump on your mom's table",
+    id = 408142, badge = "462417", type="missable",
+    trigger =   CheckGameStage(1,5) &&
+                all_of(CompareArrays([0x4f545554, 0x41545f52, 0x00454c42], EventPlaceHolder, 1), a => a)
+)
+
 //Check GameStage then if the current Event ID is the Dialog with NPC Glacnore after giving him a tip for information.
 //Additionally, a check is made to ensure the gold has been decreased during the event.
 //The use of prior instead of prev is because the timing is not always perfect and can prevent the achievement to be triggered.
@@ -439,15 +448,6 @@ achievement(
     			HasLooted(Items, "COMPASS")
 )
 
-//Simply check if the player has reached level 2 (from level 1)
-achievement(
-    title = "It’s Just the Beginning", points = 1,
-    description = "Reach level 2",
-    id = 402919, badge = "455836",
-    trigger = 	InGame() && 
-    			LevelUp(1, 2)
-)
-
 achievement(
     title = "Chapter 2", points = 10,
     description = "Leave Dreamertown",
@@ -455,6 +455,19 @@ achievement(
     trigger =   InGame() && 
                 ChapterTransition(0x01, 0x02)
 )
+
+//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Mouse Trap", points = 10,
+    description = "Chapter 1 : Kill the giant rat without taking damage",
+    id = 404047, badge = "457423", type="missable",
+    trigger =   CheckGameStage(0x01, 0x0B) && 
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x01, 0x0B) && prev(BossGauge) == 0 && BossGauge == 1)
+)
+
 achievement(
     title = "Cube of Strength", points = 3,
     description = "Chapter 2 : Get a Magic Cube of Strength",
@@ -485,6 +498,27 @@ achievement(
     id = 402926, badge = "455843", type="progression", 
     trigger = 	CheckGameStage(0x02, 0x0D) && 
     			HasLooted(Spells, "FIREBALL")
+)
+
+//Check the GameStage then add hits for every tomb inspected through their EVENT ID.
+achievement(
+    title = "Gravedigger", points = 1,
+    description = "Chapter 2 : Inspect every tombs at the cemetary of SteamerTown",
+    id = 404098, badge = "457529", type="missable",
+    trigger =   (CheckGameStage(0x02, 0x09) || CheckGameStage(0x02, 0x0d))&&
+                measured(
+                    tally(9, 
+                        once(EventPlaceHolder[2] == 0x3145), 
+                        once(EventPlaceHolder[2] == 0x3245), 
+                        once(EventPlaceHolder[2] == 0x3345), 
+                        once(EventPlaceHolder[2] == 0x3445), 
+                        once(EventPlaceHolder[2] == 0x3545), 
+                        once(EventPlaceHolder[2] == 0x3645), 
+                        once(EventPlaceHolder[2] == 0x3745), 
+                        once(EventPlaceHolder[2] == 0x3845), 
+                        once(EventPlaceHolder[2] == 0x3945), 
+                        PlayerLvl == 0xff), 
+                    format="raw")
 )
 
 achievement(
@@ -553,6 +587,18 @@ achievement(
                 ChapterTransition(0x02, 0x03)
 )
 
+//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Machinist", points = 10,
+    description = "Chapter 2 : Kill the Scrapyard Monster without taking damage",
+    type="missable",
+    trigger =   CheckGameStage(0x02, 0x0B) && 
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x02, 0x0B) && prev(BossGauge) == 0 && BossGauge == 1)
+)
+
 //Check Gamestage and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Ferdinand Magellan", points = 5,
@@ -560,24 +606,6 @@ achievement(
     id = 403083, badge = "456072", type="missable",
     trigger = 	CheckGameStage(0x03, 0x01) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
-)
-
-//Check if we are on LvlUp GUI to avoid triggering that kind of achievement since you can change the points allocation
-//till you leave the LvlUp GUI, which could lead to exploits. These achievement are triggered after closing the window.
-achievement(
-    title = "Mystic Wisdom", points = 1,
-    description = "Reach lvl 7 in Mysticism and unlock the first perk",
-    id = 403087, badge = "456073", 
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerMYS, 7)
-)
-
-achievement(
-    title = "Rothschild", points = 2,
-    description = "Have 500 golds in your pockets",
-    id = 403088, badge = "456074", type="missable", 
-    trigger = 	InGame() && 
-    			PrevIncreasedTo(PlayerGold, 500)
 )
 
 achievement(
@@ -641,14 +669,6 @@ achievement(
 )
 
 achievement(
-    title = "Tough Boy", points = 2,
-    description = "Increase your Strength to 10",
-    id = 403098, badge = "456087", 
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerSTR, 10)
-)
-
-achievement(
     title = "Crystals?! Really?!", points = 2,
     description = "Chapter 3 : Get the Green Crystal",
     id = 403099, badge = "456088", type="progression",
@@ -688,11 +708,16 @@ achievement(
                 ChapterTransition(0x03, 0x04)
 )
 
+//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
 achievement(
-    title = "Rookie", points = 2,
-    description = "Reach level 5",
-    id = 403120, badge = "456093",
-    trigger = 	LevelUp(4, 5)
+    title = "Arachnophobia", points = 10,
+    description = "Chapter 3 : Kill the Giant Spider without taking damage",
+    id = 408632, badge = "463368", type="missable",
+    trigger =   CheckGameStage(0x03, 0x0a) && 
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x03, 0x0a) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
 achievement(
@@ -728,22 +753,6 @@ achievement(
 )
 
 achievement(
-    title = "Wise Man", points = 2,
-    description = "Increase your Intelligence to 10",
-    id = 403342, badge = "456269",
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerINT, 10)
-)
-
-achievement(
-    title = "Mystic Strength", points = 2,
-    description = "Reach lvl 14 in Mysticism and unlock the second perk",
-    id = 403343, badge = "456270",
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerMYS, 14)
-)
-
-achievement(
     title = "Magic Amulet", points = 2,
     description = "Chapter 4 : Return to Dahlia and receive the Magic Amulet",
     id = 403582, badge = "456590", type="progression",
@@ -767,14 +776,6 @@ achievement(
     			all_of(CompareArrays([1380013383, 828322372, 1263288660], EventPlaceHolder, 1), a => a) &&
     			prior(PlayerAnim) == GetAnimValue("FALL") && 
     			PlayerAnim == GetAnimValue("DIE")
-)
-
-achievement(
-    title = "Rockefeller", points = 5,
-    description = "Have 1000 golds in your pockets",
-    id = 403591, badge = "456604", type="missable",
-    trigger = 	InGame() && 
-    			PrevIncreasedTo(PlayerGold, 1000)
 )
 
 achievement(
@@ -818,21 +819,6 @@ achievement(
 )
 
 achievement(
-    title = "Journeyman", points = 3,
-    description = "Reach level 10",
-    id = 403598, badge = "456626",
-    trigger = 	LevelUp(9, 10)
-)
-
-achievement(
-    title = "Solid Like a Rock", points = 2,
-    description = "Increase your Constitution to 10",
-    id = 403599, badge = "456627",
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerCON, 10)
-)
-
-achievement(
     title = "Samuel De Champlain", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Dark Forest 1",
     id = 403600, badge = "456628", type="missable",
@@ -846,6 +832,18 @@ achievement(
     id = 403602, badge = "456629", type="progression",
     trigger =   InGame() && 
                 ChapterTransition(0x04, 0x05)
+)
+
+//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Toadally Destroyed", points = 10,
+    description = "Chapter 4 : Kill the Giant Toad without taking damage",
+    id = 402918, badge = "463368", type="missable",
+    trigger =   CheckGameStage(0x04, 0x1c) && 
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x04, 0x1c) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
 achievement(
@@ -924,22 +922,6 @@ achievement(
 )
 
 achievement(
-    title = "Mystic Charged Attack", points = 3,
-    description = "Reach lvl 21 in Mysticism and unlock the third perk",
-    id = 403622, badge = "456652", type="missable",
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerMYS, 21)
-)
-
-achievement(
-    title = "Nobel Prize", points = 3,
-    description = "Increase your Intelligence to 20",
-    id = 403623, badge = "456653",
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerINT, 20)
-)
-
-achievement(
     title = "Stop Bullying Him", points = 2,
     description = "Chapter 6 : Help Bullyforth and get the Merlin's Cape",
     id = 403624, badge = "456654", type="progression",
@@ -1012,21 +994,6 @@ achievement(
 )
 
 achievement(
-    title = "Veteran", points = 5,
-    description = "Reach level 15",
-    id = 403661, badge = "456681",
-    trigger = 	LevelUp(14, 15)
-)
-
-achievement(
-    title = "Berserker", points = 3,
-    description = "Increase your Strength to 20",
-    id = 403662, badge = "456682",
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerSTR, 20)
-)
-
-achievement(
     title = "Lumberjack", points = 2,
     description = "Chapter 7 : Find the Axe",
     id = 403729, badge = "456772", type="progression",
@@ -1059,14 +1026,6 @@ achievement(
 )
 
 achievement(
-    title = "Tank", points = 3,
-    description = "Increase your Constitution to 20",
-    id = 403733, badge = "456904",
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerCON, 20)
-)
-
-achievement(
     title = "Chapter 8", points = 10,
     description = "Solve Atlaran's riddle, get the stardust and fly to a myterious tropical island",
     id = 403735, badge = "456906", type="progression",
@@ -1083,27 +1042,11 @@ achievement(
 )
 
 achievement(
-    title = "Mystic Energy Drain", points = 5,
-    description = "Reach lvl 28 in Mysticism and unlock the fourth perk",
-    id = 403737, badge = "456908", type="missable",
-    trigger = 	HasClosedLvlUpGUI() && 
-    			PriorIncreasedTo(PlayerMYS, 28)
-)
-
-achievement(
     title = "White Knight", points = 2,
     description = "Chapter 8 : Save Talis and get the Gloves of Dexterity",
     id = 403738, badge = "456909", type="progression",
     trigger = 	CheckGameStage(0x08, 0x0B) && 
     			HasLooted(Equipments, "GLOVES")
-)
-
-achievement(
-    title = "Merchant", points = 10,
-    description = "Have 4000 golds in your pockets, get ready to do business",
-    id = 403741, badge = "456604", type="missable",
-    trigger = 	InGame() && 
-    			PrevIncreasedTo(PlayerGold, 4000)
 )
 
 achievement(
@@ -1122,23 +1065,6 @@ achievement(
               byte(0x0A1744) == 0x99)
 )
 
-achievement(
-    title = "Master", points = 10,
-    description = "Max out one of your skill",
-    id = 403743, badge = "456914", type="missable",
-    trigger = 	HasClosedLvlUpGUI() && 
-                ((PriorIncreasedTo(PlayerSTR, 40)) ||
-                (PriorIncreasedTo(PlayerINT, 40))  ||
-                (PriorIncreasedTo(PlayerCON, 40))  ||
-                (PriorIncreasedTo(PlayerMYS, 40)))
-)
-
-achievement(
-    title = "Legend", points = 10,
-    description = "Reach level 20",
-    id = 403744, badge = "456915", type="missable",
-    trigger = 	LevelUp(19, 20)
-)
 
 //Check the GameStage then if all the Crystals have been placed during the fight. As final requirement, a check
 //is made on the camera who only switch to cinematic mode when the boss is defeated.
@@ -1183,70 +1109,160 @@ achievement(
     			trigger_when(HasLooted(Seals, "DEFENCE"))
 )
 
-//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
-//made on the Boss HP(=0x00).
+//Leveling Achievements
+//Simply check if the player has reached level 2 (from level 1)
 achievement(
-    title = "Mouse Trap", points = 10,
-    description = "Chapter 1 : Kill the giant rat without taking damage",
-    id = 404047, badge = "457423", type="missable",
-    trigger = 	CheckGameStage(0x01, 0x0B) && 
-                PriorFromTo(BossGauge, 0, 1) &&
-    			trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
-    			disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=prev(BossGauge) == 0 && BossGauge == 1)
+    title = "It’s Just the Beginning", points = 1,
+    description = "Reach level 2",
+    id = 402919, badge = "455836",
+    trigger =   InGame() && 
+                LevelUp(1, 2)
 )
 
-//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
-//made on the Boss HP(=0x00).
 achievement(
-    title = "Machinist", points = 10,
-    description = "Chapter 2 : Kill the Scrapyard Monster without taking damage",
-    type="missable",
-    trigger =   CheckGameStage(0x02, 0x0B) && 
-                PriorFromTo(BossGauge, 0, 1) &&
-                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
-                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=prev(BossGauge) == 0 && BossGauge == 1)
+    title = "Rookie", points = 2,
+    description = "Reach level 5",
+    id = 403120, badge = "456093",
+    trigger =   LevelUp(4, 5)
 )
 
-
-//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
-//made on the Boss HP(=0x00).
 achievement(
-    title = "Arachnophobia", points = 10,
-    description = "Chapter 3 : Kill the Giant Spider without taking damage",
-    id = 408632, badge = "463368", type="missable",
-    trigger =   CheckGameStage(0x03, 0x0a) && 
-                PriorFromTo(BossGauge, 0, 1) &&
-                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
-                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=prev(BossGauge) == 0 && BossGauge == 1)
+    title = "Journeyman", points = 3,
+    description = "Reach level 10",
+    id = 403598, badge = "456626",
+    trigger =   LevelUp(9, 10)
 )
 
-//Check the GameStage then add hits for every tomb inspected through their EVENT ID.
 achievement(
-    title = "Gravedigger", points = 1,
-    description = "Chapter 2 : Inspect every tombs at the cemetary of SteamerTown",
-    id = 404098, badge = "457529", type="missable",
-    trigger = 	(CheckGameStage(0x02, 0x09) || CheckGameStage(0x02, 0x0d))&&
-                measured(
-                    tally(9, 
-                        once(EventPlaceHolder[2] == 0x3145), 
-                        once(EventPlaceHolder[2] == 0x3245), 
-                        once(EventPlaceHolder[2] == 0x3345), 
-                        once(EventPlaceHolder[2] == 0x3445), 
-                        once(EventPlaceHolder[2] == 0x3545), 
-                        once(EventPlaceHolder[2] == 0x3645), 
-                        once(EventPlaceHolder[2] == 0x3745), 
-                        once(EventPlaceHolder[2] == 0x3845), 
-                        once(EventPlaceHolder[2] == 0x3945), 
-                        PlayerLvl == 0xff), 
-                    format="raw")
+    title = "Veteran", points = 5,
+    description = "Reach level 15",
+    id = 403661, badge = "456681",
+    trigger =   LevelUp(14, 15)
 )
 
-//Check the GameStage then Event ID associated to the scene where the mother yell at Melvin for jumping on the table.
 achievement(
-    title = "Grown up, Melvin!", points = 1,
-    description = "Chapter 1 : jump on your mom's table",
-    id = 408142, badge = "462417", type="missable",
-    trigger =   CheckGameStage(1,5) &&
-                all_of(CompareArrays([0x4f545554, 0x41545f52, 0x00454c42], EventPlaceHolder, 1), a => a)
+    title = "Legend", points = 10,
+    description = "Reach level 20",
+    id = 403744, badge = "456915", type="missable",
+    trigger =   LevelUp(19, 20)
 )
 
+//Skills Achievements
+
+achievement(
+    title = "Tough Boy", points = 2,
+    description = "Increase your Strength to 10",
+    id = 403098, badge = "456087", 
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerSTR, 10)
+)
+
+achievement(
+    title = "Berserker", points = 3,
+    description = "Increase your Strength to 20",
+    id = 403662, badge = "456682",
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerSTR, 20)
+)
+
+achievement(
+    title = "Wise Man", points = 2,
+    description = "Increase your Intelligence to 10",
+    id = 403342, badge = "456269",
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerINT, 10)
+)
+
+achievement(
+    title = "Nobel Prize", points = 3,
+    description = "Increase your Intelligence to 20",
+    id = 403623, badge = "456653",
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerINT, 20)
+)
+
+achievement(
+    title = "Solid Like a Rock", points = 2,
+    description = "Increase your Constitution to 10",
+    id = 403599, badge = "456627",
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerCON, 10)
+)
+
+achievement(
+    title = "Tank", points = 3,
+    description = "Increase your Constitution to 20",
+    id = 403733, badge = "456904",
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerCON, 20)
+)
+
+//Check if we are on LvlUp GUI to avoid triggering that kind of achievement since you can change the points allocation
+//till you leave the LvlUp GUI, which could lead to exploits. These achievement are triggered after closing the window.
+achievement(
+    title = "Mystic Wisdom", points = 1,
+    description = "Reach lvl 7 in Mysticism and unlock the first perk",
+    id = 403087, badge = "456073", 
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerMYS, 7)
+)
+
+achievement(
+    title = "Mystic Strength", points = 2,
+    description = "Reach lvl 14 in Mysticism and unlock the second perk",
+    id = 403343, badge = "456270",
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerMYS, 14)
+)
+
+achievement(
+    title = "Mystic Charged Attack", points = 3,
+    description = "Reach lvl 21 in Mysticism and unlock the third perk",
+    id = 403622, badge = "456652", type="missable",
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerMYS, 21)
+)
+
+achievement(
+    title = "Mystic Energy Drain", points = 5,
+    description = "Reach lvl 28 in Mysticism and unlock the fourth perk",
+    id = 403737, badge = "456908", type="missable",
+    trigger =   HasClosedLvlUpGUI() && 
+                PriorIncreasedTo(PlayerMYS, 28)
+)
+
+achievement(
+    title = "Master", points = 10,
+    description = "Max out one of your skill",
+    id = 403743, badge = "456914", type="missable",
+    trigger =   HasClosedLvlUpGUI() && 
+                ((PriorIncreasedTo(PlayerSTR, 40)) ||
+                (PriorIncreasedTo(PlayerINT, 40))  ||
+                (PriorIncreasedTo(PlayerCON, 40))  ||
+                (PriorIncreasedTo(PlayerMYS, 40)))
+)
+
+//Gold Achievements
+achievement(
+    title = "Rothschild", points = 2,
+    description = "Have 500 golds in your pockets",
+    id = 403088, badge = "456074", type="missable", 
+    trigger =   InGame() && 
+                PrevIncreasedTo(PlayerGold, 500)
+)
+
+achievement(
+    title = "Rockefeller", points = 5,
+    description = "Have 1000 golds in your pockets",
+    id = 403591, badge = "456604", type="missable",
+    trigger =   InGame() && 
+                PrevIncreasedTo(PlayerGold, 1000)
+)
+
+achievement(
+    title = "Merchant", points = 10,
+    description = "Have 4000 golds in your pockets, get ready to do business",
+    id = 403741, badge = "456604", type="missable",
+    trigger =   InGame() && 
+                PrevIncreasedTo(PlayerGold, 4000)
+)
