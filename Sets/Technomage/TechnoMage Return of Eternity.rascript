@@ -210,9 +210,6 @@ WaterTankWheelAnim = byte(0x139440)
 //src: the array of value to compare
 //with: data source
 //mode: 1 => equals, 2 => different
-
-function IsLoadingASave() => byte(0x0a304c) == 1
-
 function CompareArrays(src, with, mode){
   res = []
   if(mode == 1)
@@ -239,7 +236,11 @@ function InCredits(){
 	return (EventPlaceHolder[0] == 1230262351 && EventPlaceHolder[1] == 5459535)
 }
 
-//Check if the player is in the game and not on the Title Screen or the Credits
+//Check if the player currently load a save.
+function IsLoadingASave() => byte(0x0a304c) == 1
+
+//Check if the player is in the game and not on the Title Screen or the Credits. 
+//It also checks if the player is not loading a save to prevent save exploits.
 function InGame(){
 	return(never(InTitleScreen()) && never(InCredits()) && never(IsLoadingASave()))
 }
@@ -373,7 +374,6 @@ function HasChangedSpell(){
             prev(Curr_spell) != Curr_spell
 }
 
-
 //ACHIEVEMENTS 
 
 //Check the GameStage then Event ID associated to the scene where the mother yell at Melvin for jumping on the table.
@@ -387,16 +387,12 @@ achievement(
 
 //Check GameStage then if the current Event ID is the Dialog with NPC Glacnore after giving him a tip for information.
 //Additionally, a check is made to ensure the gold has been decreased during the event.
-//The use of prior instead of prev is because the timing is not always perfect and can prevent the achievement to be triggered.
-//There's almost no risk that the decrement detected by the prior function could comes from another action as Glacnore 
-//is the only way to spend money in chapter 1. 
 achievement(
     title = "A Fresh Start for Glacnore", points = 1,
     description = "Chapter 1 : Give Glacnore 5 golds for his information",
     id = 402912, badge = "455829", type="missable",
     trigger = 	CheckGameStage(1,8) &&
-    			all_of(CompareArrays([1095517985, 1380929091, 1229414213, 1313424726, 20294], EventPlaceHolder, 1), a => a) &&
-				prior(PlayerGold) == PlayerGold + 5
+    			all_of(CompareArrays([1095517985, 1380929091, 1229414213, 1313424726, 20294], EventPlaceHolder, 1), a => a)
 )
 
 //Check GameStage then if the current Event ID is the Reading of the targetted books and collect the hits on a dummy 
@@ -448,6 +444,7 @@ achievement(
     			HasLooted(Items, "COMPASS")
 )
 
+//Prevent save exploit and check if the chapter change from 1 to 2
 achievement(
     title = "Chapter 2", points = 10,
     description = "Leave Dreamertown",
@@ -468,6 +465,7 @@ achievement(
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x01, 0x0B) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
+//Prevent save exploit and check if the player has looted the STR cube
 achievement(
     title = "Cube of Strength", points = 3,
     description = "Chapter 2 : Get a Magic Cube of Strength",
@@ -579,6 +577,7 @@ achievement(
                      byte(0x091E86)== 0x04), until=prev(WaterTank1Lvl) == 0x05 && WaterTank1Lvl ==0x06)
 )
 
+//Prevent save exploit and check if the chapter change from 2 to 3
 achievement(
     title = "Chapter 3", points = 10,
     description = "Get the Ring of Life and enter The Hive",
@@ -700,6 +699,7 @@ achievement(
     			HasLooted(Cubes, "INT")
 )
 
+//Prevent save exploit and check if the chapter change from 3 to 4
 achievement(
     title = "Chapter 4", points = 10,
     description = "Kill the giant spider and reach the Fairy Forest",
@@ -826,6 +826,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01], Map, 1), a=>a)
 )
 
+//Prevent save exploit and check if the chapter change from 4 to 5
 achievement(
     title = "Chapter 5", points = 10,
     description = "Beat the Giant Toad in the Dark Forest and reach The Canyon",
@@ -913,6 +914,7 @@ achievement(
     			HasLooted(Crystals, "BLUE")
 )
 
+//Prevent save exploit and check if the chapter change from 5 to 6
 achievement(
     title = "Chapter 6", points = 10,
     description = "Beat the Deranged Machine and reach the High Mountains",
@@ -977,6 +979,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
 
+//Prevent save exploit and check if the chapter change from 6 to 7
 achievement(
     title = "Chapter 7", points = 10,
     description = "Free the dragon Ar-Khan, save Talis and reach the Volcano",
@@ -1025,6 +1028,7 @@ achievement(
     			HasLooted(Spells, "QUAKE")
 )
 
+//Prevent save exploit and check if the chapter change from 7 to 8
 achievement(
     title = "Chapter 8", points = 10,
     description = "Solve Atlaran's riddle, get the stardust and fly to a myterious tropical island",
