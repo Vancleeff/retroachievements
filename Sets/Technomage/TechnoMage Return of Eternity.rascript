@@ -171,6 +171,10 @@ SelectedGUIValue = {
 	"MYSBAR": 0x80093aa4,
 }
 
+//Selected choice during dialogs
+//0x00 = Yes | 0x01 = No
+DialogChoiceSelector = byte(0x0a40d8)
+
 //Specific event triggers
 Triggers = {
     "MOM_PISSED_OFF" : byte(0x136b1f)
@@ -198,7 +202,6 @@ EventPlaceHolder = [
     dword(0x0B71F8),
     dword(0x0B71FC),
 ]
-
 
 //Water tanks in SteamerTown used for "Resourceful" Achievement
 WaterTank1Lvl = byte(0x1f14b2)
@@ -381,7 +384,8 @@ achievement(
     title = "Grown up, Melvin!", points = 1,
     description = "Chapter 1 : jump on your mom's table",
     id = 408142, badge = "462417", type="missable",
-    trigger =   CheckGameStage(1,5) &&
+    trigger =   InGame() && 
+                CheckGameStage(1,5) &&
                 all_of(CompareArrays([0x4f545554, 0x41545f52, 0x00454c42], EventPlaceHolder, 1), a => a)
 )
 
@@ -391,8 +395,10 @@ achievement(
     title = "A Fresh Start for Glacnore", points = 1,
     description = "Chapter 1 : Give Glacnore 5 golds for his information",
     id = 402912, badge = "455829", type="missable",
-    trigger = 	CheckGameStage(1,8) &&
-    			all_of(CompareArrays([1095517985, 1380929091, 1229414213, 1313424726, 20294], EventPlaceHolder, 1), a => a)
+    trigger = 	InGame() && 
+                CheckGameStage(1,8) &&
+    			all_of(CompareArrays([1095517985, 1380929091, 1229414213, 1313424726, 20294], EventPlaceHolder, 1), a => a) &&
+                DialogChoiceSelector == 0x00
 )
 
 //Check GameStage then if the current Event ID is the Reading of the targetted books and collect the hits on a dummy 
@@ -401,7 +407,8 @@ achievement(
     title = "Thirst for Knowledge", points = 1,
     description = "Chapter 1 : Read all the 7 books at the Library",
     id = 402913, badge = "455830", type="missable", 
-    trigger = 	 measured(
+    trigger = 	InGame() && 
+                measured(
                     tally(7, 
                         once(EventPlaceHolder[2] == 0x53455957), 
                         once(EventPlaceHolder[2] == 0x59534543), 
@@ -420,7 +427,8 @@ achievement(
     title = "Family Business", points = 2,
     description = "Chapter 1 : Visit your Uncle Rissen",
     id = 402914, badge = "455831", type="progression", 
-    trigger = 	CheckGameStage(0x01, 0x0B) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x01, 0x0B) &&
     			all_of(CompareArrays([0x53534952, 0x315F4E45, 0x4B4C4154], EventPlaceHolder, 1), a => a)
 )
 
@@ -429,7 +437,8 @@ achievement(
     title = "Toothpick", points = 2,
     description = "Chapter 1 : Find the Dagger",
     id = 402916, badge = "455833", type="progression",
-    trigger = 	CheckGameStage(0x01, 0x0B) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x01, 0x0B) && 
     			HasLooted(Weapons, "DAGGER")
 )
 
@@ -439,7 +448,8 @@ achievement(
     title = "None Shall Compass", points = 5,
     description = "Chapter 1 : Kill the Giant Rat and get the Compass",
     id = 402917, badge = "455834", type="progression", 
-    trigger = 	CheckGameStage(0x01, 0x0B) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x01, 0x0B) &&
     			GiantRatHp == 0x00 && 
     			HasLooted(Items, "COMPASS")
 )
@@ -459,7 +469,8 @@ achievement(
     title = "Mouse Trap", points = 10,
     description = "Chapter 1 : Kill the giant rat without taking damage",
     id = 404047, badge = "457423", type="missable",
-    trigger =   CheckGameStage(0x01, 0x0B) && 
+    trigger =   InGame() && 
+                CheckGameStage(0x01, 0x0B) && 
                 PriorFromTo(BossGauge, 0, 1) &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x01, 0x0B) && prev(BossGauge) == 0 && BossGauge == 1)
@@ -478,7 +489,8 @@ achievement(
     title = "Now We Are Talking", points = 2,
     description = "Chapter 2 : Get the Sword",
     id = 402923, badge = "455840", type="progression", 
-    trigger = 	CheckGameStage(0x02, 0x16) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x02, 0x16) && 
     			HasLooted(Weapons, "SWORD")
 )
 
@@ -486,7 +498,8 @@ achievement(
     title = "Are You Ore-Kay Rumtok?!", points = 2,
     description = "Chapter 2 : Save Rumtok the miner and get the Crowbar",
     id = 402925, badge = "455842", type="progression", 
-    trigger = 	CheckGameStage(0x02, 0x05) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x02, 0x05) && 
     			HasLooted(Items, "CROWBAR")
 )
 
@@ -494,7 +507,8 @@ achievement(
     title = "On Fire", points = 2,
     description = "Chapter 2 : Find out what's going on at the graveyard and learn the Fireball spell",
     id = 402926, badge = "455843", type="progression", 
-    trigger = 	CheckGameStage(0x02, 0x0D) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x02, 0x0D) && 
     			HasLooted(Spells, "FIREBALL")
 )
 
@@ -503,7 +517,8 @@ achievement(
     title = "Gravedigger", points = 1,
     description = "Chapter 2 : Inspect every tombs at the cemetary of SteamerTown",
     id = 404098, badge = "457529", type="missable",
-    trigger =   (CheckGameStage(0x02, 0x09) || CheckGameStage(0x02, 0x0d))&&
+    trigger =   InGame() && 
+                (CheckGameStage(0x02, 0x09) || CheckGameStage(0x02, 0x0d))&&
                 measured(
                     tally(9, 
                         once(EventPlaceHolder[2] == 0x3145), 
@@ -523,7 +538,8 @@ achievement(
     title = "I See Dead People", points = 2,
     description = "Chapter 2 : Reach the end of the Crypt and get the Ankh Amulet",
     id = 403069, badge = "456007", type="progression", 
-    trigger = 	CheckGameStage(0x02, 0x03) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x02, 0x03) && 
     			HasLooted(Equipments, "ANKH")
 )
 
@@ -532,7 +548,8 @@ achievement(
     title = "Open Day", points = 2,
     description = "Chapter 2 : Gain access to your father's house",
     id = 403070, badge = "456008", type="progression", 
-    trigger = 	CheckGameStage(0x02, 0x13) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x02, 0x13) && 
     			prior(byte(0x0A1744)) == 0x08
 )
 
@@ -540,8 +557,22 @@ achievement(
     title = "Hopscotch", points = 5,
     description = "Chapter 2 : Kill the Scrapyard Monster and get the control wheele",
     id = 403071, badge = "456063", type="progression", 
-    trigger = 	CheckGameStage(0x02, 0x0B) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x02, 0x0B) && 
     			HasLooted(Items, "CWHEEL")
+)
+
+//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Machinist", points = 10,
+    description = "Chapter 2 : Kill the Scrapyard Monster without taking damage",
+    type="missable",
+    trigger =   InGame() && 
+                CheckGameStage(0x02, 0x0B) && 
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x02, 0x0B) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
 //For this achievement, the player can't buy a cork at the shop, 0x1F1483 contains the qty in the shop.
@@ -551,7 +582,8 @@ achievement(
     title = "Resourceful", points = 5,
     description = "Chapter 2 : Seal the burst steam pipes without buying a cork from Lars",
     id = 403079, badge = "456067", type="missable", 
-    trigger = 	ChapterID == 0x02 &&
+    trigger = 	InGame() && 
+                ChapterID == 0x02 &&
     			Items["LARS_CORK"] == 0x01 &&
     			any_of(CheckInQuestLog(0x4B524F43), a=>a)
 )
@@ -563,7 +595,8 @@ achievement(
     title = "It's a me, Melvin!", points = 5,
     description = "Chapter 2 : Resolve the water tank puzzle in SteamerTown in as few turns as possible",
     id = 403081, badge = "456070", type="missable", 
-    trigger = 	CheckGameStage(0x02, 0x0a) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x02, 0x0a) &&
                 prior(WaterTank1Lvl) == 0x03 &&
 				WaterTank1Lvl == 0x02 &&
 				prior(WaterTank2Lvl) == 0x03 &&
@@ -586,24 +619,13 @@ achievement(
                 ChapterTransition(0x02, 0x03)
 )
 
-//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
-//made on the Boss HP(=0x00).
-achievement(
-    title = "Machinist", points = 10,
-    description = "Chapter 2 : Kill the Scrapyard Monster without taking damage",
-    type="missable",
-    trigger =   CheckGameStage(0x02, 0x0B) && 
-                PriorFromTo(BossGauge, 0, 1) &&
-                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
-                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x02, 0x0B) && prev(BossGauge) == 0 && BossGauge == 1)
-)
-
 //Check Gamestage and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Ferdinand Magellan", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Entrance",
     id = 403083, badge = "456072", type="missable",
-    trigger = 	CheckGameStage(0x03, 0x01) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x01) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
 )
 
@@ -611,7 +633,8 @@ achievement(
     title = "Father and Son", points = 2,
     description = "Chapter 3 : Find your father somewhere in the Hive and get the Bombs",
     id = 403089, badge = "456075", type="progression", 
-    trigger = 	CheckGameStage(0x03, 0x02) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x02) && 
     			HasLooted(Tools, "BOMB")
 )
 
@@ -619,7 +642,8 @@ achievement(
     title = "Marco Polo", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Godon",
     id = 403090, badge = "456077", type="missable", 
-    trigger = 	CheckGameStage(0x03, 0x02) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x02) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F], Map, 1), a=>a)
 )
 
@@ -627,7 +651,8 @@ achievement(
     title = "Francisco Pizarro", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Passage",
     id = 403091, badge = "456082", type="missable", 
-    trigger = 	CheckGameStage(0x03, 0x03) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x03) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F], Map, 1), a=>a)
 )
 
@@ -635,7 +660,8 @@ achievement(
     title = "Don't Mace With Me", points = 2,
     description = "Chapter 3 : Get the War Mace",
     id = 403092, badge = "456079", type="progression", 
-    trigger = 	CheckGameStage(0x03, 0x04) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x04) && 
     			HasLooted(Weapons, "MACE")
 )
 
@@ -643,7 +669,8 @@ achievement(
     title = "Henry Hudson", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Fredo",
     id = 403093, badge = "456083", type="missable", 
-    trigger = 	CheckGameStage(0x03, 0x04) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x04) && 
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1F], Map, 1), a=>a)
 )
 
@@ -651,7 +678,8 @@ achievement(
     title = "I Know It Was You Fredo!", points = 2,
     description = "Chapter 3 : Meet Fredo and learn the Ice Claw spell",
     id = 403094, badge = "456081", type="progression", 
-    trigger = 	CheckGameStage(0x03, 0x04) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x04) && 
     			HasLooted(Spells, "ICECLAW")
 )
 
@@ -662,7 +690,8 @@ achievement(
     title = "Vasco Da Gama", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Labyrinth",
     id = 403096, badge = "456085", type="missable", 
-    trigger = 	CheckGameStage(0x03, 0x05) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x05) && 
 				MusicPlayed == 0x17B0 &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
 )
@@ -671,7 +700,8 @@ achievement(
     title = "Crystals?! Really?!", points = 2,
     description = "Chapter 3 : Get the Green Crystal",
     id = 403099, badge = "456088", type="progression",
-    trigger = 	CheckGameStage(0x03, 0x07) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x07) && 
     			HasLooted(Crystals, "GREEN")
 )
 
@@ -679,7 +709,8 @@ achievement(
     title = "Bartolomeu Dias", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Steep Tauron",
     id = 403116, badge = "456089", type="missable",
-    trigger = 	CheckGameStage(0x03, 0x07) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x07) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
 )
 
@@ -687,7 +718,8 @@ achievement(
     title = "Christopher Columbus", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Graves",
     id = 403117, badge = "456090", type="missable",
-    trigger = 	CheckGameStage(0x03, 0x09) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x03, 0x09) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1F], Map, 1), a=>a)
 )
 
@@ -714,7 +746,8 @@ achievement(
     title = "Arachnophobia", points = 10,
     description = "Chapter 3 : Kill the Giant Spider without taking damage",
     id = 408632, badge = "463368", type="missable",
-    trigger =   CheckGameStage(0x03, 0x0a) && 
+    trigger =   InGame() && 
+                CheckGameStage(0x03, 0x0a) && 
                 PriorFromTo(BossGauge, 0, 1) &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x03, 0x0a) && prev(BossGauge) == 0 && BossGauge == 1)
@@ -724,7 +757,8 @@ achievement(
     title = "Mystical Tool", points = 2,
     description = "Chapter 4 : Get the Radar",
     id = 403198, badge = "456177", type="progression",
-    trigger = 	CheckGameStage(0x04, 0x18) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x18) && 
     			HasLooted(Tools, "RADAR")
 )
 
@@ -732,7 +766,8 @@ achievement(
     title = "The Faster of Two Weevils", points = 2,
     description = "Chapter 4 : Win the beetle race and get the Speed Boots",
     id = 403339, badge = "456266", type="progression",
-    trigger = 	CheckGameStage(0x04, 0x01) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x01) && 
     			HasLooted(Tools, "BOOTS")
 )
 
@@ -740,7 +775,8 @@ achievement(
     title = "I Don’t Like Raga, Oh No, I Kill Him!", points = 5,
     description = "Chapter 4 : Defeat Raga, save Gwen and learn the Viper's Vortex spell",
     id = 403340, badge = "456267", type="progression",
-    trigger = 	CheckGameStage(0x04, 0x05) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x05) && 
     			HasLooted(Spells, "VORTEX")
 )
 
@@ -748,7 +784,8 @@ achievement(
     title = "Jacques Cartier", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Fairy Forest - Fairy Meadows",
     id = 403341, badge = "456268", type="missable",
-    trigger = 	CheckGameStage(0x04, 0x04) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x04) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x07], Map, 1), a=>a)
 )
 
@@ -756,7 +793,8 @@ achievement(
     title = "Magic Amulet", points = 2,
     description = "Chapter 4 : Return to Dahlia and receive the Magic Amulet",
     id = 403582, badge = "456590", type="progression",
-    trigger = 	CheckGameStage(0x04, 0x0B) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x0B) && 
     			HasLooted(Equipments, "AMULETMAGIC")
 )
 
@@ -764,7 +802,8 @@ achievement(
     title = "James Cook", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Inner Forest",
     id = 403583, badge = "456596", type="missable",
-    trigger = 	CheckGameStage(0x04, 0x1D) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x1D) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0x7F], Map, 1), a=>a)
 )
 
@@ -772,7 +811,8 @@ achievement(
     title = "Call of The Void", points = 1,
     description = "Chapter 4 : In Jelon, jump into the void after the Fairy guard reminds you that you have no wings",
     id = 403584, badge = "456597", type="missable",
-    trigger = 	CheckGameStage(0x04, 0x02) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x02) &&
     			all_of(CompareArrays([1380013383, 828322372, 1263288660], EventPlaceHolder, 1), a => a) &&
     			prior(PlayerAnim) == GetAnimValue("FALL") && 
     			PlayerAnim == GetAnimValue("DIE")
@@ -782,7 +822,8 @@ achievement(
     title = "Branch Merged", points = 2,
     description = "Chapter 4 : Give the tree guardian his old branch back and get the Bow",
     id = 403592, badge = "456605", type="progression",
-    trigger = 	CheckGameStage(0x04, 0x1D) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x1D) &&
     			HasLooted(Weapons, "BOW")
 )
 
@@ -798,7 +839,8 @@ achievement(
     title = "Is That a Wand in Your Pocket?", points = 2,
     description = "Chapter 4 : Bring Horpach's magic wand back",
     id = 403595, badge = "456623", type="progression",
-    trigger = 	CheckGameStage(0x04, 0x07) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x07) && 
     			HasDropped(Items, "WAND")
 )
 
@@ -806,7 +848,8 @@ achievement(
     title = "The Plot Thickens", points = 2,
     description = "Chapter 4 : Get the Yellow Crystal",
     id = 403596, badge = "456624", type="progression",
-    trigger = 	CheckGameStage(0x04, 0x07) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x07) && 
     			HasLooted(Crystals, "YELLOW")
 )
 
@@ -814,7 +857,8 @@ achievement(
     title = "Smiling Princess", points = 2,
     description = "Chapter 4 : Get the Princess to smile again and get the Chain Mail Coat",
     id = 403597, badge = "456625", type="progression",
-    trigger = 	CheckGameStage(0x04, 0x07) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x07) && 
     			HasLooted(Equipments, "CHAINMAIL")
 )
 
@@ -822,7 +866,8 @@ achievement(
     title = "Samuel De Champlain", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Dark Forest 1",
     id = 403600, badge = "456628", type="missable",
-    trigger = 	CheckGameStage(0x04, 0x1A) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x04, 0x1A) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01], Map, 1), a=>a)
 )
 
@@ -841,7 +886,8 @@ achievement(
     title = "Toadally Destroyed", points = 10,
     description = "Chapter 4 : Kill the Giant Toad without taking damage",
     id = 402918, badge = "463368", type="missable",
-    trigger =   CheckGameStage(0x04, 0x1c) && 
+    trigger =   InGame() && 
+                CheckGameStage(0x04, 0x1c) && 
                 PriorFromTo(BossGauge, 0, 1) &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x04, 0x1c) && prev(BossGauge) == 0 && BossGauge == 1)
@@ -851,7 +897,8 @@ achievement(
     title = "Leif Ericson", points = 5,
     description = "Chapter 5 : Discover 100% of the map in The Canyon - Passage",
     id = 403603, badge = "456630", type="missable",
-    trigger = 	CheckGameStage(0x05, 0x02) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x05, 0x02) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
 
@@ -878,7 +925,8 @@ achievement(
     title = "Hookey Dookey", points = 2,
     description = "Chapter 5 : Meet Dagomar and get the Grappling Hook",
     id = 403607, badge = "456636", type="progression",
-    trigger = 	CheckGameStage(0x05, 0x14) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x05, 0x14) && 
     			HasLooted(Tools, "HOOK")
 )
 
@@ -886,7 +934,8 @@ achievement(
     title = "Hammer Time", points = 2,
     description = "Chapter 5 : Get the Hammer",
     id = 403608, badge = "456637", type="progression",
-    trigger = 	CheckGameStage(0x05, 0x11) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x05, 0x11) && 
 				HasLooted(Weapons, "HAMMER")
 )
 
@@ -894,7 +943,8 @@ achievement(
     title = "Don't Forget Your Umbrella", points = 2,
     description = "Chapter 5 : Learn the Meteor Storm spell",
     id = 403614, badge = "456643", type="progression",
-    trigger = 	CheckGameStage(0x05, 0x12) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x05, 0x12) && 
     			HasLooted(Spells, "METEOR")
 )
 
@@ -902,7 +952,8 @@ achievement(
     title = "Heigh Hooo", points = 2,
     description = "Chapter 5 : Gain entry to the old mine and get the Stoneskin Belt",
     id = 403618, badge = "456648", type="progression",
-    trigger = 	CheckGameStage(0x05, 0x06) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x05, 0x06) && 
     			HasLooted(Equipments, "BELT")
 )
 
@@ -910,7 +961,8 @@ achievement(
     title = "Third Times a Charm", points = 2,
     description = "Chapter 5 : Get the Blue Crystal",
     id = 403620, badge = "456650", type="progression",
-    trigger = 	CheckGameStage(0x05, 0x06) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x05, 0x06) && 
     			HasLooted(Crystals, "BLUE")
 )
 
@@ -927,7 +979,8 @@ achievement(
     title = "Stop Bullying Him", points = 2,
     description = "Chapter 6 : Help Bullyforth and get the Merlin's Cape",
     id = 403624, badge = "456654", type="progression",
-    trigger = 	CheckGameStage(0x06, 0x0D) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x06, 0x0D) && 
     			HasLooted(Equipments, "CAPE")
 )
 
@@ -935,7 +988,8 @@ achievement(
     title = "Zheng He", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Snow World",
     id = 403625, badge = "456655", type="missable",
-    trigger = 	CheckGameStage(0x06, 0x0D) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x06, 0x0D) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
 
@@ -943,7 +997,8 @@ achievement(
     title = "Upgraded Bow", points = 2,
     description = "Chapter 6 : Find the Fire and Water arrows",
     id = 403626, badge = "456656", type="progression",
-    trigger = 	CheckGameStage(0x06, 0x01) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x06, 0x01) && 
     			HasLooted(Weapons, "WATER_ARROW")
 )
 
@@ -951,7 +1006,8 @@ achievement(
     title = "Roald Amundsen", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Intra Muros",
     id = 403628, badge = "456671", type="missable",
-    trigger = 	CheckGameStage(0x06, 0x05) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x06, 0x05) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F], Map, 1), a=>a)
 )
 
@@ -959,7 +1015,8 @@ achievement(
     title = "Now You Can See the Light", points = 2,
     description = "Chapter 6 : Find the librarian's spectacles and get the fourth Crystal",
     id = 403643, badge = "456672", type="progression",
-    trigger = 	CheckGameStage(0x06, 0x04) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x06, 0x04) && 
     			HasLooted(Crystals, "RED")
 )
 
@@ -967,7 +1024,8 @@ achievement(
     title = "Thunder", points = 2,
     description = "Chapter 6 : Find the Magic Lightning spell",
     id = 403655, badge = "456675", type="progression",
-    trigger = 	CheckGameStage(0x06, 0x04) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x06, 0x04) && 
     			HasLooted(Spells, "THUNDER")
 )
 
@@ -975,7 +1033,8 @@ achievement(
     title = "Sir Francis Drake", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Library",
     id = 403656, badge = "456676", type="missable",
-    trigger = 	CheckGameStage(0x06, 0x04) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x06, 0x04) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
 
@@ -992,7 +1051,8 @@ achievement(
     title = "Battlemage", points = 2,
     description = "Chapter 7 : Find the Magic Battle Shield spell",
     id = 403660, badge = "456680", type="progression",
-    trigger = 	CheckGameStage(0x07, 0x05) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x07, 0x05) && 
     			HasLooted(Spells, "SHIELD")
 )
 
@@ -1000,7 +1060,8 @@ achievement(
     title = "Lumberjack", points = 2,
     description = "Chapter 7 : Find the Axe",
     id = 403729, badge = "456772", type="progression",
-    trigger = 	CheckGameStage(0x07, 0x01) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x07, 0x01) && 
     			HasLooted(Weapons, "AXE")
 )
 
@@ -1008,7 +1069,8 @@ achievement(
     title = "Ballots Box", points = 2,
     description = "Chapter 7 : Find three voting coins for Mulorne and get the Experience Amulet",
     id = 403730, badge = "456774", type="progression",
-    trigger = 	CheckGameStage(0x07, 0x01) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x07, 0x01) && 
     			HasLooted(Equipments, "AMULETXP")
 )
 
@@ -1016,7 +1078,8 @@ achievement(
     title = "I’m Dreaming of a White Crystal", points = 2,
     description = "Chapter 7 : Get the White Crystal",
     id = 403731, badge = "456902", type="progression",
-    trigger = 	CheckGameStage(0x07, 0x03) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x07, 0x03) && 
     			HasLooted(Crystals, "WHITE")
 )
 
@@ -1024,7 +1087,8 @@ achievement(
     title = "Shake Shake", points = 5,
     description = "Chapter 7 : Kill the Lind Wyrm and get the Earthquake spell",
     id = 403732, badge = "456903", type="progression",
-    trigger = 	CheckGameStage(0x07, 0x04) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x07, 0x04) && 
     			HasLooted(Spells, "QUAKE")
 )
 
@@ -1041,7 +1105,8 @@ achievement(
     title = "Mercator", points = 5,
     description = "Chapter 8 : Discover 100% of the map in The Ruins - Beach",
     id = 403736, badge = "456907", type="missable",
-    trigger = 	CheckGameStage(0x08, 0x06) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x08, 0x06) &&
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0x07], Map, 1), a=>a)
 )
 
@@ -1049,7 +1114,8 @@ achievement(
     title = "White Knight", points = 2,
     description = "Chapter 8 : Save Talis and get the Gloves of Dexterity",
     id = 403738, badge = "456909", type="progression",
-    trigger = 	CheckGameStage(0x08, 0x0B) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x08, 0x0B) && 
     			HasLooted(Equipments, "GLOVES")
 )
 
@@ -1057,7 +1123,8 @@ achievement(
     title = "Master of the Arena", points = 5,
     description = "Chapter 8 : Finish all arenas and place the seals on their pedestals",
     id = 403742, badge = "456913", type="progression",
-    trigger = CheckGameStage(0x08, 0x02) && tally(8, 
+    trigger =   InGame() && 
+                CheckGameStage(0x08, 0x02) && tally(8, 
                   once(prev(Seals["MYST"]) == 0x01), 
                   once(prev(Seals["COMBAT"]) == 0x01), 
                   once(prev(Seals["DEFENCE"]) == 0x01), 
@@ -1076,7 +1143,8 @@ achievement(
     title = "The Hero of Gothos", points = 25,
     description = "Chapter 8 : Defeat Dagomar and save Gothos. Congratulation !",
     id = 403745, badge = "456916", type="win_condition",
-    trigger = 	CheckGameStage(0x08, 0x01) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x08, 0x01) && 
     			Crystals["BLUE"] == 0x00 && 
     			Crystals["WHITE"] == 0x00 && 
     			Crystals["YELLOW"] == 0x00 &&
@@ -1091,7 +1159,8 @@ achievement(
     title = "Gladiator", points = 10,
     description = "Chapter 8 : Finish the arena of weapons without taking any damage",
     id = 403826, badge = "457144", type="missable",
-    trigger = 	CheckGameStage(0x08, 0x04) && 
+    trigger = 	InGame() && 
+                CheckGameStage(0x08, 0x04) && 
     			disable_when(CheckGameStage(0x08, 0x04) && PlayerAnim == PlayerAnimList["DAMAGE"] ) && 
               	trigger_when(HasLooted(Seals, "COMBAT"))
 )
@@ -1102,7 +1171,8 @@ achievement(
     title = "I Can Do It Half Naked!", points = 10,
     description = "Chapter 8 : Finish the arena of Defence without changing your equipment or taking any potion",
     id = 403827, badge = "457143", type="missable",
-    trigger = 	CheckGameStage(0x08, 0x07) &&
+    trigger = 	InGame() && 
+                CheckGameStage(0x08, 0x07) &&
     			disable_when(CheckGameStage(0x08, 0x07) && HasChangedEquipment()) &&
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_H"]))) && 
     			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_H"]))) && 
@@ -1127,7 +1197,8 @@ achievement(
     title = "Rookie", points = 2,
     description = "Reach level 5",
     id = 403120, badge = "456093",
-    trigger =   LevelUp(4, 5)
+    trigger =   InGame() && 
+                LevelUp(4, 5)
 )
 
 achievement(
@@ -1157,7 +1228,8 @@ achievement(
     title = "Tough Boy", points = 2,
     description = "Increase your Strength to 10",
     id = 403098, badge = "456087", 
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerSTR, 10)
 )
 
@@ -1165,7 +1237,8 @@ achievement(
     title = "Berserker", points = 3,
     description = "Increase your Strength to 20",
     id = 403662, badge = "456682",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerSTR, 20)
 )
 
@@ -1173,7 +1246,8 @@ achievement(
     title = "Wise Man", points = 2,
     description = "Increase your Intelligence to 10",
     id = 403342, badge = "456269",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerINT, 10)
 )
 
@@ -1181,7 +1255,8 @@ achievement(
     title = "Nobel Prize", points = 3,
     description = "Increase your Intelligence to 20",
     id = 403623, badge = "456653",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerINT, 20)
 )
 
@@ -1189,7 +1264,8 @@ achievement(
     title = "Solid Like a Rock", points = 2,
     description = "Increase your Constitution to 10",
     id = 403599, badge = "456627",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerCON, 10)
 )
 
@@ -1197,7 +1273,8 @@ achievement(
     title = "Tank", points = 3,
     description = "Increase your Constitution to 20",
     id = 403733, badge = "456904",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerCON, 20)
 )
 
@@ -1207,7 +1284,8 @@ achievement(
     title = "Mystic Wisdom", points = 1,
     description = "Reach lvl 7 in Mysticism and unlock the first perk",
     id = 403087, badge = "456073", 
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerMYS, 7)
 )
 
@@ -1215,7 +1293,8 @@ achievement(
     title = "Mystic Strength", points = 2,
     description = "Reach lvl 14 in Mysticism and unlock the second perk",
     id = 403343, badge = "456270",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerMYS, 14)
 )
 
@@ -1223,7 +1302,8 @@ achievement(
     title = "Mystic Charged Attack", points = 3,
     description = "Reach lvl 21 in Mysticism and unlock the third perk",
     id = 403622, badge = "456652", type="missable",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerMYS, 21)
 )
 
@@ -1231,7 +1311,8 @@ achievement(
     title = "Mystic Energy Drain", points = 5,
     description = "Reach lvl 28 in Mysticism and unlock the fourth perk",
     id = 403737, badge = "456908", type="missable",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerMYS, 28)
 )
 
@@ -1239,7 +1320,8 @@ achievement(
     title = "Master", points = 10,
     description = "Max out one of your skill",
     id = 403743, badge = "456914", type="missable",
-    trigger =   HasClosedLvlUpGUI() && 
+    trigger =   InGame() && 
+                HasClosedLvlUpGUI() && 
                 ((PriorIncreasedTo(PlayerSTR, 40)) ||
                 (PriorIncreasedTo(PlayerINT, 40))  ||
                 (PriorIncreasedTo(PlayerCON, 40))  ||
