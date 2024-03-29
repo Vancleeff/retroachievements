@@ -1038,6 +1038,19 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
 
+//Check the GameStage then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Dragon Slayer", points = 10,
+    description = "Chapter 6 : Kill Yor-Khan without casting any spell",
+    id = 402922, badge = "456676", type="missable",
+    trigger =   InGame() && 
+                CheckGameStage(0x06, 0x11) && 
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["SPELL"], until=CheckGameStage(0x06, 0x11) && prev(BossGauge) == 0 && BossGauge == 1)
+)
+
 //Prevent save exploit and check if the chapter change from 6 to 7
 achievement(
     title = "Chapter 7", points = 10,
@@ -1092,6 +1105,19 @@ achievement(
     			HasLooted(Spells, "QUAKE")
 )
 
+//Check the GameStage then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Robin Hood", points = 10,
+    description = "Chapter 7 : Kill the Lind Wyrm only using your Bow",
+    id = 403337, badge = "456676", type="missable",
+    trigger =   InGame() && 
+                CheckGameStage(0x07, 0x04) && 
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when((BossGauge == 1 && PlayerAnim == PlayerAnimList["SPELL"]) || (BossGauge == 1 && PlayerAnim == PlayerAnimList["WEAPON"]), until=CheckGameStage(0x07, 0x04) && prev(BossGauge) == 0 && BossGauge == 1)
+)
+
 //Prevent save exploit and check if the chapter change from 7 to 8
 achievement(
     title = "Chapter 8", points = 10,
@@ -1136,6 +1162,18 @@ achievement(
               byte(0x0A1744) == 0x99)
 )
 
+//Check the GameStage then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "GoLame", points = 10,
+    description = "Chapter 8 : Kill the Golem without taking any damage",
+    id = 403338, badge = "456676", type="missable",
+    trigger =   InGame() && 
+                CheckGameStage(0x08, 0x02) && 
+                PriorFromTo(BossGauge, 0, 1) &&
+                trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
+                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x08, 0x02) && prev(BossGauge) == 0 && BossGauge == 1)
+)
 
 //Check the GameStage then if all the Crystals have been placed during the fight. As final requirement, a check
 //is made on the camera who only switch to cinematic mode when the boss is defeated.

@@ -305,6 +305,7 @@ After buying the last cube and if you kept the three others, you will get the ac
 | Zheng He               | Discover 100% of the map in The Tower - Snow World  |
 | Roald Amundsen         | Discover 100% of the map in The Tower - Intra Muros |
 | Sir Francis Drake      | Discover 100% of the map in The Tower - Library     |
+| Dragon Slayer          | Kill Yor-Khan without casting any spell             |
 
 #### Zheng He
 Discover 100% of the map in The Tower - Snow World
@@ -314,6 +315,9 @@ Discover 100% of the map in The Tower - Intra Muros
 
 #### Sir Francis Drake
 Discover 100% of the map in The Tower - Library
+
+#### Dragon Slayer
+You will have to kill the Dragon without casting any spell, just use your melee weapons or your bow and keep an eye on your health as you will be very exposed during the fight.
 
 ## Chapter 7 (6 achievements)
 
@@ -327,6 +331,15 @@ Discover 100% of the map in The Tower - Library
 | I’m Dreaming of a White Crystal | Get the White Crystal                                             |
 | Shake Shake                     | Kill the Lind Wyrm and get the Earthquake spell                    |
 | Chapter 8                       | Solve Atlaran's riddle, get the stardust and fly to a myterious tropical island          |
+
+### Missable Achievements
+
+| Achievements           | Description                                                                       |
+|------------------------|-----------------------------------------------------------------------------------|
+| Robin Hood             | Kill the Lind Wyrm only using your Bow                                            |
+
+#### Robin Hood
+Be sure to keep a fair amount of Arrows before the fight. You can buy some at Shachtown. During the fight, you can go to the upper left corner, kill the fireball machine and you will be out of range for most of the Boss' attacks. Simply use your bow to kill the boss but beware of the bouncing fireballs that can still hit you from that spot.
 
 ## Chapter 8 (6 achievements)
 
@@ -345,6 +358,7 @@ Discover 100% of the map in The Tower - Library
 | Mercator               | Discover 100% of the map in The Ruins - Beach                                     |
 | Gladiator              | Finish the arena of weapons without taking any damage                             |
 | I Can Do It Half Naked | Finish the arena of Defence without changing your equipment or taking any potion  |
+| GoLame                 | Kill the Golem without taking any damage                                          |
 
 #### Mercator
 Discover 100% of the map in The Ruins - Beach
@@ -354,3 +368,6 @@ Finish the arena of weapons without taking any damage. Just hit and run and be c
 
 #### I Can Do It Half Naked
 Finish the arena of Defence without changing your equipment or taking any potion. 
+
+#### GoLame
+You will have to kill the Golem without taking any damage. Before starting the fight, equip a bow, the Frost Bolt, the Magic Amulet and the Speed Boots. After the beginning of the fight, a flying mob will pop, use your Frost Bolt freeze him, giving you some time to position yourself on a safer place. Wait for the boss to stop his attack and activate your speed boots and run towards the left of the room. The mobs will lose your tracking and you will be out of range for the boss. Switch to the Lightning spell and alternate between spells and arrows to kill the Golem with ranged attack.
