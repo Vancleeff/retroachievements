@@ -134,6 +134,12 @@ Seals = {
 }
 //INVENTORY END
 
+EndingState = {
+    "Lv1" : dword(0x45ee0),
+    "Lv2" : dword(0x45ee4),
+    "Lv3" : dword(0x45ee8)
+}
+
 //QUESTLOG
 QuestLog = [
 	{"key": dword(0x0ABA54), "done": byte(0x0ABA63)},
@@ -242,11 +248,12 @@ function OnMenu(mode){
     }
 }
 
-//Check if the player is watching the Credits by inspecting the credits timer address
+//Check if the player is watching the Credits by inspecting the credits timer address.
 function OnCredits(mode){
     if(mode == 1)
     {
-        return PrevIncreased(CreditsTimer)
+        return SelectedMenuEntry == 0x00000000 &&
+               PrevIncreased(CreditsTimer)
     }else{
         return PrevNotChanged(CreditsTimer)
     }
@@ -354,6 +361,22 @@ function PrevDecreased(address){
 	return prev(address) > address
 }
 
+function PrevIncreasedBy(address, amount){
+    return (address - prev(address)) == amount
+}
+
+function PriorIncreasedBy(address, amount){
+    return (address - prior(address)) == amount
+}
+
+function PrevDecreasedBy(address, amount){
+    return (prev(address) - address) == amount
+}
+
+function PriorDecreasedBy(address, amount){
+    return (prior(address) - address) == amount
+}
+
 //Check if address didn't changed since last frame
 function PrevNotChanged(address){
     return prev(address) == address
@@ -402,7 +425,7 @@ function HasChangedSpell(){
 
 //ACHIEVEMENTS 
 
-//Check the GameStage then Event ID associated to the scene where the mother yell at Melvin for jumping on the table.
+//Check GameStage/Menu/save tests then Event ID associated to the scene where the mother yell at Melvin for jumping on the table.
 achievement(
     title = "Grown up, Melvin!", points = 1,
     description = "Chapter 1 : jump on your mom's table",
@@ -420,7 +443,7 @@ achievement(
     id = 402912, badge = "455829", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(1,8) &&
-    			all_of(CompareArrays([1095517985, 1380929091, 1229414213, 1313424726, 20294], EventPlaceHolder, 1), a => a) &&
+    			PrevDecreasedBy(PlayerGold, 5) &&
                 DialogChoiceSelector == 0x00
 )
 
@@ -445,17 +468,19 @@ achievement(
                     format="raw")
 )
 
-//Check GameStage then if the current Event ID is the Dialog with Uncle Rissen first meeting. 
+//Check GameStage/Menu/save tests then if the first quest in the journal has switched to done.
+//We know exactly where the "Uncle Rissen" quest is because we start the game with the quest active in the first slot.
 achievement(
     title = "Family Business", points = 2,
     description = "Chapter 1 : Visit your Uncle Rissen",
     id = 402914, badge = "455831", type="progression", 
     trigger = 	InGame() && 
                 CheckGameStage(0x01, 0x0B) &&
-    			all_of(CompareArrays([0x53534952, 0x315F4E45, 0x4B4C4154], EventPlaceHolder, 1), a => a)
+    			QuestLog[0]["done"] == 1 &&
+                prev(QuestLog[0]["done"]) == 0
 )
 
-//Check GameStage then compare prev/current qty of the Dagger Item
+//Check GameStage/Menu/save tests then compare prev/current qty of the Dagger Item
 achievement(
     title = "Toothpick", points = 2,
     description = "Chapter 1 : Find the Dagger",
@@ -465,7 +490,7 @@ achievement(
     			HasLooted(Weapons, "DAGGER")
 )
 
-//Check GameStage then compare prev/current qty of the Compass Item.
+//Check GameStage/Menu/save tests then compare prev/current qty of the Compass Item.
 //Additionally, it checks if the Giant Rat HP is equals to zero.
 achievement(
     title = "None Shall Compass", points = 5,
@@ -477,7 +502,7 @@ achievement(
     			HasLooted(Items, "COMPASS")
 )
 
-//Prevent save exploit and check if the chapter change from 1 to 2
+//Check Menu/save tests and check if the chapter change from 1 to 2
 achievement(
     title = "Chapter 2", points = 10,
     description = "Leave Dreamertown",
@@ -486,7 +511,7 @@ achievement(
                 ChapterTransition(0x01, 0x02)
 )
 
-//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//Check GameStage/Menu/save tests then pause if player take damage after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
     title = "Mouse Trap", points = 10,
@@ -496,10 +521,14 @@ achievement(
                 CheckGameStage(0x01, 0x0B) && 
                 PriorFromTo(BossGauge, 0, 1) &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
-                disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x01, 0x0B) && prev(BossGauge) == 0 && BossGauge == 1)
+                disable_when(BossGauge == 1 && 
+                             PlayerAnim == PlayerAnimList["DAMAGE"], 
+                             until = CheckGameStage(0x01, 0x0B) && 
+                             prev(BossGauge) == 0 && 
+                             BossGauge == 1)
 )
 
-//Prevent save exploit and check if the player has looted the STR cube
+//Check GameStage/Menu/save tests then if the player has looted the STR cube
 achievement(
     title = "Cube of Strength", points = 3,
     description = "Chapter 2 : Get a Magic Cube of Strength",
@@ -508,6 +537,7 @@ achievement(
     			HasLooted(Cubes, "STR")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Sword
 achievement(
     title = "Now We Are Talking", points = 2,
     description = "Chapter 2 : Get the Sword",
@@ -517,6 +547,7 @@ achievement(
     			HasLooted(Weapons, "SWORD")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Crowbar
 achievement(
     title = "Are You Ore-Kay Rumtok?!", points = 2,
     description = "Chapter 2 : Save Rumtok the miner and get the Crowbar",
@@ -526,6 +557,7 @@ achievement(
     			HasLooted(Items, "CROWBAR")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted Fireball spell
 achievement(
     title = "On Fire", points = 2,
     description = "Chapter 2 : Find out what's going on at the graveyard and learn the Fireball spell",
@@ -535,7 +567,7 @@ achievement(
     			HasLooted(Spells, "FIREBALL")
 )
 
-//Check the GameStage then add hits for every tomb inspected through their EVENT ID.
+//Check GameStage/Menu/save tests then add hits for every tomb inspected through their EVENT ID.
 achievement(
     title = "Gravedigger", points = 1,
     description = "Chapter 2 : Inspect every tombs at the cemetary of SteamerTown",
@@ -557,6 +589,7 @@ achievement(
                     format="raw")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Ankh
 achievement(
     title = "I See Dead People", points = 2,
     description = "Chapter 2 : Reach the end of the Crypt and get the Ankh Amulet",
@@ -576,16 +609,17 @@ achievement(
     			prior(byte(0x0A1744)) == 0x08
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Control wheel
 achievement(
     title = "Hopscotch", points = 5,
-    description = "Chapter 2 : Kill the Scrapyard Monster and get the control wheele",
+    description = "Chapter 2 : Kill the Scrapyard Monster and get the control wheel",
     id = 403071, badge = "456063", type="progression", 
     trigger = 	InGame() && 
                 CheckGameStage(0x02, 0x0B) && 
     			HasLooted(Items, "CWHEEL")
 )
 
-//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//Check GameStage/Menu/save tests then pause if player take damage after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
     title = "Machinist", points = 10,
@@ -633,7 +667,7 @@ achievement(
                      byte(0x091E86)== 0x04), until=prev(WaterTank1Lvl) == 0x05 && WaterTank1Lvl ==0x06)
 )
 
-//Prevent save exploit and check if the chapter change from 2 to 3
+//Check Menu/save tests then if the chapter change from 2 to 3
 achievement(
     title = "Chapter 3", points = 10,
     description = "Get the Ring of Life and enter The Hive",
@@ -642,7 +676,7 @@ achievement(
                 ChapterTransition(0x02, 0x03)
 )
 
-//Check Gamestage and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Ferdinand Magellan", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Entrance",
@@ -652,6 +686,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Bombs
 achievement(
     title = "Father and Son", points = 2,
     description = "Chapter 3 : Find your father somewhere in the Hive and get the Bombs",
@@ -661,6 +696,7 @@ achievement(
     			HasLooted(Tools, "BOMB")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Marco Polo", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Godon",
@@ -670,6 +706,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Francisco Pizarro", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Passage",
@@ -679,6 +716,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Mace
 achievement(
     title = "Don't Mace With Me", points = 2,
     description = "Chapter 3 : Get the War Mace",
@@ -688,6 +726,7 @@ achievement(
     			HasLooted(Weapons, "MACE")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Henry Hudson", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Fredo",
@@ -697,6 +736,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1F], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Ice Claw Spell
 achievement(
     title = "I Know It Was You Fredo!", points = 2,
     description = "Chapter 3 : Meet Fredo and learn the Ice Claw spell",
@@ -719,6 +759,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Green Crystal
 achievement(
     title = "Crystals?! Really?!", points = 2,
     description = "Chapter 3 : Get the Green Crystal",
@@ -728,6 +769,7 @@ achievement(
     			HasLooted(Crystals, "GREEN")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Bartolomeu Dias", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Steep Tauron",
@@ -737,6 +779,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Christopher Columbus", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Graves",
@@ -746,6 +789,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1F], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the INT Cube
 achievement(
     title = "Cube of Intelligence", points = 3,
     description = "Chapter 3 : Get a magic cube that increase your intelligence",
@@ -754,7 +798,7 @@ achievement(
     			HasLooted(Cubes, "INT")
 )
 
-//Prevent save exploit and check if the chapter change from 3 to 4
+//Check Menu/save tests then if the chapter change from 3 to 4
 achievement(
     title = "Chapter 4", points = 10,
     description = "Kill the giant spider and reach the Fairy Forest",
@@ -763,7 +807,7 @@ achievement(
                 ChapterTransition(0x03, 0x04)
 )
 
-//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//Check GameStage/Menu/save tests then pause if player take damage after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
     title = "Arachnophobia", points = 10,
@@ -776,6 +820,7 @@ achievement(
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x03, 0x0a) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Radar
 achievement(
     title = "Mystical Tool", points = 2,
     description = "Chapter 4 : Get the Radar",
@@ -785,6 +830,7 @@ achievement(
     			HasLooted(Tools, "RADAR")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Speed Boots
 achievement(
     title = "The Faster of Two Weevils", points = 2,
     description = "Chapter 4 : Win the beetle race and get the Speed Boots",
@@ -794,6 +840,7 @@ achievement(
     			HasLooted(Tools, "BOOTS")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Viper's Vortex Spell
 achievement(
     title = "I Don’t Like Raga, Oh No, I Kill Him!", points = 5,
     description = "Chapter 4 : Defeat Raga, save Gwen and learn the Viper's Vortex spell",
@@ -803,6 +850,7 @@ achievement(
     			HasLooted(Spells, "VORTEX")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Jacques Cartier", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Fairy Forest - Fairy Meadows",
@@ -812,6 +860,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x07], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Magic Amulet
 achievement(
     title = "Magic Amulet", points = 2,
     description = "Chapter 4 : Return to Dahlia and receive the Magic Amulet",
@@ -821,6 +870,7 @@ achievement(
     			HasLooted(Equipments, "AMULETMAGIC")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "James Cook", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Inner Forest",
@@ -830,6 +880,9 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0x7F], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the last event is the player talking to the npc at the entrance of Jelon
+//Finally a check is made to be sure the player jump into the void by inspecting the animation ID (From Falling to Dying)
+//In Jelon, there's no other possibility to trigger a death from jumping other than jumping across the fences.
 achievement(
     title = "Call of The Void", points = 1,
     description = "Chapter 4 : In Jelon, jump into the void after the Fairy guard reminds you that you have no wings",
@@ -841,6 +894,7 @@ achievement(
     			PlayerAnim == GetAnimValue("DIE")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Bow
 achievement(
     title = "Branch Merged", points = 2,
     description = "Chapter 4 : Give the tree guardian his old branch back and get the Bow",
@@ -850,6 +904,7 @@ achievement(
     			HasLooted(Weapons, "BOW")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the MYS Cube
 achievement(
     title = "Cube Of Mysticism", points = 3,
     description = "Chapter 4 : Get a magic cube that increase your Mysticism",
@@ -858,6 +913,7 @@ achievement(
     			HasLooted(Cubes, "MYS")
 )
 
+//Check GameStage/Menu/save tests then if the player has dropped the Wand
 achievement(
     title = "Is That a Wand in Your Pocket?", points = 2,
     description = "Chapter 4 : Bring Horpach's magic wand back",
@@ -867,6 +923,7 @@ achievement(
     			HasDropped(Items, "WAND")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Yellow Crystal
 achievement(
     title = "The Plot Thickens", points = 2,
     description = "Chapter 4 : Get the Yellow Crystal",
@@ -876,6 +933,7 @@ achievement(
     			HasLooted(Crystals, "YELLOW")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Chain Mail Coat
 achievement(
     title = "Smiling Princess", points = 2,
     description = "Chapter 4 : Get the Princess to smile again and get the Chain Mail Coat",
@@ -885,6 +943,7 @@ achievement(
     			HasLooted(Equipments, "CHAINMAIL")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Samuel De Champlain", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Dark Forest 1",
@@ -894,7 +953,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01], Map, 1), a=>a)
 )
 
-//Prevent save exploit and check if the chapter change from 4 to 5
+//Check Menu/save tests then if the chapter change from 4 to 5
 achievement(
     title = "Chapter 5", points = 10,
     description = "Beat the Giant Toad in the Dark Forest and reach The Canyon",
@@ -903,7 +962,7 @@ achievement(
                 ChapterTransition(0x04, 0x05)
 )
 
-//Check the GameStage then pause if player take damage after the boss gauge appears. As final requirement, a check is
+//Check GameStage/Menu/save tests then pause if player take damage after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
     title = "Toadally Destroyed", points = 10,
@@ -916,6 +975,7 @@ achievement(
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x04, 0x1c) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Leif Ericson", points = 5,
     description = "Chapter 5 : Discover 100% of the map in The Canyon - Passage",
@@ -925,6 +985,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the CONS Cube
 achievement(
     title = "Cube of Constitution", points = 3,
     description = "Chapter 5 : Get a magic cube that increase your Constitution",
@@ -933,6 +994,7 @@ achievement(
     			HasLooted(Cubes, "CON")
 )
 
+//Check GameStage/Menu/save tests then if the player has every cubes inside the inventory.
 achievement(
     title = "4d6", points = 10,
     description = "Have one of each cubes in your inventory",
@@ -944,6 +1006,7 @@ achievement(
 				Cubes["MYS"] >= 0x01
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Grappling Hook
 achievement(
     title = "Hookey Dookey", points = 2,
     description = "Chapter 5 : Meet Dagomar and get the Grappling Hook",
@@ -953,6 +1016,7 @@ achievement(
     			HasLooted(Tools, "HOOK")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Hammer
 achievement(
     title = "Hammer Time", points = 2,
     description = "Chapter 5 : Get the Hammer",
@@ -962,6 +1026,7 @@ achievement(
 				HasLooted(Weapons, "HAMMER")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Meteor Storm Spell
 achievement(
     title = "Don't Forget Your Umbrella", points = 2,
     description = "Chapter 5 : Learn the Meteor Storm spell",
@@ -971,6 +1036,7 @@ achievement(
     			HasLooted(Spells, "METEOR")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Stoneskin Belt
 achievement(
     title = "Heigh Hooo", points = 2,
     description = "Chapter 5 : Gain entry to the old mine and get the Stoneskin Belt",
@@ -980,6 +1046,7 @@ achievement(
     			HasLooted(Equipments, "BELT")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Blue Crystal
 achievement(
     title = "Third Times a Charm", points = 2,
     description = "Chapter 5 : Get the Blue Crystal",
@@ -989,7 +1056,7 @@ achievement(
     			HasLooted(Crystals, "BLUE")
 )
 
-//Prevent save exploit and check if the chapter change from 5 to 6
+//Check Menu/save tests then if the chapter change from 5 to 6
 achievement(
     title = "Chapter 6", points = 10,
     description = "Beat the Deranged Machine and reach the High Mountains",
@@ -998,15 +1065,17 @@ achievement(
                 ChapterTransition(0x05, 0x06)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted Merlin's Cape
 achievement(
     title = "Stop Bullying Him", points = 2,
-    description = "Chapter 6 : Help Bullyforth and get the Merlin's Cape",
+    description = "Chapter 6 : Help Bullyforth and get Merlin's Cape",
     id = 403624, badge = "456654", type="progression",
     trigger = 	InGame() && 
                 CheckGameStage(0x06, 0x0D) && 
     			HasLooted(Equipments, "CAPE")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Zheng He", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Snow World",
@@ -1016,6 +1085,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Fire and Water Arrows
 achievement(
     title = "Upgraded Bow", points = 2,
     description = "Chapter 6 : Find the Fire and Water arrows",
@@ -1025,6 +1095,7 @@ achievement(
     			HasLooted(Weapons, "WATER_ARROW")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Roald Amundsen", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Intra Muros",
@@ -1034,6 +1105,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Red Crystal
 achievement(
     title = "Now You Can See the Light", points = 2,
     description = "Chapter 6 : Find the librarian's spectacles and get the fourth Crystal",
@@ -1043,6 +1115,7 @@ achievement(
     			HasLooted(Crystals, "RED")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Magic Lightning Spell
 achievement(
     title = "Thunder", points = 2,
     description = "Chapter 6 : Find the Magic Lightning spell",
@@ -1052,6 +1125,7 @@ achievement(
     			HasLooted(Spells, "THUNDER")
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Sir Francis Drake", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Library",
@@ -1061,7 +1135,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
 )
 
-//Check the GameStage then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
+//Check GameStage/Menu/save tests then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
     title = "Dragon Slayer", points = 10,
@@ -1074,7 +1148,7 @@ achievement(
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["SPELL"], until=CheckGameStage(0x06, 0x11) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
-//Prevent save exploit and check if the chapter change from 6 to 7
+//Check Menu/save tests then if the chapter change from 6 to 7
 achievement(
     title = "Chapter 7", points = 10,
     description = "Free the dragon Ar-Khan, save Talis and reach the Volcano",
@@ -1083,6 +1157,7 @@ achievement(
                 ChapterTransition(0x06, 0x07)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Battle Shield Spell
 achievement(
     title = "Battlemage", points = 2,
     description = "Chapter 7 : Find the Magic Battle Shield spell",
@@ -1092,6 +1167,7 @@ achievement(
     			HasLooted(Spells, "SHIELD")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Axe
 achievement(
     title = "Lumberjack", points = 2,
     description = "Chapter 7 : Find the Axe",
@@ -1101,6 +1177,7 @@ achievement(
     			HasLooted(Weapons, "AXE")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Experience Amulet
 achievement(
     title = "Ballots Box", points = 2,
     description = "Chapter 7 : Find three voting coins for Mulorne and get the Experience Amulet",
@@ -1110,6 +1187,7 @@ achievement(
     			HasLooted(Equipments, "AMULETXP")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the White Crystal
 achievement(
     title = "I’m Dreaming of a White Crystal", points = 2,
     description = "Chapter 7 : Get the White Crystal",
@@ -1119,6 +1197,7 @@ achievement(
     			HasLooted(Crystals, "WHITE")
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Earthquake Spell
 achievement(
     title = "Shake Shake", points = 5,
     description = "Chapter 7 : Kill the Lind Wyrm and get the Earthquake spell",
@@ -1128,7 +1207,7 @@ achievement(
     			HasLooted(Spells, "QUAKE")
 )
 
-//Check the GameStage then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
+//Check GameStage/Menu/save tests then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
     title = "Robin Hood", points = 10,
@@ -1141,7 +1220,7 @@ achievement(
                 disable_when((BossGauge == 1 && PlayerAnim == PlayerAnimList["SPELL"]) || (BossGauge == 1 && PlayerAnim == PlayerAnimList["WEAPON"]), until=CheckGameStage(0x07, 0x04) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
-//Prevent save exploit and check if the chapter change from 7 to 8
+//Check Menu/save tests then if the chapter change from 7 to 8
 achievement(
     title = "Chapter 8", points = 10,
     description = "Solve Atlaran's riddle, get the stardust and fly to a myterious tropical island",
@@ -1150,6 +1229,7 @@ achievement(
                 ChapterTransition(0x07, 0x08)
 )
 
+//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
 achievement(
     title = "Mercator", points = 5,
     description = "Chapter 8 : Discover 100% of the map in The Ruins - Beach",
@@ -1159,6 +1239,7 @@ achievement(
     			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0x07], Map, 1), a=>a)
 )
 
+//Check GameStage/Menu/save tests then if the player has looted the Gloves of Dexterity
 achievement(
     title = "White Knight", points = 2,
     description = "Chapter 8 : Save Talis and get the Gloves of Dexterity",
@@ -1168,6 +1249,7 @@ achievement(
     			HasLooted(Equipments, "GLOVES")
 )
 
+//Check GameStage/Menu/save tests then if the player has dropped all the seals
 achievement(
     title = "Master of the Arena", points = 5,
     description = "Chapter 8 : Finish all arenas and place the seals on their pedestals",
@@ -1185,7 +1267,7 @@ achievement(
               byte(0x0A1744) == 0x99)
 )
 
-//Check the GameStage then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
+//Check GameStage/Menu/save tests then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
     title = "GoLame", points = 10,
@@ -1198,7 +1280,7 @@ achievement(
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x08, 0x02) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
-//Check the GameStage then if all the Crystals have been placed during the fight. As final requirement, a check
+//Check GameStage/Menu/save tests then if all the Crystals have been placed during the fight. As final requirement, a check
 //is made on the camera who only switch to cinematic mode when the boss is defeated.
 achievement(
     title = "The Hero of Gothos", points = 25,
@@ -1214,7 +1296,7 @@ achievement(
     			switchON(CinemaMode)
 )
 
-//Check the GameStage then pause if player get damage in the room. As final requirement Player need to finish
+//Check GameStage/Menu/save tests then pause if player get damage in the room. As final requirement Player need to finish
 //the arena and get the Seal of Combat.
 achievement(
     title = "Gladiator", points = 10,
@@ -1226,7 +1308,7 @@ achievement(
               	trigger_when(HasLooted(Seals, "COMBAT"))
 )
 
-//Check the GameStage then pause if player use any kind of potion/antidote or change the equipment. As final requirement
+//Check GameStage/Menu/save tests then pause if player use any kind of potion/antidote or change the equipment. As final requirement
 //Player need to finish the arena and get the Seal of Defence.
 achievement(
     title = "I Can Do It Half Naked!", points = 10,
@@ -1245,7 +1327,7 @@ achievement(
 )
 
 //Leveling Achievements
-//Simply check if the player has reached level 2 (from level 1)
+////Check Menu/save tests then if the player has reached level 2 (from level 1)
 achievement(
     title = "It’s Just the Beginning", points = 1,
     description = "Reach level 2",
@@ -1254,6 +1336,7 @@ achievement(
                 LevelUp(1, 2)
 )
 
+////Check Menu/save tests then if the player has reached level 5 (from level 4)
 achievement(
     title = "Rookie", points = 2,
     description = "Reach level 5",
@@ -1262,6 +1345,7 @@ achievement(
                 LevelUp(4, 5)
 )
 
+////Check Menu/save tests then if the player has reached level 10 (from level 9)
 achievement(
     title = "Journeyman", points = 3,
     description = "Reach level 10",
@@ -1269,6 +1353,7 @@ achievement(
     trigger =   LevelUp(9, 10)
 )
 
+////Check Menu/save tests then if the player has reached level 15 (from level 14)
 achievement(
     title = "Veteran", points = 5,
     description = "Reach level 15",
@@ -1276,6 +1361,7 @@ achievement(
     trigger =   LevelUp(14, 15)
 )
 
+////Check Menu/save tests then if the player has reached level 19 (from level 20)
 achievement(
     title = "Legend", points = 10,
     description = "Reach level 20",
@@ -1284,7 +1370,8 @@ achievement(
 )
 
 //Skills Achievements
-
+//Check Menu/save tests then if we are on LvlUp GUI to avoid triggering that kind of achievement since you can change the points allocation
+//until you leave the LvlUp GUI, which could lead to exploits. These achievements are triggered after closing the window.
 achievement(
     title = "Tough Boy", points = 2,
     description = "Increase your Strength to 10",
@@ -1339,8 +1426,6 @@ achievement(
                 PriorIncreasedTo(PlayerCON, 20)
 )
 
-//Check if we are on LvlUp GUI to avoid triggering that kind of achievement since you can change the points allocation
-//till you leave the LvlUp GUI, which could lead to exploits. These achievement are triggered after closing the window.
 achievement(
     title = "Mystic Wisdom", points = 1,
     description = "Reach lvl 7 in Mysticism and unlock the first perk",
@@ -1390,6 +1475,7 @@ achievement(
 )
 
 //Gold Achievements
+////Check Menu/save tests then if the player has saved specific amount of Gold.
 achievement(
     title = "Rothschild", points = 2,
     description = "Have 500 golds in your pockets",

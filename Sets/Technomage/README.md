@@ -119,7 +119,7 @@ It's not that hard if you get the good timing. Try to approach him and he will a
 | On Fire                | Find out what's going on at the graveyard and learn the Fireball spell                               |
 | I See Dead People      | Reach the end of the Crypt and get the Ankh Amulet 	                                                |
 | Open Day               | Gain access to your father's house                                                                   |
-| Hopscotch              | Kill the Scrapyard Monster and get the control wheele                                                |
+| Hopscotch              | Kill the Scrapyard Monster and get the control wheel                                                |
 | Chapter 3              | Get the Ring of Life and enter The Hive                                                              |
 
 ### Missable Achievements
@@ -295,7 +295,7 @@ After buying the last cube and if you kept the three others, you will get the ac
 
 | Achievements              | Description                                                |
 |---------------------------|------------------------------------------------------------|
-| Stop Bullying Him         | Help Bullyforth and get the Merlin's Cape                  |
+| Stop Bullying Him         | Help Bullyforth and get Merlin's Cape                  |
 | Upgraded Bow              | Find the Fire and Water arrows                             |
 | Now You Can See the Light | Find the librarian's spectacles and get the fourth Crystal |
 | Thunder                   | Find the Magic Lightning spell                             |
