@@ -6,6 +6,7 @@ ChapterID = byte(0x0A1740)
 RoomID = byte(0x0A1744)
 MusicPlayed = word(0x1da6f4)
 CinemaMode = byte(0x0ABF7A)
+CreditsTimer = dword(0x0a3330)
 
 //PLAYER
 PlayerAnim = byte(0x1C3A24)
@@ -170,6 +171,8 @@ SelectedGUIValue = {
 	"CONBAR": 0x80093a84,
 	"MYSBAR": 0x80093aa4,
 }
+//Selected Menu entry on Pause and Main Menu
+SelectedMenuEntry = dword(0x0a2a20)
 
 //Selected choice during dialogs
 //0x00 = Yes | 0x01 = No
@@ -229,23 +232,33 @@ function CompareArrays(src, with, mode){
   return res
 }
 
-//Check if the player is on the Title Screen
-function InTitleScreen(){
-	return (EventPlaceHolder[0] == 1145393731 && EventPlaceHolder[1] == 5461065)
+//Check if the player is on the Title Screen or Pause Menu
+function OnMenu(mode){
+    if(mode == 1)
+    {
+        return SelectedMenuEntry != 0x00000000 
+    }else{
+        return SelectedMenuEntry == 0x00000000 
+    }
 }
 
-//Check if the player is watching the Credits
-function InCredits(){
-	return (EventPlaceHolder[0] == 1230262351 && EventPlaceHolder[1] == 5459535)
+//Check if the player is watching the Credits by inspecting the credits timer address
+function OnCredits(mode){
+    if(mode == 1)
+    {
+        return PrevIncreased(CreditsTimer)
+    }else{
+        return PrevNotChanged(CreditsTimer)
+    }
 }
 
 //Check if the player currently load a save.
-function IsLoadingASave() => byte(0x0a304c) == 1
+function IsNotLoadingASave() => byte(0x0a304c) != 1
 
 //Check if the player is in the game and not on the Title Screen or the Credits. 
 //It also checks if the player is not loading a save to prevent save exploits.
 function InGame(){
-	return(never(InTitleScreen()) && never(InCredits()) && never(IsLoadingASave()))
+	return OnMenu(0) && OnCredits(0) && IsNotLoadingASave()
 }
 
 //Check if the player has finished assigning points (lvl up)
@@ -339,6 +352,16 @@ function PrevIncreased(address){
 //Check if address decreased since last frame
 function PrevDecreased(address){
 	return prev(address) > address
+}
+
+//Check if address didn't changed since last frame
+function PrevNotChanged(address){
+    return prev(address) == address
+}
+
+//Check if address didn't changed prior to this call
+function PriorNotChanged(address){
+    return prior(address) == address
 }
 
 //Check if player has changed the Equipment

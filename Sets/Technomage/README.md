@@ -70,6 +70,9 @@ I highly suggest you to maximize your Strength to get more damage during your pl
 While it's almost impossible to miss the lvl 15 achievement, reaching lvl 20 can be missed if you skipped too much enemies during your playthrough.
 Try to kill everything, everywhere, this way you will also get all the "Discover 100% of Map X" achievements and earn a lot of money for "Gold related" cheevos.
 
+### Tips for Boss achievements
+Before every Boss fights, the game will ask you to save the game, be sure to keep a save somewhere for those fights so you will have time later to focus on it and practise instead of spending too much time immediately. Some of them are quite challenging and will require some die and retry to understand the pattern of each Boss. 
+
 ## Chapter 1 (8 achievements)
 
 ### Achievements - not missable, just play the game
@@ -153,7 +156,7 @@ At the end of the chapter, during the Water Tanks riddle, you will have to solve
 | Father and Son               | Find your father somewhere in the Hive and get the Bombs             |
 | Don't Mace With Me           | Get the War Mace                                                     |
 | I Know It Was You Fredo      | Meet Fredo and learn the Ice Claw spell                              |
-| RPG Scenarists Love Crystals | Get the Green Crystal                                                |
+| Crystals?! Really?!          | Get the Green Crystal                                                |
 | Chapter 4                    | Kill the giant spider and reach the Fairy Forest                     |
 
 ### Missable Achievements
@@ -286,7 +289,7 @@ At the Shach Camp at the beginning of the chapter, buy the cube from Torlore for
 #### 4d6
 After buying the last cube and if you kept the three others, you will get the achievement.
 
-## Chapter 6 (8 achievements)
+## Chapter 6 (9 achievements)
 
 ### Achievements - not missable, just play the game
 
@@ -319,7 +322,7 @@ Discover 100% of the map in The Tower - Library
 #### Dragon Slayer
 You will have to kill the Dragon without casting any spell, just use your melee weapons or your bow and keep an eye on your health as you will be very exposed during the fight.
 
-## Chapter 7 (6 achievements)
+## Chapter 7 (7 achievements)
 
 ### Achievements - not missable, just play the game
 
@@ -341,7 +344,7 @@ You will have to kill the Dragon without casting any spell, just use your melee 
 #### Robin Hood
 Be sure to keep a fair amount of Arrows before the fight. You can buy some at Shachtown. During the fight, you can go to the upper left corner, kill the fireball machine and you will be out of range for most of the Boss' attacks. Simply use your bow to kill the boss but beware of the bouncing fireballs that can still hit you from that spot.
 
-## Chapter 8 (6 achievements)
+## Chapter 8 (7 achievements)
 
 ### Achievements - not missable, just play the game
 
