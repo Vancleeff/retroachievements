@@ -108,6 +108,7 @@ Items = {
 	"FGOLD"      : byte(0x09235C),
 	"GWHEEL"     : byte(0x0923C8),
 	"SH_POTION"  : byte(0x092320),
+    "SILVER_KEY" : byte(0x092098),
 	"LARS_CORK"  : byte(0x1F1483) //this one is special, it's an item detained by a NPC (Lars in SteamerTown)
 }
 
@@ -468,18 +469,6 @@ achievement(
                     format="raw")
 )
 
-//Check GameStage/Menu/save tests then if the first quest in the journal has switched to done.
-//We know exactly where the "Uncle Rissen" quest is because we start the game with the quest active in the first slot.
-achievement(
-    title = "Family Business", points = 2,
-    description = "Chapter 1 : Visit your Uncle Rissen",
-    id = 402914, badge = "455831", type="progression", 
-    trigger = 	InGame() && 
-                CheckGameStage(0x01, 0x0B) &&
-    			QuestLog[0]["done"] == 1 &&
-                prev(QuestLog[0]["done"]) == 0
-)
-
 //Check GameStage/Menu/save tests then compare prev/current qty of the Dagger Item
 achievement(
     title = "Toothpick", points = 2,
@@ -519,7 +508,7 @@ achievement(
     id = 404047, badge = "457423", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x01, 0x0B) && 
-                PriorFromTo(BossGauge, 0, 1) &&
+                BossGauge == 1 &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && 
                              PlayerAnim == PlayerAnimList["DAMAGE"], 
@@ -627,7 +616,7 @@ achievement(
     type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x02, 0x0B) && 
-                PriorFromTo(BossGauge, 0, 1) &&
+                BossGauge == 1 &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x02, 0x0B) && prev(BossGauge) == 0 && BossGauge == 1)
 )
@@ -815,7 +804,7 @@ achievement(
     id = 408632, badge = "463368", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x03, 0x0a) && 
-                PriorFromTo(BossGauge, 0, 1) &&
+                BossGauge == 1 &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x03, 0x0a) && prev(BossGauge) == 0 && BossGauge == 1)
 )
@@ -970,7 +959,7 @@ achievement(
     id = 402918, badge = "463368", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x04, 0x1c) && 
-                PriorFromTo(BossGauge, 0, 1) &&
+                BossGauge == 1 &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x04, 0x1c) && prev(BossGauge) == 0 && BossGauge == 1)
 )
@@ -1143,7 +1132,7 @@ achievement(
     id = 402922, badge = "456676", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x06, 0x11) && 
-                PriorFromTo(BossGauge, 0, 1) &&
+                BossGauge == 1 &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["SPELL"], until=CheckGameStage(0x06, 0x11) && prev(BossGauge) == 0 && BossGauge == 1)
 )
@@ -1215,7 +1204,7 @@ achievement(
     id = 403337, badge = "456676", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x07, 0x04) && 
-                PriorFromTo(BossGauge, 0, 1) &&
+                BossGauge == 1 &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when((BossGauge == 1 && PlayerAnim == PlayerAnimList["SPELL"]) || (BossGauge == 1 && PlayerAnim == PlayerAnimList["WEAPON"]), until=CheckGameStage(0x07, 0x04) && prev(BossGauge) == 0 && BossGauge == 1)
 )
@@ -1275,7 +1264,7 @@ achievement(
     id = 403338, badge = "456676", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x08, 0x02) && 
-                PriorFromTo(BossGauge, 0, 1) &&
+                BossGauge == 1 &&
                 trigger_when(BossGaugeValue == 0x00 && prev(BossGaugeValue) > 0) &&
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x08, 0x02) && prev(BossGauge) == 0 && BossGauge == 1)
 )
