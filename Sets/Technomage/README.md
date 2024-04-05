@@ -73,13 +73,12 @@ Try to kill everything, everywhere, this way you will also get all the "Discover
 ### Tips for Boss achievements
 Before every Boss fights, the game will ask you to save the game, be sure to keep a save somewhere for those fights so you will have time later to focus on it and practise instead of spending too much time immediately. Some of them are quite challenging and will require some die and retry to understand the pattern of each Boss. 
 
-## Chapter 1 (8 achievements)
+## Chapter 1 (7 achievements)
 
 ### Achievements - not missable, just play the game
 
 | Achievements       | Description                            |
 |--------------------|----------------------------------------|
-| Family Business    | Visit your Uncle Rissen                |
 | Toothpick          | Find the Dagger                        |
 | None Shall Compass | Kill the giant rat and get the compass |
 | Chapter 2          | Leave Dreamertown                      |
@@ -344,14 +343,14 @@ You will have to kill the Dragon without casting any spell, just use your melee 
 #### Robin Hood
 Be sure to keep a fair amount of Arrows before the fight. You can buy some at Shachtown. During the fight, you can go to the upper left corner, kill the fireball machine and you will be out of range for most of the Boss' attacks. Simply use your bow to kill the boss but beware of the bouncing fireballs that can still hit you from that spot.
 
-## Chapter 8 (7 achievements)
+## Chapter 8 (8 achievements)
 
 ### Achievements - not missable, just play the game
 
 | Achievements                    | Description                                               |
 |---------------------------------|-----------------------------------------------------------|
 | White Knight                    | Save Talis and get the Gloves of Dexterity                |
-| Master of the Arena             | Finish all arenas and place the seals on their pedestals              |
+| Master of the Arena             | Finish all arenas and place the seals on their pedestals  |
 | The Hero of Gothos              | Defeat Ramogad and save Gothos. Congratulation !          |
 
 ### Missable Achievements
@@ -362,6 +361,7 @@ Be sure to keep a fair amount of Arrows before the fight. You can buy some at Sh
 | Gladiator              | Finish the arena of weapons without taking any damage                             |
 | I Can Do It Half Naked | Finish the arena of Defence without changing your equipment or taking any potion  |
 | GoLame                 | Kill the Golem without taking any damage                                          |
+| Tough Nut              | Kill the Final Boss using maximum 3 potions of any kind                           |
 
 #### Mercator
 Discover 100% of the map in The Ruins - Beach
@@ -374,3 +374,6 @@ Finish the arena of Defence without changing your equipment or taking any potion
 
 #### GoLame
 You will have to kill the Golem without taking any damage. Before starting the fight, equip a bow, the Frost Bolt, the Magic Amulet and the Speed Boots. After the beginning of the fight, a flying mob will pop, use your Frost Bolt freeze him, giving you some time to position yourself on a safer place. Wait for the boss to stop his attack and activate your speed boots and run towards the left of the room. The mobs will lose your tracking and you will be out of range for the boss. Switch to the Lightning spell and alternate between spells and arrows to kill the Golem with ranged attack.
+
+#### Tough Nut
+Prepare yourself for a hard fight. To maximize the benefits of your 3 potions, be sure to have 3 Large Combined Potions in your inventory. I suggest to equip the Merlin's cape because a lot of damage will come from enemies' spells. During the first phase of the fight, try to stay at the beginning of the room, you will have less adds to deal with. Use your most powerful spell when you have enough mana to quickly drop the HP of the boss and make him move to the next platform. When it's done, go put the crystal at the center of the room and pass the bridge, you can try to stay on the bridge as long as possible if you can hit the boss with arrows and spells, this way you will be able to make some back and forth to avoid adds and damage and even get some natural regeneration. Continue to do that until the last platform (don't forget to make pauses between each phases to naturally regen your HP), after placing all the crystals you will have to continue to hit the boss several times to finish the fight, this part seems a little random so if you are totally unlucky, it can take a moment to trigger the end of the fight, be patient... or lucky. Congratz, you've mastered the game !

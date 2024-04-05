@@ -354,12 +354,12 @@ function PriorFromTo(address, from, to){
 
 //Check if address increased since last frame
 function PrevIncreased(address){
-	return prev(address) < address
+	return address < prev(address)
 }
 
 //Check if address decreased since last frame
 function PrevDecreased(address){
-	return prev(address) > address
+	return address > prev(address)
 }
 
 function PrevIncreasedBy(address, amount){
@@ -380,21 +380,23 @@ function PriorDecreasedBy(address, amount){
 
 //Check if address didn't changed since last frame
 function PrevNotChanged(address){
-    return prev(address) == address
+    return address == prev(address)
 }
 
 //Check if address didn't changed prior to this call
 function PriorNotChanged(address){
-    return prior(address) == address
+    return address == prior(address)
 }
 
 //Check if player has changed the Equipment
+//A chek on the ID (>=1 and <=8) is done because during loading screen, some weird values are stored on these addresses
+//which could falsely trigger the condition
 function HasChangedEquipment(){
     return  prev(Curr_equ) >= 1 &&
             prev(Curr_equ) <= 8 &&
             Curr_equ >= 1 &&
             Curr_equ <= 8 &&
-            prev(Curr_equ) != Curr_equ
+            Curr_equ != prev(Curr_equ)
 }
 
 //Check if player has changed the equipment
@@ -403,7 +405,7 @@ function HasChangedWeapon(){
             prev(Curr_weapon) <= 8 &&
             Curr_weapon >= 1 &&
             Curr_weapon <= 8 &&
-            prev(Curr_weapon) != Curr_weapon
+            Curr_weapon != prev(Curr_weapon)
 }
 
 //Check if player has changed the Tool
@@ -412,7 +414,7 @@ function HasChangedTool(){
             prev(Curr_tools) <= 4 &&
             Curr_tools >= 1 &&
             Curr_tools <= 4 &&
-            prev(Curr_tools) != Curr_tools
+            Curr_tools != prev(Curr_tools)
 }
 
 //Check if player has changed the Spell
@@ -421,7 +423,7 @@ function HasChangedSpell(){
             prev(Curr_spell) <= 7 &&
             Curr_spell >= 1 &&
             Curr_spell <= 7 &&
-            prev(Curr_spell) != Curr_spell
+            Curr_spell != prev(Curr_spell)
 }
 
 function CompleteMap(goal){
@@ -545,7 +547,7 @@ achievement(
 achievement(
     title = "Are You Ore-Kay Rumtok?!", points = 2,
     description = "Chapter 2 : Save Rumtok the miner and get the Crowbar",
-    id = 402925, badge = "455842", type="progression", 
+    id = 402925, badge = "469933", type="progression", 
     trigger = 	InGame() && 
                 CheckGameStage(0x02, 0x05) && 
     			HasLooted(Items, "CROWBAR")
@@ -616,7 +618,7 @@ achievement(
 //Check GameStage/Menu/save tests then pause if player take damage after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
-    title = "Machinist", points = 10,
+    title = "Machinist", points = 25,
     description = "Chapter 2 : Kill the Scrapyard Monster without taking damage",
     type="missable",
     trigger =   InGame() && 
@@ -804,7 +806,7 @@ achievement(
 //Check GameStage/Menu/save tests then pause if player take damage after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
-    title = "Arachnophobia", points = 10,
+    title = "Arachnophobia", points = 25,
     description = "Chapter 3 : Kill the Giant Spider without taking damage",
     id = 408632, badge = "463368", type="missable",
     trigger =   InGame() && 
@@ -911,7 +913,7 @@ achievement(
 achievement(
     title = "Is That a Wand in Your Pocket?", points = 2,
     description = "Chapter 4 : Bring Horpach's magic wand back",
-    id = 403595, badge = "456623", type="progression",
+    id = 403595, badge = "469932", type="progression",
     trigger = 	InGame() && 
                 CheckGameStage(0x04, 0x07) && 
     			HasDropped(Items, "WAND")
@@ -931,7 +933,7 @@ achievement(
 achievement(
     title = "Smiling Princess", points = 2,
     description = "Chapter 4 : Get the Princess to smile again and get the Chain Mail Coat",
-    id = 403597, badge = "456625", type="progression",
+    id = 403597, badge = "469931", type="progression",
     trigger = 	InGame() && 
                 CheckGameStage(0x04, 0x07) && 
     			HasLooted(Equipments, "CHAINMAIL")
@@ -959,9 +961,9 @@ achievement(
 //Check GameStage/Menu/save tests then pause if player take damage after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
-    title = "Toadally Destroyed", points = 10,
+    title = "Toadally Destroyed", points = 25,
     description = "Chapter 4 : Kill the Giant Toad without taking damage",
-    id = 402918, badge = "463368", type="missable",
+    id = 402918, badge = "469930", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x04, 0x1c) && 
                 BossGauge == 1 &&
@@ -1063,7 +1065,7 @@ achievement(
 achievement(
     title = "Stop Bullying Him", points = 2,
     description = "Chapter 6 : Help Bullyforth and get Merlin's Cape",
-    id = 403624, badge = "456654", type="progression",
+    id = 403624, badge = "469929", type="progression",
     trigger = 	InGame() && 
                 CheckGameStage(0x06, 0x0D) && 
     			HasLooted(Equipments, "CAPE")
@@ -1103,7 +1105,7 @@ achievement(
 achievement(
     title = "Now You Can See the Light", points = 2,
     description = "Chapter 6 : Find the librarian's spectacles and get the fourth Crystal",
-    id = 403643, badge = "456672", type="progression",
+    id = 403643, badge = "469928", type="progression",
     trigger = 	InGame() && 
                 CheckGameStage(0x06, 0x04) && 
     			HasLooted(Crystals, "RED")
@@ -1132,9 +1134,9 @@ achievement(
 //Check GameStage/Menu/save tests then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
-    title = "Dragon Slayer", points = 10,
+    title = "Dragon Slayer", points = 25,
     description = "Chapter 6 : Kill Yor-Khan without casting any spell",
-    id = 402922, badge = "456676", type="missable",
+    id = 402922, badge = "469927", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x06, 0x11) && 
                 BossGauge == 1 &&
@@ -1175,7 +1177,7 @@ achievement(
 achievement(
     title = "Ballots Box", points = 2,
     description = "Chapter 7 : Find three voting coins for Mulorne and get the Experience Amulet",
-    id = 403730, badge = "456774", type="progression",
+    id = 403730, badge = "469926", type="progression",
     trigger = 	InGame() && 
                 CheckGameStage(0x07, 0x01) && 
     			HasLooted(Equipments, "AMULETXP")
@@ -1204,9 +1206,9 @@ achievement(
 //Check GameStage/Menu/save tests then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
-    title = "Robin Hood", points = 10,
+    title = "Robin Hood", points = 25,
     description = "Chapter 7 : Kill the Lind Wyrm only using your Bow",
-    id = 403337, badge = "456676", type="missable",
+    id = 403337, badge = "469925", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x07, 0x04) && 
                 BossGauge == 1 &&
@@ -1237,13 +1239,13 @@ achievement(
 achievement(
     title = "White Knight", points = 2,
     description = "Chapter 8 : Save Talis and get the Gloves of Dexterity",
-    id = 403738, badge = "456909", type="progression",
+    id = 403738, badge = "469924", type="progression",
     trigger = 	InGame() && 
                 CheckGameStage(0x08, 0x0B) && 
     			HasLooted(Equipments, "GLOVES")
 )
 
-//Check GameStage/Menu/save tests then if the player has dropped all the seals
+//Check GameStage/Menu/save tests then if the player has placed all the seals
 achievement(
     title = "Master of the Arena", points = 5,
     description = "Chapter 8 : Finish all arenas and place the seals on their pedestals",
@@ -1261,12 +1263,42 @@ achievement(
               byte(0x0A1744) == 0x99)
 )
 
-//Check GameStage/Menu/save tests then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
+//Check GameStage/Menu/save tests then pause if player get damage in the room. As final requirement Player need to finish
+//the arena and get the Seal of Combat.
+achievement(
+    title = "Gladiator", points = 25,
+    description = "Chapter 8 : Finish the arena of weapons without taking any damage",
+    id = 403826, badge = "457144", type="missable",
+    trigger =   InGame() && 
+                CheckGameStage(0x08, 0x04) && 
+                disable_when(CheckGameStage(0x08, 0x04) && PlayerAnim == PlayerAnimList["DAMAGE"] ) && 
+                trigger_when(HasLooted(Seals, "COMBAT"))
+)
+
+//Check GameStage/Menu/save tests then pause if player use any kind of potion/antidote or change the equipment. As final requirement
+//Player need to finish the arena and get the Seal of Defence.
+achievement(
+    title = "I Can Do It Half Naked!", points = 25,
+    description = "Chapter 8 : Finish the arena of Defence without changing your equipment or taking any potion",
+    id = 403827, badge = "457143", type="missable",
+    trigger =   InGame() && 
+                CheckGameStage(0x08, 0x07) &&
+                disable_when(CheckGameStage(0x08, 0x07) && HasChangedEquipment()) &&
+                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_H"]))) && 
+                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_H"]))) && 
+                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_C"]))) && 
+                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_C"]))) && 
+                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["HERB"]))) && 
+                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["ANTIDOTE"]))) &&
+                trigger_when(HasLooted(Seals, "DEFENCE"))
+)
+
+//Check GameStage/Menu/save tests then pause if player take dammage after the boss gauge appears. As final requirement, a check is
 //made on the Boss HP(=0x00).
 achievement(
-    title = "GoLame", points = 10,
+    title = "GoLame", points = 25,
     description = "Chapter 8 : Kill the Golem without taking any damage",
-    id = 403338, badge = "456676", type="missable",
+    id = 403338, badge = "469923", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x08, 0x02) && 
                 BossGauge == 1 &&
@@ -1277,7 +1309,7 @@ achievement(
 //Check GameStage/Menu/save tests then if all the Crystals have been placed during the fight. As final requirement, a check
 //is made on the camera who only switch to cinematic mode when the boss is defeated.
 achievement(
-    title = "The Hero of Gothos", points = 25,
+    title = "The Hero of Gothos", points = 50,
     description = "Chapter 8 : Defeat Dagomar and save Gothos. Congratulation !",
     id = 403745, badge = "456916", type="win_condition",
     trigger = 	InGame() && 
@@ -1290,38 +1322,11 @@ achievement(
     			switchON(CinemaMode)
 )
 
-//Check GameStage/Menu/save tests then pause if player get damage in the room. As final requirement Player need to finish
-//the arena and get the Seal of Combat.
-achievement(
-    title = "Gladiator", points = 10,
-    description = "Chapter 8 : Finish the arena of weapons without taking any damage",
-    id = 403826, badge = "457144", type="missable",
-    trigger = 	InGame() && 
-                CheckGameStage(0x08, 0x04) && 
-    			disable_when(CheckGameStage(0x08, 0x04) && PlayerAnim == PlayerAnimList["DAMAGE"] ) && 
-              	trigger_when(HasLooted(Seals, "COMBAT"))
-)
-
-//Check GameStage/Menu/save tests then pause if player use any kind of potion/antidote or change the equipment. As final requirement
-//Player need to finish the arena and get the Seal of Defence.
-achievement(
-    title = "I Can Do It Half Naked!", points = 10,
-    description = "Chapter 8 : Finish the arena of Defence without changing your equipment or taking any potion",
-    id = 403827, badge = "457143", type="missable",
-    trigger = 	InGame() && 
-                CheckGameStage(0x08, 0x07) &&
-    			disable_when(CheckGameStage(0x08, 0x07) && HasChangedEquipment()) &&
-    			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_H"]))) && 
-    			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_H"]))) && 
-    			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_C"]))) && 
-    			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_C"]))) && 
-    			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["HERB"]))) && 
-    			disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["ANTIDOTE"]))) &&
-    			trigger_when(HasLooted(Seals, "DEFENCE"))
-)
-
 //Leveling Achievements
-////Check Menu/save tests then if the player has reached level 2 (from level 1)
+//Level are measured on these achievements because, oddly, there's no mention of the player level in the game. You have to remember 
+//which level you are or calculate it with the skill points earned, which is not practical.
+
+//Check Menu/save tests then if the player has reached level 2 (from level 1)
 achievement(
     title = "It’s Just the Beginning", points = 1,
     description = "Reach level 2",
@@ -1341,7 +1346,7 @@ achievement(
 
 ////Check Menu/save tests then if the player has reached level 10 (from level 9)
 achievement(
-    title = "Journeyman", points = 3,
+    title = "Journeyman", points = 5,
     description = "Reach level 10",
     id = 403598, badge = "456626",
     trigger =   LevelUp(9, 10)
@@ -1349,7 +1354,7 @@ achievement(
 
 ////Check Menu/save tests then if the player has reached level 15 (from level 14)
 achievement(
-    title = "Veteran", points = 5,
+    title = "Veteran", points = 10,
     description = "Reach level 15",
     id = 403661, badge = "456681",
     trigger =   LevelUp(14, 15)
@@ -1357,7 +1362,7 @@ achievement(
 
 ////Check Menu/save tests then if the player has reached level 19 (from level 20)
 achievement(
-    title = "Legend", points = 10,
+    title = "Legend", points = 25,
     description = "Reach level 20",
     id = 403744, badge = "456915", type="missable",
     trigger =   LevelUp(19, 20)
@@ -1366,8 +1371,16 @@ achievement(
 //Skills Achievements
 //Check Menu/save tests then if we are on LvlUp GUI to avoid triggering that kind of achievement since you can change the points allocation
 //until you leave the LvlUp GUI, which could lead to exploits. These achievements are triggered after closing the window.
+//Prior is used here because the skill value check must be performed after the player has closed the levelup window.
+//The reason why Prior condition needs to be lesser OR equals to the targetted value instead of just lesser to it is because on each levelup,
+//the player gain 1 point in every single skill and get 2 other points to assign as he wants.
+//Example : 
+//Player level up to 5, before the level up he has 4 in CONSTITUTION, he will gain 1 automatic point to his CONSTITUTION skill then he choose
+//to attribute one of his 2 skill points to his CONSTITUTION and the second to his INTELLIGENCE. He's now 6 on his CONSTITUTION skill as he 
+//closes the level-up window. A test like "Prior < 5" would fail in that scenario and the player would miss the achievement, we need to use 
+//"Prior <= 5" in order to cover that use case.
 achievement(
-    title = "Tough Boy", points = 2,
+    title = "Tough Boy", points = 3,
     description = "Increase your Strength to 10",
     id = 403098, badge = "456087", 
     trigger =   InGame() && 
@@ -1376,7 +1389,7 @@ achievement(
 )
 
 achievement(
-    title = "Berserker", points = 3,
+    title = "Berserker", points = 5,
     description = "Increase your Strength to 20",
     id = 403662, badge = "456682",
     trigger =   InGame() && 
@@ -1385,7 +1398,7 @@ achievement(
 )
 
 achievement(
-    title = "Wise Man", points = 2,
+    title = "Wise Man", points = 3,
     description = "Increase your Intelligence to 10",
     id = 403342, badge = "456269",
     trigger =   InGame() && 
@@ -1394,7 +1407,7 @@ achievement(
 )
 
 achievement(
-    title = "Nobel Prize", points = 3,
+    title = "Nobel Prize", points = 5,
     description = "Increase your Intelligence to 20",
     id = 403623, badge = "456653",
     trigger =   InGame() && 
@@ -1403,7 +1416,7 @@ achievement(
 )
 
 achievement(
-    title = "Solid Like a Rock", points = 2,
+    title = "Solid Like a Rock", points = 3,
     description = "Increase your Constitution to 10",
     id = 403599, badge = "456627",
     trigger =   InGame() && 
@@ -1412,7 +1425,7 @@ achievement(
 )
 
 achievement(
-    title = "Tank", points = 3,
+    title = "Tank", points = 5,
     description = "Increase your Constitution to 20",
     id = 403733, badge = "456904",
     trigger =   InGame() && 
@@ -1421,41 +1434,42 @@ achievement(
 )
 
 achievement(
-    title = "Mystic Wisdom", points = 1,
+    title = "Mystic Wisdom", points = 2,
     description = "Reach lvl 7 in Mysticism and unlock the first perk",
-    id = 403087, badge = "456073", 
+    id = 403087, badge = "469919", 
     trigger =   InGame() && 
                 HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerMYS, 7)
 )
 
 achievement(
-    title = "Mystic Strength", points = 2,
+    title = "Mystic Strength", points = 3,
     description = "Reach lvl 14 in Mysticism and unlock the second perk",
-    id = 403343, badge = "456270",
+    id = 403343, badge = "469920",
     trigger =   InGame() && 
                 HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerMYS, 14)
 )
 
 achievement(
-    title = "Mystic Charged Attack", points = 3,
+    title = "Mystic Charged Attack", points = 5,
     description = "Reach lvl 21 in Mysticism and unlock the third perk",
-    id = 403622, badge = "456652", type="missable",
+    id = 403622, badge = "469921", type="missable",
     trigger =   InGame() && 
                 HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerMYS, 21)
 )
 
 achievement(
-    title = "Mystic Energy Drain", points = 5,
+    title = "Mystic Energy Drain", points = 10,
     description = "Reach lvl 28 in Mysticism and unlock the fourth perk",
-    id = 403737, badge = "456908", type="missable",
+    id = 403737, badge = "469922", type="missable",
     trigger =   InGame() && 
                 HasClosedLvlUpGUI() && 
                 PriorIncreasedTo(PlayerMYS, 28)
 )
 
+//For this achievement, "Or next" are used without hits because all the possibilities can't be covered with only alt groups.
 achievement(
     title = "Master", points = 10,
     description = "Max out one of your skill",
