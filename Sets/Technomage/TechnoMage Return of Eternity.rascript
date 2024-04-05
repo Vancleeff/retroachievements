@@ -158,15 +158,15 @@ QuestLog = [
 ]
 
 //Maps are sliced in zone and a value of progression for each of them (0x00 to 0xff)
-Map = [
-	byte(0x0a3acc),
-	byte(0x0a3acd),
-	byte(0x0a3ace),
-	byte(0x0a3acf),
-	byte(0x0a3ad0),
-	byte(0x0a3ad1),
-	byte(0x0a3ad2),
-	byte(0x0a3ad3),	
+MapAreas = [
+	bitcount(0x0a3acc),
+	bitcount(0x0a3acd),
+	bitcount(0x0a3ace),
+	bitcount(0x0a3acf),
+	bitcount(0x0a3ad0),
+	bitcount(0x0a3ad1),
+	bitcount(0x0a3ad2),
+	bitcount(0x0a3ad3),	
 ]	
 
 //Selected element in GUI (inventory slots not included)
@@ -424,6 +424,11 @@ function HasChangedSpell(){
             prev(Curr_spell) != Curr_spell
 }
 
+function CompleteMap(goal){
+    return sum_of(MapAreas, m => prev(m)) == goal - 1 &&
+        measured(sum_of(MapAreas, m => m) == goal, format="percent")
+}
+
 //ACHIEVEMENTS 
 
 //Check GameStage/Menu/save tests then Event ID associated to the scene where the mother yell at Melvin for jumping on the table.
@@ -665,14 +670,14 @@ achievement(
                 ChapterTransition(0x02, 0x03)
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Ferdinand Magellan", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Entrance",
     id = 403083, badge = "456072", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x03, 0x01) && 
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
+    			CompleteMap(0x3a)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Bombs
@@ -685,24 +690,24 @@ achievement(
     			HasLooted(Tools, "BOMB")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Marco Polo", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Godon",
     id = 403090, badge = "456077", type="missable", 
     trigger = 	InGame() && 
                 CheckGameStage(0x03, 0x02) && 
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F], Map, 1), a=>a)
+    			CompleteMap(0x3c)
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Francisco Pizarro", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Passage",
     id = 403091, badge = "456082", type="missable", 
     trigger = 	InGame() && 
                 CheckGameStage(0x03, 0x03) && 
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F], Map, 1), a=>a)
+    			CompleteMap(0x2F)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Mace
@@ -715,14 +720,14 @@ achievement(
     			HasLooted(Weapons, "MACE")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Henry Hudson", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Fredo",
     id = 403093, badge = "456083", type="missable", 
     trigger = 	InGame() && 
                 CheckGameStage(0x03, 0x04) && 
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1F], Map, 1), a=>a)
+    			CompleteMap(0x2E)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Ice Claw Spell
@@ -745,7 +750,7 @@ achievement(
     trigger = 	InGame() && 
                 CheckGameStage(0x03, 0x05) && 
 				MusicPlayed == 0x17B0 &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
+    			CompleteMap(0x28)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Green Crystal
@@ -758,24 +763,24 @@ achievement(
     			HasLooted(Crystals, "GREEN")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Bartolomeu Dias", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Steep Tauron",
     id = 403116, badge = "456089", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x03, 0x07) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF], Map, 1), a=>a)
+    			CompleteMap(0x20)
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Christopher Columbus", points = 5,
     description = "Chapter 3 : Discover 100% of the map in The Hive - Graves",
     id = 403117, badge = "456090", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x03, 0x09) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x1F], Map, 1), a=>a)
+    			CompleteMap(0x3D)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the INT Cube
@@ -839,14 +844,14 @@ achievement(
     			HasLooted(Spells, "VORTEX")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Jacques Cartier", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Fairy Forest - Fairy Meadows",
     id = 403341, badge = "456268", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x04, 0x04) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x07], Map, 1), a=>a)
+    			CompleteMap(0x33)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Magic Amulet
@@ -859,14 +864,14 @@ achievement(
     			HasLooted(Equipments, "AMULETMAGIC")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "James Cook", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Inner Forest",
     id = 403583, badge = "456596", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x04, 0x1D) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0x7F], Map, 1), a=>a)
+    			CompleteMap(0x36)
 )
 
 //Check GameStage/Menu/save tests then if the last event is the player talking to the npc at the entrance of Jelon
@@ -932,14 +937,14 @@ achievement(
     			HasLooted(Equipments, "CHAINMAIL")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Samuel De Champlain", points = 5,
     description = "Chapter 4 : Discover 100% of the map in The Dark Forest 1",
     id = 403600, badge = "456628", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x04, 0x1A) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01], Map, 1), a=>a)
+    			CompleteMap(0x31)
 )
 
 //Check Menu/save tests then if the chapter change from 4 to 5
@@ -964,14 +969,14 @@ achievement(
                 disable_when(BossGauge == 1 && PlayerAnim == PlayerAnimList["DAMAGE"], until=CheckGameStage(0x04, 0x1c) && prev(BossGauge) == 0 && BossGauge == 1)
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Leif Ericson", points = 5,
     description = "Chapter 5 : Discover 100% of the map in The Canyon - Passage",
     id = 403603, badge = "456630", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x05, 0x02) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
+    			CompleteMap(0x26)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the CONS Cube
@@ -1064,14 +1069,14 @@ achievement(
     			HasLooted(Equipments, "CAPE")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Zheng He", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Snow World",
     id = 403625, badge = "456655", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x06, 0x0D) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
+    			CompleteMap(0x36)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Fire and Water Arrows
@@ -1084,14 +1089,14 @@ achievement(
     			HasLooted(Weapons, "WATER_ARROW")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Roald Amundsen", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Intra Muros",
     id = 403628, badge = "456671", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x06, 0x05) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x0F], Map, 1), a=>a)
+    			CompleteMap(0x34)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Red Crystal
@@ -1114,14 +1119,14 @@ achievement(
     			HasLooted(Spells, "THUNDER")
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Sir Francis Drake", points = 5,
     description = "Chapter 6 : Discover 100% of the map in The Tower - Library",
     id = 403656, badge = "456676", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x06, 0x04) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F], Map, 1), a=>a)
+    			CompleteMap(0x2E)
 )
 
 //Check GameStage/Menu/save tests then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
@@ -1218,14 +1223,14 @@ achievement(
                 ChapterTransition(0x07, 0x08)
 )
 
-//Check GameStage/Menu/save tests and compare the maps data to check if every zone are completely reveal
+//Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
 achievement(
     title = "Mercator", points = 5,
     description = "Chapter 8 : Discover 100% of the map in The Ruins - Beach",
     id = 403736, badge = "456907", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x08, 0x06) &&
-    			all_of(CompareArrays([0xFF, 0xFF, 0xFF, 0xFF, 0x07], Map, 1), a=>a)
+    			CompleteMap(0x23)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Gloves of Dexterity
