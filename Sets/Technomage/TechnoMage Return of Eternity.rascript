@@ -471,7 +471,7 @@ achievement(
                         once(EventPlaceHolder[1] == 0x5F37304B), 
                         once(EventPlaceHolder[1] == 0x5F34304B), 
                         once(EventPlaceHolder[1] == 0x5F33304B), 
-                        byte(0x091E8C) > 0x00), 
+                        0x0 == 0x1), 
                     when=CheckGameStage(0x01, 0x09),
                     format="raw")
 )
@@ -581,7 +581,7 @@ achievement(
                         once(EventPlaceHolder[2] == 0x3745), 
                         once(EventPlaceHolder[2] == 0x3845), 
                         once(EventPlaceHolder[2] == 0x3945), 
-                        PlayerLvl == 0xff), 
+                        (0x0 == 0xff), 
                     format="raw")
 )
 
@@ -881,7 +881,7 @@ achievement(
 //In Jelon, there's no other possibility to trigger a death from jumping other than jumping across the fences.
 achievement(
     title = "Call of The Void", points = 1,
-    description = "Chapter 4 : In Jelon, jump into the void after the Fairy guard reminds you that you have no wings",
+    description = "Chapter 4 : In Jelon, jump into the void immediatly after the Fairy guard reminds you that you have no wings",
     id = 403584, badge = "456597", type="missable",
     trigger = 	InGame() && 
                 CheckGameStage(0x04, 0x02) &&
@@ -1471,7 +1471,7 @@ achievement(
 
 //For this achievement, "Or next" are used without hits because all the possibilities can't be covered with only alt groups.
 achievement(
-    title = "Master", points = 10,
+    title = "Master", points = 25,
     description = "Max out one of your skill",
     id = 403743, badge = "456914", type="missable",
     trigger =   InGame() && 
@@ -1507,3 +1507,5 @@ achievement(
     trigger =   InGame() && 
                 PrevIncreasedTo(PlayerGold, 4000)
 )
+
+Now that you finished Suikoden Tactics and since you seems to be a connoisseur, there's another great hidden gem Rpg of psx Era on the queue, just sayin ! 
