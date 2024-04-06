@@ -566,7 +566,7 @@ achievement(
 //Check GameStage/Menu/save tests then add hits for every tomb inspected through their EVENT ID.
 achievement(
     title = "Gravedigger", points = 1,
-    description = "Chapter 2 : Inspect every tombs at the cemetary of SteamerTown",
+    description = "Chapter 2 : Inspect every tomb at the cemetary of SteamerTown",
     id = 404098, badge = "457529", type="missable",
     trigger =   InGame() && 
                 (CheckGameStage(0x02, 0x09) || CheckGameStage(0x02, 0x0d))&&
@@ -788,7 +788,7 @@ achievement(
 //Check GameStage/Menu/save tests then if the player has looted the INT Cube
 achievement(
     title = "Cube of Intelligence", points = 3,
-    description = "Chapter 3 : Get a magic cube that increase your intelligence",
+    description = "Chapter 3 : Get a magic cube that increases your intelligence",
     id = 403118, badge = "456091", type="progression", 
     trigger = 	InGame() && 
     			HasLooted(Cubes, "INT")
@@ -903,7 +903,7 @@ achievement(
 //Check GameStage/Menu/save tests then if the player has looted the MYS Cube
 achievement(
     title = "Cube Of Mysticism", points = 3,
-    description = "Chapter 4 : Get a magic cube that increase your Mysticism",
+    description = "Chapter 4 : Get a magic cube that increases your Mysticism",
     id = 403594, badge = "456622", type="missable",
     trigger = 	InGame() && 
     			HasLooted(Cubes, "MYS")
@@ -984,7 +984,7 @@ achievement(
 //Check GameStage/Menu/save tests then if the player has looted the CONS Cube
 achievement(
     title = "Cube of Constitution", points = 3,
-    description = "Chapter 5 : Get a magic cube that increase your Constitution",
+    description = "Chapter 5 : Get a magic cube that increases your Constitution",
     id = 403604, badge = "456634", type="missable",
     trigger = 	InGame() && 
     			HasLooted(Cubes, "CON")
