@@ -1,9 +1,9 @@
-// TechnoMage: Return of Eternity
+// TechnoMage: Return of Eternity (PSX)
 // #ID = 16280
 
 //GLOBAL
-ChapterID = byte(0x0A1740)
-RoomID = byte(0x0A1744)
+ChapterID = byte(0x0A1740) //Chapter ID (min 1 - Max 8) (8-Bit)
+RoomID = byte(0x0A1744) //Room ID (Warning : In rare situation, 2 locations share the same room) (8-Bit)
 MusicPlayed = word(0x1da6f4)
 CinemaMode = byte(0x0ABF7A)
 CreditsTimer = dword(0x0a3330)
@@ -25,7 +25,7 @@ PlayerAnimList = {
     "DIE"    : 0x0E,
 }
 
-PlayerLvl   = byte(0x0ab93c)
+PlayerLvl   = byte(0x0ab93c) // Player Level (max 20) (8-Bit)
 PlayerXP    = byte(0x0ab91c)
 PlayerHP    = byte(0x1c3a20)
 PlayerMP    = byte(0x0ab930)
@@ -34,10 +34,46 @@ PlayerINT   = byte(0x0ab93e)
 PlayerCON   = byte(0x0ab93f)
 PlayerMYS   = byte(0x0ab940)
 PlayerGold  = word(0x092104)
-Curr_weapon = byte(0x091e84)
-Curr_spell  = byte(0x091e85)
-Curr_equ    = byte(0x091e87)
-Curr_tools  = byte(0x091e86)
+
+// Player's weapon equipped (1 to 8) (8-Bit)
+// 0x01 : Dagger
+// 0x02 : Sword
+// 0x03 : War Mace
+// 0x04 : Hammer
+// 0x05 : Axe
+// 0x06 : Bow
+// 0x07 : Fire Bow
+// 0x08 : Aqua Bow
+Curr_weapon = byte(0x091e84) 
+
+// Player's spell equipped (1 to 7) (8-Bit)
+// 0x01 : Fireball
+// 0x02 : Ice Claw
+// 0x03 : Viper's Vortex
+// 0x04 : Meteor Storm
+// 0x05 : Magic Lightning
+// 0x06 : Magic Battle Shield
+// 0x07 : Earthquake
+Curr_spell  = byte(0x091e85) 
+
+// Player's equipment equipped (1 to 8) (8-Bit)
+// 0x01 : Ankh
+// 0x02 : Ring of Life
+// 0x03 : Magic Amulet
+// 0x04 : Chain Mail Coat
+// 0x05 : Stoneskin Belt
+// 0x06 : Merlin's Cape
+// 0x07 : Experience Amulet
+// 0x08 : Glove of Dexterity
+Curr_equ    = byte(0x091e87) 
+
+// Player's tools equipped (1 to 4) (8-Bit)
+// 0x01 : Bomb
+// 0x02 : Radar
+// 0x03 : Boots of Speed
+// 0x04 : Grappling Hook
+Curr_tools  = byte(0x091e86) 
+
 //PLAYER END
 
 //INVENTORY
@@ -135,38 +171,35 @@ Seals = {
 }
 //INVENTORY END
 
-EndingState = {
-    "Lv1" : dword(0x45ee0),
-    "Lv2" : dword(0x45ee4),
-    "Lv3" : dword(0x45ee8)
-}
-
 //QUESTLOG
 QuestLog = [
-	{"key": dword(0x0ABA54), "done": byte(0x0ABA63)},
-	{"key": dword(0x0ABA68), "done": byte(0x0ABA77)},
-	{"key": dword(0x0ABA7C), "done": byte(0x0ABA8B)},
-	{"key": dword(0x0ABA90), "done": byte(0x0ABA9F)},
-	{"key": dword(0x0ABAA4), "done": byte(0x0ABAB3)},
-	{"key": dword(0x0ABAB8), "done": byte(0x0ABAC7)},
-	{"key": dword(0x0ABACC), "done": byte(0x0ABADB)},
-	{"key": dword(0x0ABAE0), "done": byte(0x0ABAEF)},
-	{"key": dword(0x0ABAF4), "done": byte(0x0ABB03)},
-	{"key": dword(0x0ABB08), "done": byte(0x0ABB17)},
-	{"key": dword(0x0ABB1C), "done": byte(0x0ABB2B)},
-	{"key": dword(0x0ABB30), "done": byte(0x0ABB3F)},
+	{"key": dword(0x0ABA54), "done": byte(0x0ABA63)}, //Quest Slot 1
+	{"key": dword(0x0ABA68), "done": byte(0x0ABA77)}, //Quest Slot 2
+	{"key": dword(0x0ABA7C), "done": byte(0x0ABA8B)}, //Quest Slot 3
+	{"key": dword(0x0ABA90), "done": byte(0x0ABA9F)}, //Quest Slot 4
+	{"key": dword(0x0ABAA4), "done": byte(0x0ABAB3)}, //Quest Slot 5
+	{"key": dword(0x0ABAB8), "done": byte(0x0ABAC7)}, //Quest Slot 6
+	{"key": dword(0x0ABACC), "done": byte(0x0ABADB)}, //Quest Slot 7
+	{"key": dword(0x0ABAE0), "done": byte(0x0ABAEF)}, //Quest Slot 8
+	{"key": dword(0x0ABAF4), "done": byte(0x0ABB03)}, //Quest Slot 9
+	{"key": dword(0x0ABB08), "done": byte(0x0ABB17)}, //Quest Slot 10
+	{"key": dword(0x0ABB1C), "done": byte(0x0ABB2B)}, //Quest Slot 11
+	{"key": dword(0x0ABB30), "done": byte(0x0ABB3F)}, //Quest Slot 12
 ]
 
-//Maps are sliced in zone and a value of progression for each of them (0x00 to 0xff)
+// Maps are sliced in sections (8-bit)
+// Each section has 8 areas, each bit represents an area on the map section.
+// 0b1 : discovered
+// 0b0 : undiscovered
 MapAreas = [
-	bitcount(0x0a3acc),
-	bitcount(0x0a3acd),
-	bitcount(0x0a3ace),
-	bitcount(0x0a3acf),
-	bitcount(0x0a3ad0),
-	bitcount(0x0a3ad1),
-	bitcount(0x0a3ad2),
-	bitcount(0x0a3ad3),	
+	bitcount(0x0a3acc), // Section A
+	bitcount(0x0a3acd), // Section B
+	bitcount(0x0a3ace), // Section C
+	bitcount(0x0a3acf), // Section D
+	bitcount(0x0a3ad0), // Section E
+	bitcount(0x0a3ad1), // Section F
+	bitcount(0x0a3ad2), // Section G
+	bitcount(0x0a3ad3),	// Section H
 ]	
 
 //Selected element in GUI (inventory slots not included)
