@@ -22,11 +22,11 @@ PlayerAnimList = {
     "PULL"   : 0x0A,
     "HOOK"   : 0x0C,
     "DAMAGE" : 0x0D,
-    "DIE"    : 0x0E,
+    "DIE"    : 0x0E
 }
 
 PlayerLvl   = byte(0x0ab93c) // Player Level (max 20) (8-Bit)
-PlayerXP    = byte(0x0ab91c)
+PlayerXP    = dword(0x0ab91c)
 PlayerHP    = byte(0x1c3a20)
 PlayerMP    = byte(0x0ab930)
 PlayerSTR   = byte(0x0ab93d)
@@ -34,6 +34,30 @@ PlayerINT   = byte(0x0ab93e)
 PlayerCON   = byte(0x0ab93f)
 PlayerMYS   = byte(0x0ab940)
 PlayerGold  = word(0x092104)
+
+// Xp Table (max lvl : 20) (32-bit)
+XpToLevel = [
+    dword(0x09264c), // Xp needed to reach lvl 2
+    dword(0x092650), // Xp needed to reach lvl 3
+    dword(0x092654), // Xp needed to reach lvl 4
+    dword(0x092658), // Xp needed to reach lvl 5
+    dword(0x09265c), // Xp needed to reach lvl 6
+    dword(0x092660), // Xp needed to reach lvl 7
+    dword(0x092664), // Xp needed to reach lvl 8
+    dword(0x092668), // Xp needed to reach lvl 9
+    dword(0x09266c), // Xp needed to reach lvl 10
+    dword(0x092670), // Xp needed to reach lvl 11
+    dword(0x092674), // Xp needed to reach lvl 12
+    dword(0x092678), // Xp needed to reach lvl 13
+    dword(0x09267c), // Xp needed to reach lvl 14
+    dword(0x092680), // Xp needed to reach lvl 15
+    dword(0x092684), // Xp needed to reach lvl 16
+    dword(0x092688), // Xp needed to reach lvl 17
+    dword(0x09268c), // Xp needed to reach lvl 18
+    dword(0x092690), // Xp needed to reach lvl 19
+    dword(0x092694)  // Xp needed to reach lvl 20
+]
+
 
 // Player's weapon equipped (1 to 8) (8-Bit)
 // 0x01 : Dagger
@@ -152,7 +176,7 @@ Cubes = {
 	"STR"    : byte(0x092068),
 	"INT"    : byte(0x092074),
 	"CON"    : byte(0x092080),
-	"MYS"    : byte(0x09208c),
+	"MYS"    : byte(0x09208c)
 }
 
 Crystals = {
@@ -184,7 +208,7 @@ QuestLog = [
 	{"key": dword(0x0ABAF4), "done": byte(0x0ABB03)}, //Quest Slot 9
 	{"key": dword(0x0ABB08), "done": byte(0x0ABB17)}, //Quest Slot 10
 	{"key": dword(0x0ABB1C), "done": byte(0x0ABB2B)}, //Quest Slot 11
-	{"key": dword(0x0ABB30), "done": byte(0x0ABB3F)}, //Quest Slot 12
+	{"key": dword(0x0ABB30), "done": byte(0x0ABB3F)} //Quest Slot 12
 ]
 
 // Maps are sliced in sections (8-bit)
@@ -199,7 +223,7 @@ MapAreas = [
 	bitcount(0x0a3ad0), // Section E
 	bitcount(0x0a3ad1), // Section F
 	bitcount(0x0a3ad2), // Section G
-	bitcount(0x0a3ad3),	// Section H
+	bitcount(0x0a3ad3)	// Section H
 ]	
 
 //Selected element in GUI (inventory slots not included)
@@ -209,7 +233,7 @@ SelectedGUIValue = {
 	"STRBAR": 0x80093a44,
 	"INTBAR": 0x80093a64,
 	"CONBAR": 0x80093a84,
-	"MYSBAR": 0x80093aa4,
+	"MYSBAR": 0x80093aa4
 }
 //Selected Menu entry on Pause and Main Menu
 SelectedMenuEntry = dword(0x0a2a20)
@@ -243,7 +267,7 @@ EventPlaceHolder = [
     dword(0x0B71F0),
     dword(0x0B71F4),
     dword(0x0B71F8),
-    dword(0x0B71FC),
+    dword(0x0B71FC)
 ]
 
 //Water tanks in SteamerTown used for "Resourceful" Achievement
@@ -355,13 +379,14 @@ function HasDropped(ArraySrc, key){
   	return prev(ArraySrc[key]) == 0x01 && ArraySrc[key] == 0x00
 }
 
-//Check if the player reached a specific level.
+//Check if the player reached a specific level. A check is also done on the Xp to be sure that no tricky manipulation was made to 
+//increase the player lvl without getting xp. (no delta check on xp to avoid possible timing issue with playerlvl delta check)
 function LevelUp(from, to){
   	return  InGame() &&
             prev(PlayerLvl) == from &&
-            measured(
-                PlayerLvl == to, 
-                format="raw")
+            PlayerXP >= XpToLevel[to - 2] &&
+            measured(PlayerLvl == to, format="raw")
+
 }
 
 //Check if address increased to (or beyond) target since last frame
@@ -504,7 +529,7 @@ achievement(
                         once(EventPlaceHolder[1] == 0x5F37304B), 
                         once(EventPlaceHolder[1] == 0x5F34304B), 
                         once(EventPlaceHolder[1] == 0x5F33304B), 
-                        0x0 == 0x1), 
+                        always_false()), 
                     when=CheckGameStage(0x01, 0x09),
                     format="raw")
 )
@@ -614,7 +639,7 @@ achievement(
                         once(EventPlaceHolder[2] == 0x3745), 
                         once(EventPlaceHolder[2] == 0x3845), 
                         once(EventPlaceHolder[2] == 0x3945), 
-                        (0x0 == 0xff), 
+                        always_false()), 
                     format="raw")
 )
 
