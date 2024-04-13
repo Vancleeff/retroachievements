@@ -412,12 +412,12 @@ function PriorFromTo(address, from, to){
 
 //Check if address increased since last frame
 function PrevIncreased(address){
-	return address < prev(address)
+	return address > prev(address)
 }
 
 //Check if address decreased since last frame
 function PrevDecreased(address){
-	return address > prev(address)
+	return address < prev(address)
 }
 
 function PrevIncreasedBy(address, amount){
@@ -1318,7 +1318,7 @@ achievement(
                   once(Seals["COMBAT"] == 0x00), 
                   once(Seals["DEFENCE"] == 0x00), 
                   once(Seals["MAGIC"] == 0x00), 
-              byte(0x0A1744) == 0x99)
+              always_false())
 )
 
 //Check GameStage/Menu/save tests then pause if player get damage in the room. As final requirement Player need to finish
@@ -1379,6 +1379,35 @@ achievement(
     			Crystals["RED"] == 0x00 &&
     			switchON(CinemaMode)
 )
+
+//Check GameStage/Menu/save tests then pause if player take dammage after the boss gauge appears. As final requirement, a check is
+//made on the Boss HP(=0x00).
+achievement(
+    title = "Tough Nut", points = 25,
+    description = "Chapter 8 : Kill the Final Boss using maximum 3 potions of any kind",
+    id = 403344, badge = "469918", type="missable",
+    trigger =   InGame() && 
+                CheckGameStage(0x08, 0x01) && 
+                BossGauge == 1 &&
+                prev(CinemaMode) == 0x00 && 
+                trigger_when(Crystals["BLUE"]   == 0x00 && 
+                             Crystals["WHITE"]  == 0x00 && 
+                             Crystals["YELLOW"] == 0x00 &&
+                             Crystals["GREEN"]  == 0x00 &&
+                             Crystals["RED"]    == 0x00 &&
+                             CinemaMode == 0x01) &&
+                disable_when(tally(4, once(PrevDecreased(Items["S_POTION_H"])) &&
+                         once(PrevDecreased(Items["L_POTION_H"])) &&
+                         once(PrevDecreased(Items["S_POTION_C"])) &&
+                         once(PrevDecreased(Items["L_POTION_C"])) &&
+                         once(PrevDecreased(Items["S_POTION_M"])) &&
+                         once(PrevDecreased(Items["L_POTION_M"])),
+                         always_false()),
+                         until=CheckGameStage(0x08, 0x01) &&
+                         prev(BossGauge) == 0 && 
+                         BossGauge == 1)
+)
+
 
 //Leveling Achievements
 //Level are measured on these achievements because, oddly, there's no mention of the player level in the game. You have to remember 
@@ -1565,5 +1594,3 @@ achievement(
     trigger =   InGame() && 
                 PrevIncreasedTo(PlayerGold, 4000)
 )
-
-Now that you finished Suikoden Tactics and since you seems to be a connoisseur, there's another great hidden gem Rpg of psx Era on the queue, just sayin ! 
