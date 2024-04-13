@@ -1574,7 +1574,7 @@ achievement(
 achievement(
     title = "Rothschild", points = 2,
     description = "Have 500 golds in your pockets",
-    id = 403088, badge = "456074", type="missable", 
+    id = 403088, badge = "471967", type="missable", 
     trigger =   InGame() && 
                 PrevIncreasedTo(PlayerGold, 500)
 )
@@ -1582,7 +1582,7 @@ achievement(
 achievement(
     title = "Rockefeller", points = 5,
     description = "Have 1000 golds in your pockets",
-    id = 403591, badge = "456604", type="missable",
+    id = 403591, badge = "471968", type="missable",
     trigger =   InGame() && 
                 PrevIncreasedTo(PlayerGold, 1000)
 )
@@ -1590,7 +1590,7 @@ achievement(
 achievement(
     title = "Merchant", points = 10,
     description = "Have 4000 golds in your pockets, get ready to do business",
-    id = 403741, badge = "456604", type="missable",
+    id = 403741, badge = "471969", type="missable",
     trigger =   InGame() && 
                 PrevIncreasedTo(PlayerGold, 4000)
 )
