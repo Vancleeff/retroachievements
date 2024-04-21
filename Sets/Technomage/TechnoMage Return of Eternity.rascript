@@ -1309,16 +1309,15 @@ achievement(
     description = "Chapter 8 : Finish all arenas and place the seals on their pedestals",
     id = 403742, badge = "456913", type="progression",
     trigger =   InGame() && 
-                CheckGameStage(0x08, 0x02) && tally(8, 
-                  once(prev(Seals["MYST"]) == 0x01), 
-                  once(prev(Seals["COMBAT"]) == 0x01), 
-                  once(prev(Seals["DEFENCE"]) == 0x01), 
-                  once(prev(Seals["MAGIC"]) == 0x01), 
-                  once(Seals["MYST"] == 0x00), 
-                  once(Seals["COMBAT"] == 0x00), 
-                  once(Seals["DEFENCE"] == 0x00), 
-                  once(Seals["MAGIC"] == 0x00), 
-              always_false())
+                CheckGameStage(0x08, 0x02) &&  
+                prior(Seals["MYST"]) == 0x01 &&  
+                prior(Seals["COMBAT"]) == 0x01 &&
+                prior(Seals["DEFENCE"]) == 0x01 && 
+                prior(Seals["MAGIC"]) == 0x01 && 
+                Seals["MYST"] == 0x00 &&
+                Seals["COMBAT"] == 0x00 && 
+                Seals["DEFENCE"] == 0x00 && 
+                Seals["MAGIC"] == 0x00
 )
 
 //Check GameStage/Menu/save tests then pause if player get damage in the room. As final requirement Player need to finish
