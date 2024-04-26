@@ -276,6 +276,11 @@ WaterTank2Lvl = byte(0x1f14b3)
 WaterTank3Lvl = byte(0x1f14b4)
 WaterTankWheelAnim = byte(0x139440)
 
+
+//Pointers that are used for a couple of achievements to avoid mistriggers during PSX BIOS splash screen
+GoldPointer = dword(0x0920fc)
+CubePointer = dword(0x092060)
+
 //Build and return requirements to checks if two arrays contain same values
 //src: the array of value to compare
 //with: data source
@@ -484,9 +489,9 @@ function HasChangedSpell(){
             Curr_spell != prev(Curr_spell)
 }
 
-function CompleteMap(goal){
+function CompleteMap(goal, chapter, room){
     return sum_of(MapAreas, m => prev(m)) == goal - 1 &&
-        measured(sum_of(MapAreas, m => m) == goal, format="percent")
+        measured(sum_of(MapAreas, m => m) == goal, format="percent", when=CheckGameStage(chapter, room))
 }
 
 //ACHIEVEMENTS 
@@ -736,8 +741,7 @@ achievement(
     description = "Chapter 3 : Discover 100% of the map in The Hive - Entrance",
     id = 403083, badge = "456072", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x03, 0x01) && 
-    			CompleteMap(0x3a)
+    			CompleteMap(0x3a, 0x03, 0x01)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Bombs
@@ -756,8 +760,7 @@ achievement(
     description = "Chapter 3 : Discover 100% of the map in The Hive - Godon",
     id = 403090, badge = "456077", type="missable", 
     trigger = 	InGame() && 
-                CheckGameStage(0x03, 0x02) && 
-    			CompleteMap(0x3c)
+    			CompleteMap(0x3c, 0x03, 0x02)
 )
 
 //Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
@@ -766,8 +769,7 @@ achievement(
     description = "Chapter 3 : Discover 100% of the map in The Hive - Passage",
     id = 403091, badge = "456082", type="missable", 
     trigger = 	InGame() && 
-                CheckGameStage(0x03, 0x03) && 
-    			CompleteMap(0x2F)
+    			CompleteMap(0x2F, 0x03, 0x03)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Mace
@@ -786,8 +788,7 @@ achievement(
     description = "Chapter 3 : Discover 100% of the map in The Hive - Fredo",
     id = 403093, badge = "456083", type="missable", 
     trigger = 	InGame() && 
-                CheckGameStage(0x03, 0x04) && 
-    			CompleteMap(0x2E)
+    			CompleteMap(0x2E, 0x03, 0x04)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Ice Claw Spell
@@ -808,9 +809,8 @@ achievement(
     description = "Chapter 3 : Discover 100% of the map in The Hive - Labyrinth",
     id = 403096, badge = "456085", type="missable", 
     trigger = 	InGame() && 
-                CheckGameStage(0x03, 0x05) && 
 				MusicPlayed == 0x17B0 &&
-    			CompleteMap(0x28)
+    			CompleteMap(0x28, 0x03, 0x05)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Green Crystal
@@ -829,8 +829,7 @@ achievement(
     description = "Chapter 3 : Discover 100% of the map in The Hive - Steep Tauron",
     id = 403116, badge = "456089", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x03, 0x07) &&
-    			CompleteMap(0x20)
+    			CompleteMap(0x20, 0x03, 0x07)
 )
 
 //Check GameStage/Menu/save tests and compare the map data to check if every map sections are completely revealed
@@ -839,8 +838,7 @@ achievement(
     description = "Chapter 3 : Discover 100% of the map in The Hive - Graves",
     id = 403117, badge = "456090", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x03, 0x09) &&
-    			CompleteMap(0x3D)
+    			CompleteMap(0x3D, 0x03, 0x09)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the INT Cube
@@ -910,8 +908,7 @@ achievement(
     description = "Chapter 4 : Discover 100% of the map in The Fairy Forest - Fairy Meadows",
     id = 403341, badge = "456268", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x04, 0x04) &&
-    			CompleteMap(0x33)
+    			CompleteMap(0x33, 0x04, 0x04)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Magic Amulet
@@ -930,8 +927,7 @@ achievement(
     description = "Chapter 4 : Discover 100% of the map in The Inner Forest",
     id = 403583, badge = "456596", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x04, 0x1D) &&
-    			CompleteMap(0x36)
+    			CompleteMap(0x36, 0x04, 0x1D)
 )
 
 //Check GameStage/Menu/save tests then if the last event is the player talking to the npc at the entrance of Jelon
@@ -1003,8 +999,7 @@ achievement(
     description = "Chapter 4 : Discover 100% of the map in The Dark Forest 1",
     id = 403600, badge = "456628", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x04, 0x1A) &&
-    			CompleteMap(0x31)
+    			CompleteMap(0x31, 0x04, 0x1A)
 )
 
 //Check Menu/save tests then if the chapter change from 4 to 5
@@ -1035,8 +1030,7 @@ achievement(
     description = "Chapter 5 : Discover 100% of the map in The Canyon - Passage",
     id = 403603, badge = "456630", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x05, 0x02) &&
-    			CompleteMap(0x26)
+    			CompleteMap(0x26, 0x05, 0x02)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the CONS Cube
@@ -1049,6 +1043,7 @@ achievement(
 )
 
 //Check GameStage/Menu/save tests then if the player has every cubes inside the inventory.
+//We aslo check that the cube pointer is settled to avoid mistriggers during the PSX BIOS splash screen.
 achievement(
     title = "4d6", points = 10,
     description = "Have one of each cubes in your inventory",
@@ -1057,7 +1052,8 @@ achievement(
     			Cubes["STR"] >= 0x01 && 
     			Cubes["INT"] >= 0x01 && 
 				Cubes["CON"] >= 0x01 && 
-				Cubes["MYS"] >= 0x01
+				Cubes["MYS"] >= 0x01 &&
+                CubePointer == 0x8009fb2c
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Grappling Hook
@@ -1135,8 +1131,7 @@ achievement(
     description = "Chapter 6 : Discover 100% of the map in The Tower - Snow World",
     id = 403625, badge = "456655", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x06, 0x0D) &&
-    			CompleteMap(0x36)
+    			CompleteMap(0x36, 0x06, 0x0D)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Fire and Water Arrows
@@ -1155,8 +1150,7 @@ achievement(
     description = "Chapter 6 : Discover 100% of the map in The Tower - Intra Muros",
     id = 403628, badge = "456671", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x06, 0x05) &&
-    			CompleteMap(0x34)
+    			CompleteMap(0x34, 0x06, 0x05)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Red Crystal
@@ -1185,8 +1179,7 @@ achievement(
     description = "Chapter 6 : Discover 100% of the map in The Tower - Library",
     id = 403656, badge = "456676", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x06, 0x04) &&
-    			CompleteMap(0x2E)
+    			CompleteMap(0x2E, 0x06, 0x04)
 )
 
 //Check GameStage/Menu/save tests then pause if player cast a spell after the boss gauge appears. As final requirement, a check is
@@ -1289,8 +1282,7 @@ achievement(
     description = "Chapter 8 : Discover 100% of the map in The Ruins - Beach",
     id = 403736, badge = "456907", type="missable",
     trigger = 	InGame() && 
-                CheckGameStage(0x08, 0x06) &&
-    			CompleteMap(0x23)
+    			CompleteMap(0x23, 0x08, 0x06)
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Gloves of Dexterity
@@ -1569,13 +1561,15 @@ achievement(
 )
 
 //Gold Achievements
-////Check Menu/save tests then if the player has saved specific amount of Gold.
+//Check Menu/save tests then if the player has saved specific amount of Gold. 
+//We also check that the gold pointer is settled to avoid mistriggers during the PSX BIOS splash screen.
 achievement(
     title = "Rothschild", points = 2,
     description = "Have 500 golds in your pockets",
     id = 403088, badge = "471967", type="missable", 
     trigger =   InGame() && 
-                PrevIncreasedTo(PlayerGold, 500)
+                PrevIncreasedTo(PlayerGold, 500)&&
+                GoldPointer == 0x8009fa8c
 )
 
 achievement(
@@ -1583,7 +1577,8 @@ achievement(
     description = "Have 1000 golds in your pockets",
     id = 403591, badge = "471968", type="missable",
     trigger =   InGame() && 
-                PrevIncreasedTo(PlayerGold, 1000)
+                PrevIncreasedTo(PlayerGold, 1000)&&
+                GoldPointer == 0x8009fa8c
 )
 
 achievement(
@@ -1591,5 +1586,6 @@ achievement(
     description = "Have 4000 golds in your pockets, get ready to do business",
     id = 403741, badge = "471969", type="missable",
     trigger =   InGame() && 
-                PrevIncreasedTo(PlayerGold, 4000)
+                PrevIncreasedTo(PlayerGold, 4000)&&
+                GoldPointer == 0x8009fa8c
 )
