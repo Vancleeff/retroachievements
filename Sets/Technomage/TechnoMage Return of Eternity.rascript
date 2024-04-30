@@ -211,6 +211,9 @@ QuestLog = [
 	{"key": dword(0x0ABB30), "done": byte(0x0ABB3F)} //Quest Slot 12
 ]
 
+//Quest objectives
+QuestTrialOfDefence = bit2(0x1f8d3e);
+
 // Maps are sliced in sections (8-bit)
 // Each section has 8 areas, each bit represents an area on the map section.
 // 0b1 : discovered
@@ -665,7 +668,7 @@ achievement(
     id = 403070, badge = "456008", type="progression", 
     trigger = 	InGame() && 
                 CheckGameStage(0x02, 0x13) && 
-    			prior(byte(0x0A1744)) == 0x08
+    			prev(byte(0x0A1744)) == 0x08
 )
 
 //Check GameStage/Menu/save tests then if the player has looted the Control wheel
@@ -723,7 +726,7 @@ achievement(
                     (prev(WaterTank1Lvl) != WaterTank1Lvl) ||
                      (prev(WaterTank2Lvl) != WaterTank2Lvl) || 
                      (prev(WaterTank3Lvl) != WaterTank3Lvl), 
-                     byte(0x091E86)== 0x04), until=prev(WaterTank1Lvl) == 0x05 && WaterTank1Lvl ==0x06)
+                     always_false()), until=prev(WaterTank1Lvl) == 0x05 && WaterTank1Lvl ==0x06)
 )
 
 //Check Menu/save tests then if the chapter change from 2 to 3
@@ -1313,33 +1316,40 @@ achievement(
 )
 
 //Check GameStage/Menu/save tests then pause if player get damage in the room. As final requirement Player need to finish
-//the arena and get the Seal of Combat.
+//the arena and get the Seal of Combat. Reset if player talked to the Master of Weapons and got teleported.
 achievement(
     title = "Gladiator", points = 25,
     description = "Chapter 8 : Finish the arena of weapons without taking any damage",
     id = 403826, badge = "457144", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x08, 0x04) && 
-                disable_when(CheckGameStage(0x08, 0x04) && PlayerAnim == PlayerAnimList["DAMAGE"] ) && 
+                disable_when(CheckGameStage(0x08, 0x04) && 
+                    PlayerAnim == PlayerAnimList["DAMAGE"], 
+                    until=(EventPlaceHolder[0] == 0x4c45544a && 
+                        prev(EventPlaceHolder[2]) == 0x4d5f314e)) && 
                 trigger_when(HasLooted(Seals, "COMBAT"))
 )
 
 //Check GameStage/Menu/save tests then pause if player use any kind of potion/antidote or change the equipment. As final requirement
-//Player need to finish the arena and get the Seal of Defence.
+//Player need to finish the arena and get the Seal of Defence. Reset if the player enter the room again but didn't finish the quest yet.
+//(To avoid exploit)
 achievement(
     title = "I Can Do It Half Naked!", points = 25,
     description = "Chapter 8 : Finish the arena of Defence without changing your equipment or taking any potion",
     id = 403827, badge = "457143", type="missable",
     trigger =   InGame() && 
                 CheckGameStage(0x08, 0x07) &&
-                disable_when(CheckGameStage(0x08, 0x07) && HasChangedEquipment()) &&
-                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_H"]))) && 
-                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_H"]))) && 
-                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_C"]))) && 
-                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_C"]))) && 
-                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["HERB"]))) && 
-                disable_when(CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["ANTIDOTE"]))) &&
-                trigger_when(HasLooted(Seals, "DEFENCE"))
+                disable_when(CheckGameStage(0x08, 0x07) && HasChangedEquipment() ||
+                             CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_H"])) || 
+                             CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_H"]))|| 
+                             CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["S_POTION_C"])) ||
+                             CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["L_POTION_C"]))|| 
+                             CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["HERB"]))|| 
+                             CheckGameStage(0x08, 0x07) && once(PrevDecreased(Items["ANTIDOTE"])), 
+                    until=CheckGameStage(0x08, 0x07) &&
+                          prev(RoomID) == 0x02 &&
+                          QuestTrialOfDefence == 0) &&
+                trigger_when(HasLooted(Seals, "DEFENCE") && QuestTrialOfDefence == 1)
 )
 
 //Check GameStage/Menu/save tests then pause if player take dammage after the boss gauge appears. As final requirement, a check is
@@ -1387,12 +1397,12 @@ achievement(
                              Crystals["GREEN"]  == 0x00 &&
                              Crystals["RED"]    == 0x00 &&
                              CinemaMode == 0x01) &&
-                disable_when(tally(4, once(PrevDecreased(Items["S_POTION_H"])) &&
-                         once(PrevDecreased(Items["L_POTION_H"])) &&
-                         once(PrevDecreased(Items["S_POTION_C"])) &&
-                         once(PrevDecreased(Items["L_POTION_C"])) &&
-                         once(PrevDecreased(Items["S_POTION_M"])) &&
-                         once(PrevDecreased(Items["L_POTION_M"])),
+                disable_when(tally(4, PrevDecreased(Items["S_POTION_H"]) ||
+                         PrevDecreased(Items["L_POTION_H"]) ||
+                         PrevDecreased(Items["S_POTION_C"]) ||
+                         PrevDecreased(Items["L_POTION_C"]) ||
+                         PrevDecreased(Items["S_POTION_M"]) ||
+                         PrevDecreased(Items["L_POTION_M"]),
                          always_false()),
                          until=CheckGameStage(0x08, 0x01) &&
                          prev(BossGauge) == 0 && 
