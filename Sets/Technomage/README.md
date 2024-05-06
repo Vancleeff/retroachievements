@@ -281,7 +281,7 @@ You will notice that there's a beehive in the tree. If you hit it, the boss will
 |------------------------------|--------------------------------------------------|
 | Leif Ericson                 | Discover 100% of the map in The Canyon - Passage |
 | Cube of Constitution         | Get a magic cube that increases your Constitution |
-| 4d6                          | Have one of each cubes in your inventory         |
+| 4d6                          | Keep cubes found in chapter 2, 3, 4 and 5 in your inventory        |
 
 #### Leif Ericson
 Discover 100% of the map in The Canyon - Passage
@@ -290,7 +290,7 @@ Discover 100% of the map in The Canyon - Passage
 At the Shach Camp at the beginning of the chapter, buy the cube from Torlore for 200 gold.
 
 #### 4d6
-After buying the last cube and if you kept the three others, you will get the achievement.
+After buying the last cube from Torlore and if you kept the three others, you will get the achievement. 
 
 ## Chapter 6 (9 achievements)
 
