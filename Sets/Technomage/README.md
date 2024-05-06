@@ -41,15 +41,15 @@ If you want a detailed playthrough, you can check this one : https://gamefaqs.ga
 |-----------------------|------------------------------------------------------|
 | Rothschild            | Have 500 golds in your pockets                       |
 | Rockefeller           | Have 1000 golds in your pockets                      |
-| Merchant              | Have 4000 golds in your pockets                      |
+| Merchant              | Have 3000 golds in your pockets                      |
 | Mystic Charged Attack | Reach lvl 21 in Mysticism and unlock the third perk  |
 | Mystic Energy Drain   | Reach lvl 28 in Mysticism and unlock the fourth perk |
 | Master                | Max out one of your skill                            |
 | Legend                | Reach level 20                                       |
 
 ### Tips for "Merchant" achievement
-To reach 4000 gold, you will have to sell a lot of potions, which will make your playthrough harder to finish (but still feasible). 
-There are not many shops in the game, so be sure to take every opportunity to sell some of your stuff. Here's the list of shops:
+To reach 3000 gold, you will have to sell a lot of potions, which will make your playthrough harder to finish (but still feasible). 
+There are not many shops in the game and they will buy only a limited amount of your items, so be sure to take every opportunity to sell some of your stuff. Here's the list of shops:
 * SteamerTown - Lars' Shop
 * Jelon - Lonicera's Shop
 * Canyon - Torlore at the Shach Camp
@@ -63,7 +63,7 @@ Be sure to always kill every enemy and destroy every crate to collect a lot of m
 To reach level 28 in Mysticism, you'll have to attribute 8 points to the skill or 7 if you found and used a cube.
 
 ### Tips for "Master" achievement
-To reach level 40 in one skill, you'll have to focus on one of your skills and attribute it at least one point every level. You can eventually skip one point if you found and used a cube. I highly suggest you maximize your Strength/Intelligence to get more damage during your playthrough.
+To reach level 40 in one skill, you'll have to focus on one of your skills and attribute it at least one point every level + 2 points through magic cubes. I highly suggest you maximize your Strength or Intelligence to get more damage during your playthrough. (intelligence is the best option for damageless boss fights)
 
 ### Tips for "Legend" achievement
 While it's almost impossible to miss the level 15 achievement, reaching level 20 can be missed if you skip too many enemies during your playthrough. 
