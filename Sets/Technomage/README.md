@@ -65,6 +65,16 @@ To reach level 28 in Mysticism, you'll have to attribute 8 points to the skill o
 ### Tips for "Master" achievement
 To reach level 40 in one skill, you'll have to focus on one of your skills and attribute it at least one point every level + 2 points through magic cubes. I highly suggest you maximize your Strength or Intelligence to get more damage during your playthrough. (intelligence is the best option for damageless boss fights)
 
+Here's the cubes location that I remember : 
+- After leaving DreamerTown, automatically added to your inventory (CON)
+- Lars' Shop (STR)
+- During Spider Boss Fight, in a corner (INT)
+- Lonicera's shop (MYS)
+- Torlore's shop (CON)
+- Yayzn's shop (INT)
+- A Ghost during a not missable event in chapter 6 (STR)
+Other were found in crates iirc, I noticed them randomly by opening my inventory. If you want safety, just go for INT or STR for Master achievement.
+
 ### Tips for "Legend" achievement
 While it's almost impossible to miss the level 15 achievement, reaching level 20 can be missed if you skip too many enemies during your playthrough. 
 Try to kill everything, everywhere; this way you will also get all the "Discover 100% of Map X" achievements and earn a lot of money for "Gold related" cheevos.
