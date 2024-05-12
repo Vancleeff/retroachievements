@@ -709,7 +709,7 @@ achievement(
 
 //Checking The water tanks levels for the completed puzzle state.
 //Then checking if player triggered the animation of the wheel to count the number of tries
-//Correct way to trigger is 3x WaterTank 2 then 1x WaterTank 3 (4 moves)
+//Correct way to trigger is 3x WaterTank 2 then 1x WaterTank 3 OR 3x WaterTank 3 then 1x Watertank 2 
 achievement(
     title = "It's a me, Melvin!", points = 5,
     description = "Chapter 2 : Resolve the water tank puzzle in SteamerTown in as few turns as possible",
@@ -718,15 +718,18 @@ achievement(
                 CheckGameStage(0x02, 0x0a) &&
                 prior(WaterTank1Lvl) == 0x03 &&
 				WaterTank1Lvl == 0x02 &&
-				prior(WaterTank2Lvl) == 0x03 &&
+				((prior(WaterTank2Lvl) == 0x03 &&
 				WaterTank2Lvl == 0x02 && 
 				prior(WaterTank3Lvl) == 0x00 && 
-				WaterTank3Lvl == 0x02 && 
+				WaterTank3Lvl == 0x02) ||
+                (prior(WaterTank2Lvl) == 0x00 &&
+                WaterTank2Lvl == 0x02 && 
+                prior(WaterTank3Lvl) == 0x03 && 
+                WaterTank3Lvl == 0x02)) &&
 				disable_when(tally(5,
                     (prev(WaterTank1Lvl) != WaterTank1Lvl) ||
                      (prev(WaterTank2Lvl) != WaterTank2Lvl) || 
-                     (prev(WaterTank3Lvl) != WaterTank3Lvl), 
-                     always_false()), until=prev(WaterTank1Lvl) == 0x05 && WaterTank1Lvl ==0x06)
+                     (prev(WaterTank3Lvl) != WaterTank3Lvl)), until=prev(WaterTank1Lvl) == 0x00 && WaterTank1Lvl ==0x06)
 )
 
 //Check Menu/save tests then if the chapter change from 2 to 3
