@@ -37,9 +37,34 @@ CGIPlaceHolder = [
     dword(0x00244714)
 ]
 
+FunctionPlaceHolder = [
+    dword(dword(0x00242a38) + 0x0),
+    dword(dword(0x00242a38) + 0x4),
+    dword(dword(0x00242a38) + 0x8),
+    dword(dword(0x00242a38) + 0xc),
+    dword(dword(0x00242a38) + 0x10),
+    dword(dword(0x00242a38) + 0x14),
+    dword(dword(0x00242a38) + 0x18),
+    dword(dword(0x00242a38) + 0x1c),
+    dword(dword(0x00242a38) + 0x20),
+    dword(dword(0x00242a38) + 0x24),
+    dword(dword(0x00242a38) + 0x28),
+]
+
+FunctionPlaceHolder2 = [
+    dword(dword(0x00423c48) + 0x0),
+    dword(dword(0x00423c48) + 0x4),
+    dword(dword(0x00423c48) + 0x8),
+    dword(dword(0x00423c48) + 0xc),
+    dword(dword(0x00242a38) + 0x10),
+]
+
+
+
 Sets = {
     "MELEE_MEATHOOK_EXTERIOR" : [0x454c454d, 0x686d5c45, 0x344d2e65], //MELEE\mhe.M4B
     "MELEE_MEATHOOK_INSIDE" : [0x454c454d, 0x686d5c45, 0x344d2e69], //MELEE\mhi.M4B
+    "MELEE_SCUMMBAR" : [0x454c454d, 0x63735c45, 0x344d2e75], //MELEE\scu.M4B
     "LUCRE_HARBOR" : [0x5243554c, 0x756c5c45, 0x344d2e63], //LUCRE\luc.M4B
     "MELEE_SHIPYARD" : [0x454c454d, 0x68735c45, 0x344d2e69], //MELEE\shi.M4B
     "MELEE_GOVERNOR_IN" : [0x454c454d, 0x6d675c45, 0x344d2e69], //MELEE\gmi.M4B
@@ -49,7 +74,25 @@ Sets = {
     "LUCRE_PROTHESES" : [0x5243554c, 0x6f705c45, 0x344d2e70], //LUCRE\pop.M4B
     "LUCRE_SWAMP" : [0x5243554c, 0x6f6d5c45, 0x344d2e74], //LUCRE\mot.M4B
     "LUCRE_DEEP_WATER" : [0x5243554c, 0x6c755c45, 0x344d2e67], //LUCRE\ulg.M4B
+    "JAMBALYA_MAP" : [0x424d414a, 0x59414c41, 0x6d616a5c, 0x42344d2e], //JAMBALAY\gpt.M4B
     "JAMBALYA_HARBOR" : [0x424d414a, 0x59414c41, 0x7470675c, 0x42344d2e], //JAMBALAY\gpt.M4B
+    "JAMBALYA_STARBUC" : [0x424d414a, 0x59414c41, 0x6274735c, 0x42344d2e], //JAMBALAY\stb.M4B
+    "JAMBALYA_MICROGROG" : [0x424d414a, 0x59414c41, 0x67696d5c, 0x42344d2e], //JAMBALAY\mig.M4B
+    "JAMBALYA_PLANET" : [0x424d414a, 0x59414c41, 0x746c705c, 0x42344d2e], //JAMBALAY\plt.M4B
+    "JAMBALYA_SCHOOL" : [0x424d4100, 0x59414c41, 0x7470635c, 0x42344d2e], //AMBALAY\cpt.M4B
+    "JAMBALYA_BEACH" : [0x424d414a, 0x59414c41, 0x62616b5c, 0x42344d2e], //AMBALAY\cpt.M4B
+    "JAMBALYA_PLANK" : [0x424d414a, 0x59414c41, 0x616c705c, 0x42344d2e], //JAMBALAY\pla.M4B
+    "ACT_3" : [0x4b4e4f00, 0x615c5945, 0x4d2e7463], //MONKEY\act.M4B
+    "ACT_3+" : [0x4b4e4f4D, 0x615c5945, 0x4d2e7463], //MONKEY\act.M4B
+    "MONKEY_BEACH" : [0x4b4e4f4d, 0x6d5c5945, 0x4d2e6269], //MONKEY\mib.M4B
+    "MONKEY_BOULDER" : [0x4b4e4f4d, 0x705c5945, 0x4d2e6361], //MONKEY\pac.M4B
+    "MONKEY_CANYON" : [0x4b4e4f4d, 0x635c5945, 0x4d2e6e61], //MONKEY\can.M4B
+    "MONKEY_LAVA" : [0x4b4e4f4d, 0x6c5c5945, 0x4d2e7661], //MONKEY\lav.M4B
+    "MONKEY_CASTLE" : [0x4b4e4f4d, 0x635c5945, 0x4d2e6c6f], //MONKEY\col.M4B
+    "MONKEY_MONKEYTOWN" : [0x4b4e4f4d, 0x6d5c5945, 0x4d2e6e6f], //MONKEY\mon.M4B
+    "MONKEY_MONKEYHEAD" : [0x4b4e4f4d, 0x6d5c5945, 0x4d2e686f], //MONKEY\moh.M4B
+    "MONKEY_CONTROLROOM" : [0x4b4e4f4d, 0x685c5945, 0x4d2e6965], //MONKEY\hei.M4B
+    "MONKEY_FINAL" : [0x4b4e4f4d, 0x665c5945, 0x4d2e6e69], //MONKEY\fin.M4B
 }
 
 Dialogs = {
@@ -71,12 +114,45 @@ Dialogs = {
     "MEATHOOK_2" : [0x6D61656D, 0x35306968, 0x31], //meamhig051
     "CHIEF_1" : [0x6c656863, 0x31306175, 0x34], //chelua014
     "CHIEF_2" : [0x6C656863, 0x31306175, 0x35], //chelua015
+    "TEACHER_1" : [0x70766972, 0x34306174, 0x33], //rivpta043
+    "TEACHER_2" : [0x70797567, 0x30306174, 0x36], //guypta006
+    "PUPPETS" : [0x6b797567, 0x35306261, 0x37], //guykab057
+    "DIVE_JURY_1" : [0x70707274, 0x3030616c, 0x35], //trppla005
+    "DIVE_JURY_2" : [0x70646465, 0x3030616c, 0x35], //eddpla005
+    "JOJO_1" : [0x6d6a6f6a, 0x31306e6f, 0x37], //jojmon017
+    "GIANT_MONKEY_1" : [0x68797567, 0x30306965, 0x31], //guyhei030
+    "GIANT_MONKEY_2" : [0x68797567, 0x33306965, 0x30], //guyhei030
+    "COWARD" : [0x6d797567, 0x39306e6f, 0x32], //guymon092
+    "TENT_1" : [0x6d797567, 0x3330746f, 0x33], //guymot033
+    "TENT_2" : [0x6772756d, 0x34307470, 0x33], //murgpt043
+    "PONG_1" : [0x70797567, 0x3531706f, 0x39], //guypop159
+    "PONG_2" : [0x61797567, 0x38306c6c, 0x31], //guyall081
+}
+
+Functions = {
+    "GET_MONKEY_MUG" : [0x5f657375, 0x656b6166, 0x6e6f4d5f, 0x5f79656b, 0x67754d],
+    "CS_ROCK" : [0x6b636f72, 0x73635f00, 0x636f725f, 0x2e63006b],
+    "MULTIPLAYER_OPTION" : [0x746c754d, 0x616c7069, 0x20726579, 0x6974704f, 0x2e736e6f],
+    "MULTIPLAYER_INPUTS" : [0x3030315f, 0x3030315f, 0x3030315f, 0x3030315f, 0x3030315f],
 }
 
 CGI = {
-    "HOME_1" : [0x656D6F68, 0x31], //home_1
-    "NOSE" : [0x65736F6E, 0x00], //nose
-    "MELT" : [0x746c656d, 0x00], //melt
+    "HOME_1" : [0x656D6F68, 0x31], //home1
+    "NOSE" : [0x65736F6E], //nose
+    "MELT" : [0x746c656d], //melt
+    "DUMM" : [0x6d6d7564], //dumm
+    "ELA3" : [0x33616c65], //ela3
+    "HOME_2" : [0x656D6F68, 0x32], //home2
+    "ROCK" : [0x6b636f72], //rock
+    "SORY" : [0x4d2e6965], //sory
+    "ESPY" : [0x79707365], //espi
+    "GMRR" : [0x72726d67], //gmrr
+    "OZNX" : [0x786e7a6f], //oznx
+    "FINI" : [0x696e6966], //fini
+}
+
+Music = {
+    "ENDING" : 0x7a
 }
 
 //FUNCTIONS
@@ -219,7 +295,7 @@ function PriorNotChanged(address){
 
 //ACHIEVEMENTS 
 achievement(
-    title = "Werewolf", points = 1, type="missable",
+    title = "Werewolf", points = 2, type="missable",
     description = "Bark at the moon",
     trigger = all_of(CompareArrays(Sets["MELEE_MEATHOOK_EXTERIOR"], SetLoadedPlaceHolder, 1), a => a) &&
               Engine["CURRENT_SETUP"] == 0x00 && 
@@ -230,7 +306,8 @@ achievement(
 achievement(
     title = "Insult Mastery", points = 10, type="missable",
     description = "Beat Ignace Cheese without making any mistake",
-    trigger = dword(dword(0x242974) + 0x000024) == 0x03 &&
+    trigger = all_of(CompareArrays(Sets["MELEE_SCUMMBAR"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x03 && 
               unless((prev(dword(0x243F20)) == 0x7376616E && prev(dword(0x243F24)) == 0x38307563 &&
                   prev(dword(0x243F28)) == 0x34 && dword(0x243F20) != 0x73797567 && dword(0x243F24) != 0x38317563 &&
                   dword(0x243F28) != 0x38)
@@ -315,7 +392,7 @@ achievement(
 )
 
 achievement(
-    title = "Cryptozoology", points = 1, type="missable",
+    title = "Cryptozoology", points = 2, type="missable",
     description = " Moo?! What kinda weird duck are you ?!",
     trigger = all_of(CompareArraysPrev(Dialogs["DUCK_1"], DialogPlaceHolder, 1), a => a) &&
               all_of(CompareArrays(Dialogs["DUCK_2"], DialogPlaceHolder, 1), a => a)
@@ -347,8 +424,8 @@ achievement(
 )
 
 achievement(
-    title = "Scuba Diver", points = 2, type="missable",
-    description = "",
+    title = "Scuba Diver", points = 5, type="missable",
+    description = "Hold your breath under water as much as possible",
     trigger = all_of(CompareArrays(Sets["LUCRE_DEEP_WATER"], SetLoadedPlaceHolder, 1), a => a) &&
               Engine["CURRENT_SETUP"] == 0x01 && 
               all_of(CompareArraysPrev(Dialogs["DROWN_1"], DialogPlaceHolder, 1), a => a) &&
@@ -356,7 +433,7 @@ achievement(
 )
 
 achievement(
-    title = "Act 2", points = 10, type="progression",
+    title = "Act II", points = 10, type="progression",
     description = "Prove your innocence and come back to Melee Island",
     trigger = all_of(CompareArraysPrior(Sets["ACT_2"], SetLoadedPlaceHolder, 1), a => a) &&
               all_of(CompareArrays(Sets["MELEE_GOVERNOR_IN"], SetLoadedPlaceHolder, 1), a => a) &&
@@ -366,7 +443,7 @@ achievement(
 )
 
 achievement(
-    title = "Talktoo", points = 1, type="missable",
+    title = "Talktoo", points = 2, type="missable",
     description = "Make meathook to do that funny thing  ",
     trigger = all_of(CompareArrays(Sets["MELEE_MEATHOOK_INSIDE"], SetLoadedPlaceHolder, 1), a => a) &&
               Engine["CURRENT_SETUP"] == 0x01 && 
@@ -382,7 +459,6 @@ achievement(
               all_of(CompareArrays(CGI["MELT"], CGIPlaceHolder, 1), a => a) &&
               all_of(CompareArraysPrev(Dialogs["CHIEF_1"], DialogPlaceHolder, 1), a => a) &&
               all_of(CompareArrays(Dialogs["CHIEF_2"], DialogPlaceHolder, 1), a => a)
-
 )
 
 achievement(
@@ -390,4 +466,106 @@ achievement(
     description = "Sail to Jambalya Island",
     trigger = all_of(CompareArraysPrior(Sets["SEA_MAP"], SetLoadedPlaceHolder, 1), a => a) &&
               all_of(CompareArrays(Sets["JAMBALYA_HARBOR"], SetLoadedPlaceHolder, 1), a => a) 
+)
+
+achievement(
+    title = "Silver Monkey Head", points = 5, type="progression",
+    description = "Get the first part of the Ultimate Insult",
+    trigger = all_of(CompareArrays(Sets["JAMBALYA_SCHOOL"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x03 && 
+              all_of(CompareArraysPrev(Functions["GET_MONKEY_MUG"], FunctionPlaceHolder, 0), a => a) &&
+              all_of(CompareArrays(Functions["GET_MONKEY_MUG"], FunctionPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Certificate of Transmogrification", points = 2, type="missable",
+    description = "Be graduated from Ozzie Mandrill's Pirate Transmogrification Academy",
+    trigger = all_of(CompareArrays(Sets["JAMBALYA_SCHOOL"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x01 && 
+              all_of(CompareArraysPrev(Dialogs["TEACHER_1"], DialogPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Dialogs["TEACHER_2"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Bronze Hat", points = 5,
+    description = "Get the second part of the Ultimate Insult",
+    trigger = all_of(CompareArrays(Sets["JAMBALYA_BEACH"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x07 && 
+              prior(Engine["CURRENT_SET"]) == 0x0 &&
+              Engine["CURRENT_SET"] != 0x0 &&
+              all_of(CompareArrays(CGI["DUMM"], CGIPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Dialogs["PUPPETS"], DialogPlaceHolder, 1), a => a)
+)
+
+
+achievement(
+    title = "MARCO ! POLO !", points = 5, type="progression",
+    description = "Beat Marco de Pollo and get the last part of the Ultimate Insult",
+    trigger = all_of(CompareArrays(Sets["JAMBALYA_PLANK"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x02 && 
+              all_of(CompareArraysPrev(Dialogs["DIVE_JURY_1"], DialogPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Dialogs["DIVE_JURY_2"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "ACT III", points = 10, type="progression",
+    description = "Be banished to Monkey Island",
+    trigger = all_of(CompareArraysPrior(Sets["ACT_3"], SetLoadedPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Sets["MONKEY_BEACH"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x0 && 
+              all_of(CompareArraysPrior(CGI["ELA3"], CGIPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(CGI["HOME_2"], CGIPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Boulder Dash", points = 5, type="progression",
+    description = "Throw a boulder to the Volcano",
+    trigger = all_of(CompareArrays(Sets["MONKEY_BOULDER"], SetLoadedPlaceHolder, 1), a => a) &&
+              all_of(CompareArraysPrev(Functions["CS_ROCK"], FunctionPlaceHolder, 0), a => a) &&
+              all_of(CompareArrays(Functions["CS_ROCK"], FunctionPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Animality", points = 5, type="progression",
+    description = "Become the true champion of Monkey Kombat by beating Jojo Jr",
+    trigger = all_of(CompareArrays(Sets["MONKEY_MONKEYTOWN"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x03 && 
+              all_of(CompareArraysPrev(Dialogs["JOJO_1"], DialogPlaceHolder, 0), a => a) &&
+              all_of(CompareArrays(Dialogs["JOJO_1"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "ACT III+", points = 10, type="progression",
+    description = "Escape Monkey Island",
+    trigger = all_of(CompareArrays(Sets["ACT_3+"], SetLoadedPlaceHolder, 1), a => a) &&
+              all_of(CompareArraysPrior(CGI["ESPY"], CGIPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(CGI["GMRR"], CGIPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Dialogs["GIANT_MONKEY_2"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "I Want to be a Pirate", points = 25,
+    description = "Finish Escape from Monkey Island",
+    trigger = all_of(CompareArrays(Sets["MONKEY_FINAL"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x05 && 
+              all_of(CompareArrays(CGI["FINI"], CGIPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_BGM"] == Music["ENDING"]
+)
+
+achievement(
+    title = "Coward", points = 2,
+    description = "Try to escape the final fight",
+    trigger = all_of(CompareArrays(Sets["MONKEY_FINAL"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x0 && 
+              all_of(CompareArraysPrev(Dialogs["COWARD"], DialogPlaceHolder, 0), a => a) &&
+              all_of(CompareArrays(Dialogs["COWARD"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "How About Another Joke, Murray?!", points = 2,
+    description = "Getting bitten by Murray while changing clothes",
+    trigger = all_of(CompareArrays(Sets["JAMBALYA_PLANK"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x01 && 
+              all_of(CompareArraysPrev(Dialogs["TENT_1"], DialogPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Dialogs["TENT_2"], DialogPlaceHolder, 1), a => a)
 )
