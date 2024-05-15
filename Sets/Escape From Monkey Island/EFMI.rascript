@@ -103,8 +103,8 @@ Dialogs = {
     "FULL_MOON_2" : [0x6d797567, 0x30306568, 0x35], //guymhe005
     "INSULT_1" : [0x73797567, 0x30327563, 0x33], //guyscu003
     "INSULT_2" : [0x7376616e, 0x35307563, 0x32], //navscu052
-    "CATAPULT_1" : [0x676f6f67, 0x3130656d, 0x31], //googme011
-    "CATAPULT_2" : [0x676f6f67, 0x3130656d, 0x32], //googme012
+    "CATAPULT_1" : [0x676f6f67, 0x3130656d, 0x30], //googme010
+    "CATAPULT_2" : [0x676f6f67, 0x3430656d, 0x31], //googme041
     "BANK_ROBBERY_1" : [0x76797567, 0x32307561, 0x39], //pegban001
     "BANK_ROBBERY_2" : [0x62676570, 0x30306E61, 0x31], //guyvan001
     "DUCK_1" : [0x61637564, 0x30306c6c, 0x31], //ducall001
@@ -335,8 +335,8 @@ achievement(
     description = "Save the Governor Mansion from destruction",
     trigger = all_of(CompareArrays(Sets["MELEE_GOVERNOR_EXT"], SetLoadedPlaceHolder, 1), a => a) &&
               Engine["CURRENT_SETUP"] == 0x02 && 
-              all_of(CompareArraysPrev(Dialogs["INSULT_1"], DialogPlaceHolder, 1), a => a) &&
-              all_of(CompareArrays(Dialogs["INSULT_2"], DialogPlaceHolder, 1), a => a)
+              Dialogs["CATAPULT_1"][2] == prev(DialogPlaceHolder[2]) &&
+              all_of(CompareArrays(Dialogs["CATAPULT_2"], DialogPlaceHolder, 1), a => a)
 )
 
 achievement(
