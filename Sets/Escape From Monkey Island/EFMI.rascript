@@ -62,12 +62,15 @@ FunctionPlaceHolder2 = [
 
 
 Sets = {
+    "MELEE_PROLOGUE" : [0x454c454d, 0x65775c45, 0x344d2e64], //MELEE\mhe.M4B
+    "MELEE_PROLOGUE_CS" : [0x454c4500, 0x65775c45, 0x344d2e64], // ELEE\mhe.M4B Cutscene
     "MELEE_MEATHOOK_EXTERIOR" : [0x454c454d, 0x686d5c45, 0x344d2e65], //MELEE\mhe.M4B
     "MELEE_MEATHOOK_INSIDE" : [0x454c454d, 0x686d5c45, 0x344d2e69], //MELEE\mhi.M4B
     "MELEE_SCUMMBAR" : [0x454c454d, 0x63735c45, 0x344d2e75], //MELEE\scu.M4B
     "LUCRE_HARBOR" : [0x5243554c, 0x756c5c45, 0x344d2e63], //LUCRE\luc.M4B
     "MELEE_SHIPYARD" : [0x454c454d, 0x68735c45, 0x344d2e69], //MELEE\shi.M4B
     "MELEE_GOVERNOR_IN" : [0x454c454d, 0x6d675c45, 0x344d2e69], //MELEE\gmi.M4B
+    "MELEE_GOVERNOR_EXT" : [0x454c454d, 0x6d675c45, 0x344d2e65], //MELEE\gme.M4B
     "MELEE_LUA_BAR" : [0x454c454d, 0x756c5c45, 0x344d2e61], //MELEE\lua.M4B
     "SEA_MAP" : [0x454c4500, 0x72745c45, 0x344d2e69], //MELEE\shi.M4B
     "ACT_2" : [0x454c4500, 0x63615c45, 0x344d2e74], //MELEE\act.M4B
@@ -98,6 +101,10 @@ Sets = {
 Dialogs = {
     "FULL_MOON_1" : [0x6d797567, 0x30306568, 0x34], //guymhe004
     "FULL_MOON_2" : [0x6d797567, 0x30306568, 0x35], //guymhe005
+    "INSULT_1" : [0x73797567, 0x30327563, 0x33], //guyscu003
+    "INSULT_2" : [0x7376616e, 0x35307563, 0x32], //navscu052
+    "CATAPULT_1" : [0x676f6f67, 0x3130656d, 0x31], //googme011
+    "CATAPULT_2" : [0x676f6f67, 0x3130656d, 0x32], //googme012
     "BANK_ROBBERY_1" : [0x76797567, 0x32307561, 0x39], //pegban001
     "BANK_ROBBERY_2" : [0x62676570, 0x30306E61, 0x31], //guyvan001
     "DUCK_1" : [0x61637564, 0x30306c6c, 0x31], //ducall001
@@ -137,6 +144,8 @@ Functions = {
 }
 
 CGI = {
+    "INTRO_A" : [0x72746e69, 0x00615f6f], //intro_a
+    "INTRO_B" : [0x72746e69, 0x00625f6f], //intro_b
     "HOME_1" : [0x656D6F68, 0x31], //home1
     "NOSE" : [0x65736F6E], //nose
     "MELT" : [0x746c656d], //melt
@@ -295,12 +304,39 @@ function PriorNotChanged(address){
 
 //ACHIEVEMENTS 
 achievement(
+    title = "Yo Ho, Yo Ho! A Pirates Life For Me", points = 5,
+    description = "Destroy the enemies' ship and complete the Prologue",
+    trigger = prior(SetLoadedPlaceHolder[0]) == Sets["MELEE_PROLOGUE"][0] &&
+              all_of(CompareArrays(Sets["MELEE_PROLOGUE_CS"], SetLoadedPlaceHolder, 1), a => a) &&
+              prior(CGIPlaceHolder[1]) == CGI["INTRO_A"][1] &&
+              all_of(CompareArrays(CGI["INTRO_B"], CGIPlaceHolder, 1), a => a)
+)
+
+achievement(
     title = "Werewolf", points = 2, type="missable",
     description = "Bark at the moon",
     trigger = all_of(CompareArrays(Sets["MELEE_MEATHOOK_EXTERIOR"], SetLoadedPlaceHolder, 1), a => a) &&
               Engine["CURRENT_SETUP"] == 0x00 && 
               all_of(CompareArraysPrev(Dialogs["FULL_MOON_1"], DialogPlaceHolder, 1), a => a) &&
               all_of(CompareArrays(Dialogs["FULL_MOON_2"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Wrestler", points = 5, type="progression",
+    description = "Beat Ignace Cheese during an Insult Wrestling",
+    trigger = all_of(CompareArrays(Sets["MELEE_SCUMMBAR"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x03 && 
+              all_of(CompareArraysPrev(Dialogs["INSULT_1"], DialogPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Dialogs["INSULT_2"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Bad Manor", points = 0,
+    description = "Save the Governor Mansion from destruction",
+    trigger = all_of(CompareArrays(Sets["MELEE_GOVERNOR_EXT"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x02 && 
+              all_of(CompareArraysPrev(Dialogs["INSULT_1"], DialogPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Dialogs["INSULT_2"], DialogPlaceHolder, 1), a => a)
 )
 
 achievement(
@@ -544,8 +580,8 @@ achievement(
 )
 
 achievement(
-    title = "I Want to be a Pirate", points = 25,
-    description = "Finish Escape from Monkey Island",
+    title = "A Pirate I Was Meant To Be", points = 25,
+    description = "Complete Escape from Monkey Island. Now, trim the sails and roam the sea !",
     trigger = all_of(CompareArrays(Sets["MONKEY_FINAL"], SetLoadedPlaceHolder, 1), a => a) &&
               Engine["CURRENT_SETUP"] == 0x05 && 
               all_of(CompareArrays(CGI["FINI"], CGIPlaceHolder, 1), a => a) &&
@@ -568,4 +604,16 @@ achievement(
               Engine["CURRENT_SETUP"] == 0x01 && 
               all_of(CompareArraysPrev(Dialogs["TENT_1"], DialogPlaceHolder, 1), a => a) &&
               all_of(CompareArrays(Dialogs["TENT_2"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Murray Ball", points = 2, type="missable",
+    description = "Unlock and play a game of Murray Ball",
+    trigger = dword(tbyte(0x242A10) + 0x000018) == 0x6C61626D
+)
+
+achievement(
+    title = "Murray Invaders", points = 0,
+    description = "Unlock and play a game of Murray Invaders",
+    trigger = dword(tbyte(tbyte(0x242A10)) + 0x000018) == 0x766E696D && dword(0x00001C) == 0x72656461
 )
