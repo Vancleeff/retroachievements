@@ -76,7 +76,10 @@ Sets = {
     "ACT_2" : [0x454c4500, 0x63615c45, 0x344d2e74], //MELEE\act.M4B
     "LUCRE_PROTHESES" : [0x5243554c, 0x6f705c45, 0x344d2e70], //LUCRE\pop.M4B
     "LUCRE_SWAMP" : [0x5243554c, 0x6f6d5c45, 0x344d2e74], //LUCRE\mot.M4B
+    "LUCRE_SWAMP_CS" : [0x52435500, 0x6f6d5c45, 0x344d2e74], // UCRE\mot.M4B
     "LUCRE_DEEP_WATER" : [0x5243554c, 0x6c755c45, 0x344d2e67], //LUCRE\ulg.M4B
+    "LUCRE_CABIN" : [0x5243554c, 0x70705c45, 0x344d2e68], //LUCRE\pph.M4B
+    "LUCRE_HOJ" : [0x5243554c, 0x6f685c45, 0x344d2e6a], //LUCRE\hoj.M4B
     "JAMBALYA_MAP" : [0x424d414a, 0x59414c41, 0x6d616a5c, 0x42344d2e], //JAMBALAY\gpt.M4B
     "JAMBALYA_HARBOR" : [0x424d414a, 0x59414c41, 0x7470675c, 0x42344d2e], //JAMBALAY\gpt.M4B
     "JAMBALYA_STARBUC" : [0x424d414a, 0x59414c41, 0x6274735c, 0x42344d2e], //JAMBALAY\stb.M4B
@@ -113,6 +116,8 @@ Dialogs = {
     "FILEOMATIC_2" : [0x61797567, 0x37306C6C, 0x39], //guyall079
     "GUYKILLGUY_1" : [0x6D797567, 0x3330746F, 0x33], //guymot033
     "GUYKILLGUY_2" : [0x6D797567, 0x3330746F, 0x34], //guymot034
+    "CATCHPEGNOS_1" : [0x686e6163, 0x32306a6f, 0x32], //canhoj02
+    "CATCHPEGNOS_2" : [0x68797567, 0x31306a6f, 0x38], //guyhoj01
     "ABOMINATION_1" : [0x61797567, 0x37346C6C, 0x37], //guyall077
     "ABOMINATION_2" : [0x61797567, 0x37346C6C, 0x35], //guymot075
     "DROWN_1" : [0x75797567, 0x3030676C, 0x31], //guyulg001
@@ -450,6 +455,22 @@ achievement(
               Engine["CURRENT_SETUP"] == 0x08 && 
               all_of(CompareArraysPrev(Dialogs["GUYKILLGUY_1"], DialogPlaceHolder, 1), a => a) &&
               all_of(CompareArrays(Dialogs["GUYKILLGUY_2"], DialogPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Mystes O' Tyme", points = 5, type="progression",
+    description = "Made your way to Pegnose Pete's Cabin",
+    trigger = all_of(CompareArrays(Sets["LUCRE_CABIN"], SetLoadedPlaceHolder, 1), a => a) &&
+              all_of(CompareArraysPrev(Sets["LUCRE_SWAMP_CS"], SetLoadedPlaceHolder, 1), a => a)
+)
+
+achievement(
+    title = "Law and Order", points = 0,
+    description = "Catch Pegnose Pete and hand him over to the Inspector Canard",
+    trigger = all_of(CompareArrays(Sets["LUCRE_HOJ"], SetLoadedPlaceHolder, 1), a => a) &&
+              Engine["CURRENT_SETUP"] == 0x00 && 
+              all_of(CompareArraysPrev(Dialogs["CATCHPEGNOS_1"], DialogPlaceHolder, 1), a => a) &&
+              all_of(CompareArrays(Dialogs["CATCHPEGNOS_2"], DialogPlaceHolder, 1), a => a)
 )
 
 achievement(
