@@ -1,12 +1,64 @@
 Lookup:Melee
 778331511=is fighting scurvy dogs during the Prologue
-778399079=is at the Governor garden on Melee Island
+778855789=is in town on Melee Island
+779054966=is at Lady Voodoo's house on Melee Island
+779445107=is drinking some grogs at the Scummbar on Melee Island
+778659955=is on the docks on Melee Island
+778399079=is in the Governor garden on Melee Island
 778661223=is at the Governor Mansion on Melee Island
 778397805=is in front of Meathook's house on Melee Island
 778659949=is at Meathook's house on Melee Island
 *=is on Melee Island
 
+Lookup:Lucre
+778925420=is on the map of Lucre Island
+778270060=is in town on Lucre Island
+779575660=is consulting lawyers on Lucre Island
+778402415=is in front of Ozzie Mandrill's Mansion on Lucre Island
+778664559=is at Ozzie Mandrill's Mansion on Lucre Island
+779382637=is navigating through the Mystes 'O Tyme on Lucre Island
+778527084=is in the jungle on Lucre Island
+778593141=has found a secret place on Lucre Island
+778529909=is searching something underwater on Lucre Island
+778268277=has found Marley family heirlooms on Lucre Island
+778596464=is at Pegnose Pete's Cabin on Lucre Island
+778985826=is at the bank on Lucre Island
+779120496=is at the Palace of Prostheses on Lucre Island
+778727272=is at the Hall of Justice on Lucre Island
+779317096=is at the House of Sticks on Lucre Island
+779313506=is at the Baitte Shoppe on Lucre Island
+*=is on Lucre Island
+
+Lookup:Jambalya
+1953523548=is in town on Jambalya Island
+1651798876=is drinking Cap'n-ccino and eating gross mini-bagels at StarBuccanneer's on Jambalya Island
+1953263708=is eating a Lobster LeChuck at Planet Threepwood on Jambalya Island
+1734962524=is trying to tame a Mechanical Manatee at Micro-Groggery on Jambalya Island
+1835100764=is on the map of Jambalya Island
+1634496604=is competing with Marco de Pollo in a diving competition on Jambalya Island
+1635021660=is talking about life insurance with Stan on Jambalya Island
+1936155484=is avoiding cannon balls from Ricardo Luigi Pierre M'Benga Chang Nehru O'Hara Casaba the Third on Knuttin Atolls
+1953522524=is searching for the Bronze Hat on Knuttin Attols
+1650551644=is playing with Jumbeaux LaFeet's parrots on Knuttin Attols
+*=is on Jambalya Island
+
+Lookup:Monkey
+1836019036=is on the map of Monkey Island
+1836017500=is in the mine on Monkey Island
+1851876188=is in the canyon on Monkey Island
+1668248668=is at the campsite on Monkey Island
+1651076444=is on the beach on Monkey Island
+1667330140=is at the vista point on Monkey Island
+1986096220=is at the lava field on Monkey Island
+1819239260=is in the Cathedral on Monkey Island
+1752132956=is visiting the world-famous giant monkey head on Monkey Island
+1853188700=is in the jungle on Monkey Island
+1852796252=is in Monkey Town on Monkey Island
+*=is on Monkey Island
+
 Display:
 ?0xX001e8630=1162626381_0x001e8634=23621?@Melee(0xX001e8636)
-?0x001e8630=0x453d?Test
+?0xX001e8630=1112359242_0xX001e8634=1497451585?@Jambalya(0xX001e8638)
+?0xX001e8630=1380144460?@Lucre(0xX001e8636)
+?0xX001e8630=1263423309?@Monkey(0xX001e8636)
 Trim the sails and roam the sea !
