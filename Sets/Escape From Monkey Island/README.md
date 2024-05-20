@@ -42,14 +42,14 @@ If you want a detailed playthrough, you can check this one : https://gamefaqs.ga
 
 ### Missable Achievements
 
-| Achievements     | Description                                      |
-|------------------|--------------------------------------------------|
-| Werewolf         | Bark at the moon                                 |
-| Cryptozoology    | Moo?! What kinda weird duck are you ?!           |
-| Dr Emmett Brown  | Kill futur's Guybrush                            |
-| Dr Frankenstein  | Create and use an Abomination                    |
-| Scuba Diver      | Hold your breath under water as long as possible |
-| Murray Ball      | Unlock and play a game of Murray Ball            |
+| Achievements    | Description                                                       |
+|-----------------|-------------------------------------------------------------------|
+| Werewolf        | Bark at the moon                                                  |
+| Insult Mastery  | Beat Ignace Cheese without making any mistake an Insult Wrestling |
+| Cryptozoology   | Moo?! What kinda weird duck are you ?!                            |
+| Dr Emmett Brown | Kill futur's Guybrush                                             |
+| Dr Frankenstein | Create and use an Abomination                                     |
+| Murray Ball     | Unlock and play a game of Murray Ball                             |
 
 #### Werewolf
 On Melee Island, go to Meathook's house and look at the moon twice to make Guybrush barking like a wolf.
@@ -63,8 +63,26 @@ On Lucre Island, when you meet future Guybrush use the gun on him.
 #### Dr Frankenstein
 On Lucre Island, get every free protheses from Dave and combine them in your inventory. Finally, use the abomination.
 
-#### Scuba Diver
-On Lucre Island, wait underwater till Guybrush comes back at the surface.
+#### Insult Mastery
+To beat Ignace Cheese without making any mistakes, you will have to remember every good responses.
+
+| Insult                                                                | Response                                                               |
+|-----------------------------------------------------------------------|------------------------------------------------------------------------|
+| Today, by myself, twelve people I've beaten!                          | From the size of your gut, I'd guess they were eaten!                  |
+| I've got muscles in places you've never even heard of!                | It's too bad none of them  are in your arms!                           |
+| Give up now, or I'll crush you like a grape!                          | I would if it stop your WINE-ing!                                      |
+| My 98-year-old grandmother has bigger arms than you!                  | Yeah, but we both got better bladder control than you!                 |
+| I'm going to put your arm in a sling!                                 | Why, are you studying to be a nurse?                                   |
+| My stupefying strength will shatter your ulna into a million piec es! | I'm surprised you can count that high!                                 |
+| Hey, look over there!                                                 | Yeah, yeah, I know, a three-headed monkey.                             |
+| Your knuckles I'll grind to a splintery paste                         | I thought the bean dip had a strange taste!                            |
+| Your arms are no bigger than fleas that I've met!                     | Oh... So THAT'S why you're scratching... I'd go see a vet.             |
+| My forearms have been mistaken with tree trunks.                      | An over-the-counter defoliant could help with that problem             |
+| People consider my fists lethal weapons !                             | Sadly, your breath should be equally reckoned.                         |
+| Only once have I met such a coward !                                  | He must have taught you everything you know.                           |
+| I've out-wrestled octopi with these arms !                            | I'm sure that spineless creatures everywhere are humbled by your might |
+| You're the ugliest creature I've ever seen in my life                 | Well I'm shocked that you never 'ave gazed at your wife                |
+| Do I see quivers of agony dance on your lip?                          | It's laughter that's caused by your feathery grip                      |
 
 #### Murray Ball
 On Lucre Island, use the file classification machine at the Palace of Protheses and enter "Monkey, Pumpkin, Bunny" to unlock a minigame in the Bonus menu. Play it to unlock the cheevos.
