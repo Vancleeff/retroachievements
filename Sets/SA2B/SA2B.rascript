@@ -6,7 +6,7 @@ LvlCompletion = [
 ]
 
 story_progress_heroes = byte(0x1f234a)
-story_progress_vilains = byte(0x1f234a)
+story_progress_vilains = byte(0x1f234b)
 
 //Game Mode
 //0x1 : Story Mode (Heroes)
@@ -191,7 +191,7 @@ achievement(
 
 achievement(
     title = "Treasure Hunt in Wild Canyon", points = 2, type="progression",
-    description = "Find three pieces of the Master Emerald in Wild Canyon [Hero Story Mode]",
+    description = "Find 3 pieces of the Master Emerald in Wild Canyon [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
         game_mode == 0x01 && 
@@ -252,7 +252,7 @@ achievement(
 
 achievement(
     title = "Pumpkin Hill", points = 2, type="progression",
-    description = "Find three pieces of the Master Emerald in Pumpkin Hill [Hero Story Mode]",
+    description = "Find 3 pieces of the Master Emerald in Pumpkin Hill [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
         game_mode == 0x01 && 
@@ -272,7 +272,7 @@ achievement(
 
 achievement(
     title = "Aquatic Mine", points = 2, type="progression",
-    description = "Find three pieces of the Master Emerald in Aquatic Mine [Hero Story Mode]",
+    description = "Find 3 pieces of the Master Emerald in Aquatic Mine [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
         game_mode == 0x01 && 
@@ -311,7 +311,7 @@ achievement(
 
 achievement(
     title = "Death Chamber", points = 2, type="progression",
-    description = "Find the 3 Gate keys in Death Chamber [Hero Story Mode]",
+    description = "Find 3 Gate keys in Death Chamber [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
         game_mode == 0x01 && 
@@ -351,7 +351,7 @@ achievement(
 
 achievement(
     title = "Meteor Herd", points = 2, type="progression",
-    description = "Find the 3 pieces of the Master Emerald on Meteor Herd [Hero Story Mode]",
+    description = "Find 3 pieces of the Master Emerald on Meteor Herd [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
         game_mode == 0x01 && 
@@ -400,8 +400,8 @@ achievement(
 )
 
 achievement(
-    title = "Shadow Round Two", points = 2, type="progression",
-    description = "Defeat Shadow [Hero Story Mode]",
+    title = "Hero Story Mode", points = 2, type="progression",
+    description = "Complete Hero Story Mode",
     trigger = 
         GlobalChecks() &&
         game_mode == 0x01 && 
@@ -409,13 +409,225 @@ achievement(
         story_progress_heroes == 0x29
 )
 
+//STORY COMPLETION - DARK
 achievement(
-    title = "Hero Story Mode", points = 2, type="progression",
+    title = "Iron Gate", points = 2, type="progression",
+    description = "Get to the core of the military base [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x01
+)
+
+achievement(
+    title = "B-3X Hot Shot", points = 2, type="progression",
+    description = "Defeat the B-3X Hot Shot [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x03
+)
+
+achievement(
+    title = "Dry Lagoon", points = 2, type="progression",
+    description = "Find 3 pieces of the Master Emerald in Dry Lagoon [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x05
+)
+
+achievement(
+    title = "Sand Ocean", points = 2, type="progression",
+    description = "Return to Hidden Base [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x07
+)
+
+achievement(
+    title = "Radical Highway", points = 2, type="progression",
+    description = "Break through the besieging military [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x09
+)
+
+achievement(
+    title = "Egg Quarters", points = 2, type="progression",
+    description = "Find 3 Gate keys in Egg Quarters [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x0b
+)
+
+achievement(
+    title = "Lost Colony", points = 2, type="progression",
+    description = "Find the way to the colony's core [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x0d
+)
+
+achievement(
+    title = "Weapons Bed", points = 2, type="progression",
+    description = "Rush into the military base [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x0f
+)
+
+achievement(
+    title = "Tails - Round One", points = 2, type="progression",
+    description = "Defeat Tails in Weapons Bed [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x11
+)
+
+achievement(
+    title = "Security Hall", points = 2, type="progression",
+    description = "Steal 3 Chaos Emerald in 5 minutes in Security Hall [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x12
+)
+
+achievement(
+    title = "R-1/A Flying Dog", points = 2, type="progression",
+    description = "Defeat R-1/A Flying Dog in Security Hall [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x13
+)
+
+achievement(
+    title = "White Jungle", points = 2, type="progression",
+    description = "Cut through the Jungle in 10 minutes [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x15
+)
+
+achievement(
+    title = "Sonic - Round One", points = 2, type="progression",
+    description = "Defeat Sonic in White Jungle [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x16
+)
+
+achievement(
+    title = "Route 280", points = 2, type="progression",
+    description = "Chase the Tornado [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x19
+)
+
+achievement(
+    title = "Sky Rail", points = 2, type="progression",
+    description = "Continue to chase the Tornado [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x1a
+)
+
+achievement(
+    title = "Egg Golem - Dark Story", points = 2, type="progression",
+    description = "Defeat Egg Golem [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x1c
+)
+
+achievement(
+    title = "Mad Space", points = 2, type="progression",
+    description = "Find 3 pieces of the Master Emerald in Mad Space [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x1e
+)
+
+achievement(
+    title = "Knuckles", points = 2, type="progression",
+    description = "Defeat Knuckles [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x1f
+)
+
+achievement(
+    title = "Cosmic Wall", points = 2, type="progression",
+    description = "Get and confront the trespassers [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x21
+)
+
+achievement(
+    title = "Tails - Round Two", points = 2, type="progression",
+    description = "Defeat Tails in Cosmic Wall [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x23
+)
+
+achievement(
+    title = "Final Chase", points = 2, type="progression",
+    description = "Hurry to the Eclipse Cannon [Dark Story Mode]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x25
+)
+
+achievement(
+    title = "Dark Story Mode", points = 2, type="progression",
     description = "Complete Hero Story Mode",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
-        PrevFromTo(story_progress_heroes, 0x2A, 0x2B)
+        game_mode == 0x02 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        story_progress_vilains == 0x27
 )
 
 //ABILITIES UNLOCKING
@@ -678,7 +890,7 @@ achievement(
         GlobalChecks() &&
         game_mode == 0x02 && 
         PrevFromTo(u_pick_nails, 0x0, 0x1) && 
-        story_progress_vilains == 0x12
+        story_progress_vilains == 0xb
 )
 
 achievement(
