@@ -849,7 +849,7 @@ achievement(
     trigger = 
         GlobalChecks() &&
         game_mode == 0x02 && 
-        PrevFromTo(u_hammer_gloves, 0x0, 0x1) && 
+        PrevFromTo(u_air_shoes, 0x0, 0x1) && 
         story_progress_vilains == 0x15 
 )
 
@@ -910,7 +910,7 @@ achievement(
         GlobalChecks() &&
         game_mode == 0x02 && 
         PrevFromTo(u_iron_boots, 0x0, 0x1) && 
-        story_progress_vilains == 0xb 
+        story_progress_vilains == 0x1e
 )
 
 
