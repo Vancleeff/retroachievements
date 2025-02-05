@@ -8,6 +8,17 @@ LvlCompletion = [
 story_progress_heroes = byte(0x1f234a)
 story_progress_vilains = byte(0x1f234b)
 
+//Game States
+//0x0 : Not playing
+//0x01 : Level Title Card
+//0x02 : Loading Level
+//0x09 : Restart after Death
+//0x0d : Level Restart from menu
+//0x0e : Game Over
+//0x10 : Ingame 
+//0x11 : Pause
+game_state = byte(0x3ad81b)
+
 //Game Mode
 //0x1 : Story Mode (Heroes)
 //0x2 : Story Mode (Vilains)
@@ -16,6 +27,27 @@ story_progress_vilains = byte(0x1f234b)
 //0xd : Boss Rush (Vilains)
 //0xe : Boss Rush (All)
 game_mode = byte(0x1e50d4)
+level_id = word_be(0x3ad820)
+
+//Mission ID
+//0x0 : Story
+//0x1 : Ring challenge
+//0x2 : Chaos challenge 
+//0x3 : Time Attack
+//0x4 : Hard Mode
+mission_id = byte(0x1cc18b)
+
+//Character
+//0x0 : Sonic
+//0x1 : Shadow
+//0x2 : Tails
+//0x3 : Dr. Eggman
+//0x4 : Knuckles
+//0x5 : Rouge
+//0x6 : Tails(Mech)
+//0x7 : Dr. Eggman(Mech)
+current_character = byte(0x3ad82b)
+
 flag_stage_clear = byte(0x1cc1aa)
 flag_stage_key = byte(0x1cc1ac)
 player_lives = word_be(0x1cc1cc)
@@ -110,8 +142,13 @@ function SwitchOFF(address){
 }
 
 //Check if address increased to (or beyond) target since last frame
-function PrevIncreasedTo(address, target){
+function PrevIncreasedToMoreOrEquals(address, target){
     return prev(address) < target && address >= target
+}
+
+//Check if address increased to target since last frame
+function PrevIncreasedTo(address, target){
+    return prev(address) < target && address == target
 }
 
 //Used to check if a skill increased to a specific target when level up. prior <= target is used because the game increase 
@@ -190,7 +227,7 @@ achievement(
 )
 
 achievement(
-    title = "Treasure Hunt in Wild Canyon", points = 2, type="progression",
+    title = "Wild Canyon", points = 2, type="progression",
     description = "Find 3 pieces of the Master Emerald in Wild Canyon [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
@@ -546,8 +583,7 @@ achievement(
     trigger = 
         GlobalChecks() &&
         game_mode == 0x02 && 
-        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x19
+        PrevFromTo(story_progress_vilains, 0x19, 0x1a)
 )
 
 achievement(
@@ -913,7 +949,1402 @@ achievement(
         story_progress_vilains == 0x1e
 )
 
+//BONUS MISSIONS
+
+achievement(
+    title = "City Escape - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in City Escape [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xd &&
+        mission_id == 0x1
+) 
+
+achievement(
+    title = "City Escape - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in City Escape [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xd &&
+        mission_id == 0x2
+) 
+
+achievement(
+    title = "City Escape - Time Attack", points = 2, type="progression",
+    description = "Finish City Escape in less than 3'00\" [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xd &&
+        mission_id == 0x3
+) 
+
+achievement(
+    title = "City Escape - Hard Mode", points = 2, type="progression",
+    description = "Complete City Escape in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xd &&
+        mission_id == 0x4
+) 
+
+achievement(
+    title = "Wild Canyon - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Wild Canyon [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x10 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Wild Canyon - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Wild Canyon [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x10 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Wild Canyon - Time Attack", points = 2, type="progression",
+    description = "Finish Wild Canyon in less than 2'00\" [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x10 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Wild Canyon - Hard Mode", points = 2, type="progression",
+    description = "Complete Wild Canyon in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x10 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Prison Lane - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Prison Lane [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x9 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Prison Lane - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Prison Lane [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x9 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Prison Lane - Time Attack", points = 2, type="progression",
+    description = "Finish Prison Lane in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x9 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Prison Lane - Hard Mode", points = 2, type="progression",
+    description = "Complete Prison Lane in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x9 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Metal Harbor - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Metal Harbor [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xa &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Metal Harbor - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Metal Harbor [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xa &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Metal Harbor - Time Attack", points = 2, type="progression",
+    description = "Finish Metal Harbor in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xa &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Metal Harbor - Hard Mode", points = 2, type="progression",
+    description = "Complete Metal Harbor in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xa &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Green Forest - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Green Forest [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x3 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Green Forest - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Green Forest [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x3 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Green Forest - Time Attack", points = 2, type="progression",
+    description = "Finish Green Forest in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x3 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Green Forest - Hard Mode", points = 2, type="progression",
+    description = "Complete Green Forest in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x3 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Pumpkin Hill - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Pumpkin Hill [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x5 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Pumpkin Hill - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Pumpkin Hill [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x5 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Pumpkin Hill - Time Attack", points = 2, type="progression",
+    description = "Finish Pumpkin Hill in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x5 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Pumpkin Hill - Hard Mode", points = 2, type="progression",
+    description = "Complete Pumpkin Hill in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x5 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Mission Street - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Mission Street [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x11 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Mission Street - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Mission Street [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x11 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Mission Street - Time Attack", points = 2, type="progression",
+    description = "Finish Mission Street in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x11 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Mission Street - Hard Mode", points = 2, type="progression",
+    description = "Complete Mission Street in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x11 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Aquatic Mine - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Aquatic Mine [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x7 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Aquatic Mine - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Aquatic Mine [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x7 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Aquatic Mine - Time Attack", points = 2, type="progression",
+    description = "Finish Aquatic Mine in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x7 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Aquatic Mine - Hard Mode", points = 2, type="progression",
+    description = "Complete Aquatic Mine in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x7 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Route 101 - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Route 101 [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x46 &&
+        mission_id == 0x1 &&
+        current_character == 0x2
+)
+
+achievement(
+    title = "Route 101 - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Route 101 [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x46 &&
+        mission_id == 0x2 &&
+        current_character == 0x2
+)
+
+achievement(
+    title = "Route 101 - Time Attack", points = 2, type="progression",
+    description = "Finish Route 101 in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x46 &&
+        mission_id == 0x3 &&
+        current_character == 0x2
+)
+
+achievement(
+    title = "Route 101 - Hard Mode", points = 2, type="progression",
+    description = "Complete Route 101 in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x46 &&
+        mission_id == 0x4 &&
+        current_character == 0x2
+)
+
+achievement(
+    title = "Hidden Base - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Hidden Base [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x17 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Hidden Base - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Hidden Base [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x17 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Hidden Base - Time Attack", points = 2, type="progression",
+    description = "Finish Hidden Base in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x17 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Hidden Base - Hard Mode", points = 2, type="progression",
+    description = "Complete Hidden Base in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x17 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Pyramid Cave - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Pyramid Cave [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1c &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Pyramid Cave - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Pyramid Cave [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1c &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Pyramid Cave - Time Attack", points = 2, type="progression",
+    description = "Finish Pyramid Cave in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1c &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Pyramid Cave - Hard Mode", points = 2, type="progression",
+    description = "Complete Pyramid Cave in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1c &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Death Chamber - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Death Chamber [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x19 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Death Chamber - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Death Chamber [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x19 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Death Chamber - Time Attack", points = 2, type="progression",
+    description = "Finish Death Chamber in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x19 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Death Chamber - Hard Mode", points = 2, type="progression",
+    description = "Complete Death Chamber in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x19 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Eternal Engine - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Eternal Engine [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x18 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Eternal Engine - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Eternal Engine [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x18 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Eternal Engine - Time Attack", points = 2, type="progression",
+    description = "Finish Eternal Engine in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x18 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Eternal Engine - Hard Mode", points = 2, type="progression",
+    description = "Complete Eternal Engine in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x18 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Meteor Herd - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Meteor Herd [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x20 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Meteor Herd - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Meteor Herd [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x20 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Meteor Herd - Time Attack", points = 2, type="progression",
+    description = "Finish Meteor Herd in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x20 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Meteor Herd - Hard Mode", points = 2, type="progression",
+    description = "Complete Meteor Herd in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x20 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Crazy Gadget - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Crazy Gadget [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x16 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Crazy Gadget - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Crazy Gadget [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x16 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Crazy Gadget - Time Attack", points = 2, type="progression",
+    description = "Finish Crazy Gadget in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x16 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Crazy Gadget - Hard Mode", points = 2, type="progression",
+    description = "Complete Crazy Gadget in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x16 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Final Rush - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Final Rush [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1e &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Final Rush - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Final Rush [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1e &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Final Rush - Time Attack", points = 2, type="progression",
+    description = "Finish Final Rush in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1e &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Final Rush - Hard Mode", points = 2, type="progression",
+    description = "Complete Final Rush in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1e &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Iron Gate - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Iron Gate [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xb &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Iron Gate - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Iron Gate [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xb &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Iron Gate - Time Attack", points = 2, type="progression",
+    description = "Finish Iron Gate in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xb &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Iron Gate - Hard Mode", points = 2, type="progression",
+    description = "Complete Iron Gate in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xb &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Dry Lagoon - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Dry Lagoon [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x12 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Dry Lagoon - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Dry Lagoon [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x12 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Dry Lagoon - Time Attack", points = 2, type="progression",
+    description = "Finish Dry Lagoon in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x12 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Dry Lagoon - Hard Mode", points = 2, type="progression",
+    description = "Complete Dry Lagoon in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x12 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Sand Ocean - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Sand Ocean [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x15 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Sand Ocean - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Sand Ocean [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x15 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Sand Ocean - Time Attack", points = 2, type="progression",
+    description = "Finish Sand Ocean in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x15 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Sand Ocean - Hard Mode", points = 2, type="progression",
+    description = "Complete Sand Ocean in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x15 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Radical Highway - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Radical Highway [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xe &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Radical Highway - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Radical Highway [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xe &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Radical Highway - Time Attack", points = 2, type="progression",
+    description = "Finish Radical Highway in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xe &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Radical Highway - Hard Mode", points = 2, type="progression",
+    description = "Complete Radical Highway in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xe &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Egg Quarters - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Egg Quarters [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1a &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Egg Quarters - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Egg Quarters [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1a &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Egg Quarters - Time Attack", points = 2, type="progression",
+    description = "Finish Egg Quarters in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1a &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Egg Quarters - Hard Mode", points = 2, type="progression",
+    description = "Complete Egg Quarters in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1a &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Lost Colony - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Lost Colony [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1b &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Lost Colony - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Lost Colony [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1b &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Lost Colony - Time Attack", points = 2, type="progression",
+    description = "Finish Lost Colony in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1b &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Lost Colony - Hard Mode", points = 2, type="progression",
+    description = "Complete Lost Colony in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x1b &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Weapons Bed - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Weapons Bed [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xc &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Weapons Bed - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Weapons Bed [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xc &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Weapons Bed - Time Attack", points = 2, type="progression",
+    description = "Finish Weapons Bed in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xc &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Weapons Bed - Hard Mode", points = 2, type="progression",
+    description = "Complete Weapons Bed in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0xc &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Security Hall - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Security Hall [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x8 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Security Hall - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Security Hall [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x8 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Security Hall - Time Attack", points = 2, type="progression",
+    description = "Finish Security Hall in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x8 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Security Hall - Hard Mode", points = 2, type="progression",
+    description = "Complete Security Hall in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x8 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "White Jungle - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in White Jungle [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x4 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "White Jungle - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in White Jungle [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x4 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "White Jungle - Time Attack", points = 2, type="progression",
+    description = "Finish White Jungle in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x4 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "White Jungle - Hard Mode", points = 2, type="progression",
+    description = "Complete White Jungle in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x4 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Route 280 - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Route 280 [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x46 &&
+        mission_id == 0x1 &&
+        current_character == 0x5
+)
+
+achievement(
+    title = "Route 280 - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Route 280 [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x46 &&
+        mission_id == 0x2 &&
+        current_character == 0x5
+)
+
+achievement(
+    title = "Route 280 - Time Attack", points = 2, type="progression",
+    description = "Finish Route 280 in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x46 &&
+        mission_id == 0x3 &&
+        current_character == 0x5
+)
+
+achievement(
+    title = "Route 280 - Hard Mode", points = 2, type="progression",
+    description = "Complete Route 280 in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x46 &&
+        mission_id == 0x4 &&
+        current_character == 0x5
+)
+
+achievement(
+    title = "Sky Rail - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Sky Rail [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x6 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Sky Rail - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Sky Rail [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x6 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Sky Rail - Time Attack", points = 2, type="progression",
+    description = "Finish Sky Rail in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x6 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Sky Rail - Hard Mode", points = 2, type="progression",
+    description = "Complete Sky Rail in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x6 &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Mad Space - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Mad Space [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x2c &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Mad Space - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Mad Space [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x2c &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Mad Space - Time Attack", points = 2, type="progression",
+    description = "Finish Mad Space in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x2c &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Mad Space - Hard Mode", points = 2, type="progression",
+    description = "Complete Mad Space in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x2c &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Cosmic Wall - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Cosmic Wall [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x2b &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Cosmic Wall - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Cosmic Wall [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x2b &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Cosmic Wall - Time Attack", points = 2, type="progression",
+    description = "Finish Cosmic Wall in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x2b &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Cosmic Wall - Hard Mode", points = 2, type="progression",
+    description = "Complete Cosmic Wall in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x2b &&
+        mission_id == 0x4
+)
+
+achievement(
+    title = "Final Chase - Rings Challenge", points = 2, type="progression",
+    description = "Find 100 rings in Final Chase [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x28 &&
+        mission_id == 0x1
+)
+
+achievement(
+    title = "Final Chase - Chao Challenge", points = 2, type="progression",
+    description = "Find the hidden Chao in Final Chase [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x28 &&
+        mission_id == 0x2
+)
+
+achievement(
+    title = "Final Chase - Time Attack", points = 2, type="progression",
+    description = "Finish Final Chase in less than xxx [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x28 &&
+        mission_id == 0x3
+)
+
+achievement(
+    title = "Final Chase - Hard Mode", points = 2, type="progression",
+    description = "Complete Final Chase in Hard Mode [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
+        level_id == 0x28 &&
+        mission_id == 0x4
+)
+
+//BONUS MISSION RANK A
+
+achievement(
+    title = "City Escape - Rings Challenge - Rank A", points = 2, type="progression",
+    description = "Find 100 rings in City Escape and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xd &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(byte(0x1f307d), 0x5)
+)
 
 
-//STORY COMPLETION - VILAINS
-//TODO
+
+0x04 - White Jungle
+0x06 - Sky Rail
+0x08 - Security Hall
+0x0B - Iron Gate
+0x0C - Weapons Bed
+0x0E - Radical Highway
+0x0F - Weapons Bed (2P)
+0x12 - Dry Lagoon
+0x13 - Sonic vs. Shadow (First Battle)
+0x14 - Tails vs. Dr. Eggman (First Battle)
+0x15 - Sand Ocean
+0x1A - Egg Quarters
+0x1B - Lost Colony
+0x1D - Tails vs. Dr. Eggman (Second Battle)
+0x1F - Green Hill
+0x21 - Knuckles vs. Rouge
+0x22 - Cannon's Core (Sonic)
+0x23 - Cannon's Core (Eggman)
+0x24 - Cannon's Core (Tails)
+0x25 - Cannon's Core (Rouge)
+0x26 - Cannon's Core (Knuckles)
+0x27 - Mission Street (2P)
+0x28 - Final Chase
+0x29 - Wild Canyon (2P)
+0x2A - Sonic vs. Shadow (Second Battle)
+0x2B - Cosmic Wall
+0x2C - Mad Space
+0x2D - Sand Ocean (2P)
+0x2E - Dry Lagoon (2P)
+0x2F - Pyramid Race
+0x30 - Hidden Base (2P)
+0x31 - Pool Quest
+0x32 - Planet Quest
+0x33 - Deck Race
+0x34 - Downtown Race
+0x35 - Cosmic Wall (2P)
+0x36 - Grind Race
+0x37 - Lost Colony (2P)
+0x38 - Eternal Engine (2P)
+0x39 - Metal Harbor (2P)
+0x3A - Iron Gate (2P)
+0x3B - Death Chamber (2P)
+0x3C - F-6t Big Foot
+0x3D - B-3x Hot Shot
+0x3E - R-1/A Flying Dog
+0x3F - King Boom Boo
+0x40 - Egg Golem (Sonic)
+0x41 - The Biolizard
+0x42 - The Finalhazard
+0x43 - Egg Golem (Eggman)
+0x46 - Route 101/Route 280
+0x47 - Kart Race
+0x5A - Chao World
