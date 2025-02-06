@@ -24,7 +24,7 @@ continue = dword(0x1309)
 score = dword(0x19b0)
 animals_matched = dword(0x197c) 
 combo_max = byte(0x130b)
-
+current_lvl = byte(0x38c1)
 
 //FUNCTIONS
 //Build and return requirements to checks if two arrays contain same values
@@ -179,7 +179,7 @@ achievement(
 )
 
 achievement(
-    title = "Score Attack", points = 5,
+    title = "Score Attack", points = 2,
     description = "Finish Score Attack Mode on any difficulty",
     trigger = 
         GlobalChecks() &&
@@ -208,4 +208,51 @@ achievement(
         score >= 0x30d40 &&
         SwitchON(trigger_game_over) &&
         timer_minutes < 0x4
+)
+
+achievement(
+    title = "Time Attack I", points = 2,
+    description = "Reach Level 10 in Time Attack",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x2 &&
+        PrevFromTo(current_lvl, 0x9, 0xa) &&
+        trigger_in_game == 0x0 &&
+        trigger_game_over == 0x0 &&
+        trigger_time_up == 0x0
+)
+
+achievement(
+    title = "Time Attack II", points = 5,
+    description = "Reach Level 15 in Time Attack",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x2 &&
+        PrevFromTo(current_lvl, 0xf, 0x10) &&
+        trigger_in_game == 0x0 &&
+        trigger_game_over == 0x0 &&
+        trigger_time_up == 0x0
+)
+
+achievement(
+    title = "Time Attack Hard", points = 5,
+    description = "Reach Level 10 in Time Attack on Hard difficulty",
+    trigger = 
+        GlobalChecks() &&
+        difficulty_hard == 0x1 &&
+        game_mode == 0x2 &&
+        PrevFromTo(current_lvl, 0x9, 0xa) &&
+        trigger_in_game == 0x0 &&
+        trigger_game_over == 0x0 &&
+        trigger_time_up == 0x0
+)
+
+achievement(
+    title = "Speed Runner", points = 10,
+    description = "Finish Time Attack Mode with a score of more than 500k on any difficulty",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x2 &&
+        score >= 0x7a120 &&
+        SwitchON(trigger_game_over) 
 )
