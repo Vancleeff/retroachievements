@@ -146,6 +146,34 @@ function PriorNotChanged(address){
 
 //ACHIEVEMENTS 
 achievement(
+    title = "Animal Lover", points = 2,
+    description = "Match 250 animals during a single game",
+    trigger = 
+        GlobalChecks() &&
+        score != 0x0 &&
+        prev(animals_matched < 250) &&
+        measured(animals_matched >= 250, format="raw", when=trigger_in_game == 0x1)
+)
+
+achievement(
+    title = "It's Zooo Cool", points = 5,
+    description = "Finish level 10 in Normal Mode",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 &&
+        PrevFromTo(current_lvl, 9, 10)
+)
+
+achievement(
+    title = "I'm Zooo in Love", points = 10,
+    description = "Finish level 20 in Normal Mode",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 &&
+        PrevFromTo(current_lvl, 19, 20)
+)
+
+achievement(
     title = "Combo 3", points = 1,
     description = "Make a combo of 3 in any mode",
     trigger = 
@@ -256,3 +284,4 @@ achievement(
         score >= 0x7a120 &&
         SwitchON(trigger_game_over) 
 )
+
