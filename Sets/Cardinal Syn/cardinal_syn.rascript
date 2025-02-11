@@ -4,13 +4,21 @@
 map = byte(0x1e27c4)
 cutscene = word(0x1dfcec)
 
-1P_char = byte(0x1ee698)
-1P_round = byte(0x1ee69c)
-1P_consecutive_win = byte(0x1ee6d2)
+P1_pointer = tbyte(0x1e2724)
+P1_HP = word(tbyte(0x1e2724) + 0x000048)
+P1_char = byte(0x1ee698)
+P1_round_won = byte(0x1ee69c)
+P1_consecutive_win = byte(0x1ee6d2)
+P1_controls = byte(0x021864)
+P1_current_animation = word(tbyte(tbyte(0x1E2724) + 0x0000AC) + 0x0000DC)
 
-2P_char = byte(0x1ee6d0)
-2P_round = byte(0x1ee6d4)
-2P_consecutive_win = byte(0x1ee6d6)
+P2_pointer = tbyte(0x1e272c)
+P2_HP = word(tbyte(0x1e272C) + 0x000048)
+P2_char = byte(0x1ee6d0)
+P2_round_won = byte(0x1ee6d4)
+P2_consecutive_win = byte(0x1ee6d6)
+P2_controls = byte(0x021865)
+P2_current_animation = word(tbyte(tbyte(0x1e272c) + 0x0000AC) + 0x0000DC)
 
 difficulty = byte(0x1e8888)
 round_number = byte(0x1e888c)
@@ -44,6 +52,15 @@ function CompareArrays(src, with, mode){
 //Global logics that every achievements should implements (like save protection, anti-cheat, etc)
 function GlobalChecks(){
     return 1 == 1
+}
+
+function GlobalFatalityChecks(){
+    return 
+        P1_HP > 0 &&
+        prev(word(tbyte(tbyte(0x1E2724) + 0x0000AC) + 0x0000DC)) != 204 &&
+        word(tbyte(tbyte(0x1E2724) + 0x0000AC) + 0x0000DC) == 204 &&
+        round_number > 1 &&
+        P1_round_won + 1 == round_number
 }
 
 //Check if the player is on the Title Screen or Pause Menu
@@ -139,3 +156,159 @@ function PriorNotChanged(address){
 }
 
 //ACHIEVEMENTS 
+achievement(
+    title = "Perfect", points = 1,
+    description = "Win a round without taking any damage",
+    trigger = 
+    P1_HP == 400 && 
+    prev(P2_HP) > 0 &&
+    P2_HP == 0
+)
+
+
+
+
+
+achievement(
+    title = "Mongoro Fatality", points = 2,
+    description = "Finish an opponent with Mongoro, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 0
+)
+
+achievement(
+    title = "Kahn Fatality", points = 2,
+    description = "Finish an opponent with Kahn, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 1
+)
+
+achievement(
+    title = "Plague Fatality", points = 2,
+    description = "Finish an opponent with Plague, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 2
+)
+
+achievement(
+    title = "Stygian Fatality", points = 2,
+    description = "Finish an opponent with Stygian, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 3
+)
+
+achievement(
+    title = "Vanguard Fatality", points = 2,
+    description = "Finish an opponent with Vanguard, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 4
+)
+
+achievement(
+    title = "Redemptor Fatality", points = 2,
+    description = "Finish an opponent with Redemptor, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 5
+)
+
+achievement(
+    title = "Finkster Fatality", points = 2,
+    description = "Finish an opponent with Finkster, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 6
+)
+
+achievement(
+    title = "Juni Fatality", points = 2,
+    description = "Finish an opponent with Juni, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 7
+)
+
+achievement(
+    title = "Heart Breaker", points = 2,
+    description = "Finish an opponent with Orion, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 8
+)
+
+achievement(
+    title = "Mongwan Fatality", points = 2,
+    description = "Finish an opponent with Mongwan, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 9
+)
+
+achievement(
+    title = "Hecklar Fatality", points = 2,
+    description = "Finish an opponent with Hecklar, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 10
+)
+
+achievement(
+    title = "Vodu Fatality", points = 2,
+    description = "Finish an opponent with Vodu, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 11
+)
+
+achievement(
+    title = "A Shot in the Arm", points = 2,
+    description = "Finish an opponent with Nephra, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 12
+)
+
+achievement(
+    title = "Bimorphia Fatality", points = 2,
+    description = "Finish an opponent with Bimorphia, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 13
+)
+
+achievement(
+    title = "The Executioner", points = 2,
+    description = "Finish an opponent with McKrieg, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 14
+)
+
+achievement(
+    title = "Molock Fatality", points = 2,
+    description = "Finish an opponent with Molock, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 15
+)
+
+achievement(
+    title = "Syn Fatality", points = 2,
+    description = "Finish an opponent with Syn, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 16
+)
+
+achievement(
+    title = "Kron Fatality", points = 2,
+    description = "Finish an opponent with Kron, using a Fatality",
+    trigger = 
+        GlobalFatalityChecks() &&
+        byte(0x1EE698) == 17
+)
