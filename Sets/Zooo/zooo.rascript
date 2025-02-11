@@ -95,6 +95,15 @@ tile_selected_y_pos = byte(0x0019AD)
 //├─■ 0x6 = Tokoton Mode
 //└─■ 0x8 = Quest mode
 game_mode = byte(0x1260)
+//GAME : Mode [8-bit]
+//├─■ 0x3 : Transition
+//├─■ 0x5 : How To Play
+//├─■ 0x6 : Menu/Quest Mode Recap
+//├─■ 0x7 : Name Entry
+//├─■ 0x8 : Game over Screen/Ranking
+//├─■ 0xa : Title Screen
+//└─■ 0xd : In game
+game_state = dword(0x1250)
 
 // $38D5: GAME : Minutes [8-bit]
 timer_minutes = byte(0x38d5)
@@ -149,7 +158,9 @@ timer_bool = byte(0x38ca)
 in_game_bool = byte(0x38dd)
 
 // $1309: GAME : Continue [8-bit]
-continue = dword(0x1309)
+continues = dword(0x1309)
+// $19b4: GAME : Hints [8-bit]
+hints = byte(0x19b4)
 // $19B0: GAME : Score [32-bit]
 score = dword(0x19b0)
 // $1264: GAME : Score Total [32-bit]
@@ -158,10 +169,17 @@ score_total = dword(0x1264)
 animals_matched = dword(0x197c) 
 // $130B: Game : Best combo during the game [8-bit]
 combo_max = byte(0x130b)
-// $38C1: GAME : Current level [8-bit]
-current_lvl = byte(0x38c1)
+// $28a6: GAME : Current level [8-bit]
+current_lvl = byte(0x28a6)
+current_lvl_static = byte(0x1261)
 
-
+score_total_endgame = dword(0x28c0)
+score_hints_endgame = dword(0x28d0)
+score_lucky_endgame = dword(0x28c8)
+score_quest_hint = dword(0x1990)
+score_quest_board = dword(0x1978)
+score_quest_clear = byte(0x196e)
+score_quest_time = dword(0x1974)
 //FUNCTIONS
 //Build and return requirements to checks if two arrays contain same values
 //src: the array of value to compare
@@ -282,142 +300,225 @@ function PriorNotChanged(address){
 
 //ACHIEVEMENTS 
 achievement(
-    title = "Animal Lover", points = 2,
-    description = "Match 250 animals during a single game",
-    trigger = 
-        GlobalChecks() &&
-        score != 0x0 &&
-        prev(animals_matched < 250) &&
-        measured(animals_matched >= 250, format="raw", when=trigger_in_game == 0x1)
-)
-
-achievement(
     title = "It's Zooo Cool", points = 5,
     description = "Finish level 10 in Normal Mode",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x0 &&
-        PrevFromTo(current_lvl, 9, 10)
+        game_mode == 0 &&
+        PrevFromTo(current_lvl, 10, 11)
 )
 
 achievement(
-    title = "I'm Zooo in Love", points = 10,
+    title = "Zooo Much Fun", points = 5, 
+    description = "Finish level 15 in Normal Mode",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0 &&
+        PrevFromTo(current_lvl, 15, 16)
+)
+
+achievement(
+    title = "I'm Zooo in Love", points = 10, type="progression",
     description = "Finish level 20 in Normal Mode",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x0 &&
-        PrevFromTo(current_lvl, 19, 20)
+        game_mode == 0 &&
+        PrevFromTo(current_lvl_static, 20, 21) &&
+        in_game_bool == 0 &&
+        trigger_game_over == 1
 )
 
 achievement(
-    title = "Combo 3", points = 1,
-    description = "Make a combo of 3 in any mode",
+    title = "It's Zooo Hard", points = 25,
+    description = "Finish level 20 in Normal Mode on Hard difficulty",
     trigger = 
         GlobalChecks() &&
-        PrevIncreasedToMoreOrEquals(combo_max, 0x3) && 
-        in_game_bool == 0x1 &&
-        trigger_game_over == 0x0 &&
-        trigger_time_up == 0x0
+        difficulty_hard == 1 &&
+        game_mode == 0 &&
+        PrevFromTo(current_lvl_static, 19, 20) &&
+        in_game_bool == 0 &&
+        trigger_game_over == 1
 )
 
 achievement(
-    title = "Combo 4", points = 2,
+    title = "Zooombo 4", points = 2,
     description = "Make a combo of 4 in any mode",
     trigger = 
         GlobalChecks() &&
-        PrevIncreasedToMoreOrEquals(combo_max, 0x4) && 
-        in_game_bool == 0x1 &&
-        trigger_game_over == 0x0 &&
-        trigger_time_up == 0x0
+        PrevIncreasedToMoreOrEquals(combo_max, 4) && 
+        in_game_bool == 1 &&
+        trigger_game_over == 0 &&
+        trigger_time_up == 0
 )
 
 achievement(
-    title = "Combo 5", points = 3,
+    title = "Zooombo 5", points = 3,
     description = "Make a combo of 5 in any mode",
     trigger = 
         GlobalChecks() &&
-        PrevIncreasedToMoreOrEquals(combo_max, 0x5) && 
-        in_game_bool == 0x1 &&
-        trigger_game_over == 0x0 &&
-        trigger_time_up == 0x0
+        PrevIncreasedToMoreOrEquals(combo_max, 5) && 
+        in_game_bool == 1 &&
+        trigger_game_over == 0 &&
+        trigger_time_up == 0
 )
 
 achievement(
-    title = "Score Attack", points = 2,
+    title = "Zooo me the way", points = 1,
+    description = "Earn an extra hint in any mode",
+    trigger = 
+        GlobalChecks() &&
+        PrevIncreased(hints) &&
+        trigger_game_over == 0 &&
+        trigger_time_up == 0 &&
+        current_lvl > 0
+)
+
+achievement(
+    title = "He's Zooo Cute", points = 1,
+    description = "Unlock the rabbit in any mode",
+    trigger = 
+        GlobalChecks() &&
+        trigger_game_over == 0 &&
+        PrevIncreasedToMoreOrEquals(rabbit_current_target, 1) &&
+        current_lvl > 0
+)
+
+achievement(
+    title = "Two Hundred Thouzooond", points = 5, type="progression",
     description = "Finish Score Attack Mode on any difficulty",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x3 &&
+        game_mode == 3 &&
         score >= 0x30d40 &&
         SwitchON(trigger_game_over)
 )
 
 achievement(
-    title = "Score Attack - Hard", points = 5,
+    title = "Two Hundred Harder Thouzooond", points = 10,
     description = "Finish Score Attack Mode on Hard difficulty",
     trigger = 
         GlobalChecks() &&
-        difficulty_hard == 0x1 &&
-        game_mode == 0x3 &&
+        difficulty_hard == 1 &&
+        game_mode == 3 &&
         score >= 0x30d40 &&
         SwitchON(trigger_game_over)
 )
 
 achievement(
-    title = "Perfect Score", points = 10,
+    title = "Zooo Fast !", points = 10, 
     description = "Finish Score Attack Mode in less than 4'00\" on any difficulty",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x3 &&
+        game_mode == 3 &&
         score >= 0x30d40 &&
         SwitchON(trigger_game_over) &&
-        timer_minutes < 0x4
+        timer_minutes < 4
 )
 
 achievement(
-    title = "Time Attack I", points = 2,
+    title = "Sailfish", points = 5,
     description = "Reach Level 10 in Time Attack",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x2 &&
-        PrevFromTo(current_lvl, 0x9, 0xa) &&
-        in_game_bool == 0x0 &&
-        trigger_game_over == 0x0 &&
-        trigger_time_up == 0x0
+        game_mode == 2 &&
+        PrevFromTo(current_lvl, 9, 10) &&
+        in_game_bool == 0 &&
+        trigger_game_over == 0 &&
+        trigger_time_up == 0
 )
 
 achievement(
-    title = "Time Attack II", points = 5,
+    title = "Cheetah", points = 10, type="progression",
     description = "Reach Level 15 in Time Attack",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x2 &&
-        PrevFromTo(current_lvl, 0xf, 0x10) &&
-        in_game_bool == 0x0 &&
-        trigger_game_over == 0x0 &&
-        trigger_time_up == 0x0
+        game_mode == 2 &&
+        PrevFromTo(current_lvl, 14, 15) &&
+        in_game_bool == 0 &&
+        trigger_game_over == 0 &&
+        trigger_time_up == 0
 )
 
 achievement(
-    title = "Time Attack Hard", points = 5,
+    title = "Springbok", points = 10,
     description = "Reach Level 10 in Time Attack on Hard difficulty",
     trigger = 
         GlobalChecks() &&
-        difficulty_hard == 0x1 &&
-        game_mode == 0x2 &&
-        PrevFromTo(current_lvl, 0x9, 0xa) &&
-        in_game_bool == 0x0 &&
-        trigger_game_over == 0x0 &&
-        trigger_time_up == 0x0
+        difficulty_hard == 1 &&
+        game_mode == 2 &&
+        PrevFromTo(current_lvl, 9, 10) &&
+        in_game_bool == 0 &&
+        trigger_game_over == 0 &&
+        trigger_time_up == 0
 )
 
 achievement(
-    title = "Speed Runner", points = 10,
+    title = "Peregrine Falcon", points = 10,
     description = "Finish Time Attack Mode with a score of more than 500k on any difficulty",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x2 &&
-        score >= 0x7a120 &&
-        SwitchON(trigger_game_over) 
+        game_mode == 2 && 
+        trigger_game_over == 1 && 
+        prev(score_hints_endgame) == 0 &&
+        (score_total_endgame + score_hints_endgame + score_lucky_endgame) >= 500000
 )
 
+achievement(
+    title = "Tokoton", points = 10, type="progression",
+    description = "Reach Level 10 in Tokoton Mode on any difficulty",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 6 && 
+        PrevFromTo(current_lvl, 9, 10) &&
+        in_game_bool == 0 &&
+        trigger_game_over == 0 &&
+        trigger_time_up == 0
+)
+
+achievement(
+    title = "Tokoton Hard", points = 10,
+    description = "Reach Level 15 in Tokoton Mode on Hard difficulty",
+    trigger = 
+        GlobalChecks() &&
+        difficulty_hard == 1 && 
+        game_mode == 6 && 
+        PrevFromTo(current_lvl, 14, 15) &&
+        in_game_bool == 0 &&
+        trigger_game_over == 0 &&
+        trigger_time_up == 0
+)
+
+achievement(
+    title = "Toko-tons of points", points = 10,
+    description = "Reach 500k points in Tokoton Mode on any difficulty",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 6 && 
+        trigger_game_over == 0 && 
+        PrevIncreasedToMoreOrEquals(dword(0x1978), 500000)
+)
+
+achievement(
+    title = "Adventurer", points = 25, type="progression",
+    description = "Finish Quest Mode without losing a single quest on any difficulty",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 8 && 
+        trigger_game_over == 1 && 
+        byte(0x00196E) == 8 && 
+        dword(0x001250) == 6 &&
+        prev(dword(0x001988)) == 0 && 
+        dword(0x001988) > 0
+)
+
+achievement(
+    title = "Mighty Warrior", points = 10,
+    description = "Finish Quest Mode with a score of more than 400k on any difficulty",
+    trigger = GlobalChecks() &&
+                game_mode == 8 && 
+              ((byte(0x0038CB) == 0 && prev(dword(0x0019B0)) < 400000 && dword(0x0019B0) >= 400000 &&
+                dword(0x001250) == 13) ||
+               (byte(0x0038CB) == 1 &&
+                (dword(0x001978) + dword(0x001990) + byte(0x00196E) * 10000 + dword(0x001988)) >= 400000 &&
+                dword(0x001250) == 6 && prev(dword(0x001988)) == 0 && dword(0x001988) > 0))
+)
