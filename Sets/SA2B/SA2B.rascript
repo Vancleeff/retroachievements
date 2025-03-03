@@ -5,6 +5,88 @@ LvlCompletion = [
     {"text" : "1-1", "level": 0x0, "room": 0x0, "address": bit0(0xc108)}, 
 ]
 
+levels = {
+    "GREEN_FOREST": 0x03,
+    "WHITE_JUNGLE": 0x04,
+    "PUMPKIN_HILL": 0x05,
+    "SKY_RAIL": 0x06,
+    "AQUATIC_MINE": 0x07,
+    "SECURITY_HALL": 0x08,
+    "PRISON_LANE": 0x09,
+    "METAL_HARBOR": 0x0A,
+    "IRON_GATE": 0x0B,
+    "WEAPONS_BED": 0x0C,
+    "CITY_ESCAPE": 0x0D,
+    "RADICAL_HIGHWAY": 0x0E,
+    "WEAPONS_BED_2P": 0x0F,
+    "WILD_CANYON": 0x10,
+    "MISSION_STREET": 0x11,
+    "DRY_LAGOON": 0x12,
+    "SONIC_VS_SHADOW_1": 0x13,
+    "TAILS_VS_EGG_MAN_1": 0x14,
+    "SAND_OCEAN": 0x15,
+    "CRAZY_GADGET": 0x16,
+    "HIDDEN_BASE": 0x17,
+    "ETERNAL_ENGINE": 0x18,
+    "DEATH_CHAMBER": 0x19,
+    "EGG_QUARTERS": 0x1A,
+    "LOST_COLONY": 0x1B,
+    "PYRAMID_CAVE": 0x1C,
+    "TAILS_VS_EGG_MAN_2": 0x1D,
+    "FINAL_RUSH": 0x1E,
+    "GREEN_HILL": 0x1F,
+    "METEOR_HERD": 0x20,
+    "KNUCKLES_VS_ROUGE": 0x21,
+    "CANNONS_CORE_SONIC": 0x22,
+    "CANNONS_CORE_EGG_MAN": 0x23,
+    "CANNONS_CORE_TAILS": 0x24,
+    "CANNONS_CORE_ROUGE": 0x25,
+    "CANNONS_CORE_KNUCKLES": 0x26,
+    "MISSION_STREET_2P": 0x27,
+    "FINAL_CHASE": 0x28,
+    "WILD_CANYON_2P": 0x29,
+    "SONIC_VS_SHADOW_2": 0x2A,
+    "COSMIC_WALL": 0x2B,
+    "MAD_SPACE": 0x2C,
+    "SAND_OCEAN_2P": 0x2D,
+    "DRY_LAGOON_2P": 0x2E,
+    "PYRAMID_RACE": 0x2F,
+    "HIDDEN_BASE_2P": 0x30,
+    "POOL_QUEST": 0x31,
+    "PLANET_QUEST": 0x32,
+    "DECK_RACE": 0x33,
+    "DOWNTOWN_RACE": 0x34,
+    "COSMIC_WALL_2P": 0x35,
+    "GRIND_RACE": 0x36,
+    "LOST_COLONY_2P": 0x37,
+    "ETERNAL_ENGINE_2P": 0x38,
+    "METAL_HARBOR_2P": 0x39,
+    "IRON_GATE_2P": 0x3A,
+    "DEATH_CHAMBER_2P": 0x3B,
+    "F6T_BIG_FOOT": 0x3C,
+    "B3X_HOT_SHOT": 0x3D,
+    "R1A_FLYING_DOG": 0x3E,
+    "KING_BOOM_BOO": 0x3F,
+    "EGG_GOLEM_SONIC": 0x40,
+    "THE_BIOLIZARD": 0x41,
+    "THE_FINALHAZARD": 0x42,
+    "EGG_GOLEM_EGGMAN": 0x43,
+    "ROUTE_101_ROUTE_280": 0x46,
+    "KART_RACE": 0x47,
+    "CHAO_WORLD": 0x5A
+}
+
+characters = {
+    "SONIC": 0x0,
+    "SHADOW": 0x1,
+    "TAILS": 0x2,
+    "EGGMAN": 0x3,
+    "KNUCKLES": 0x4,
+    "ROUGE": 0x5,
+    "TAILS_MECHA": 0x6,
+    "EGGMAN_MECHA": 0x7,
+}
+
 story_progress_heroes = byte(0x1f234a)
 story_progress_vilains = byte(0x1f234b)
 
@@ -38,15 +120,9 @@ level_id = word_be(0x3ad820)
 mission_id = byte(0x1cc18b)
 
 //Character
-//0x0 : Sonic
-//0x1 : Shadow
-//0x2 : Tails
-//0x3 : Dr. Eggman
-//0x4 : Knuckles
-//0x5 : Rouge
-//0x6 : Tails(Mech)
-//0x7 : Dr. Eggman(Mech)
 current_character = byte(0x3ad82b)
+player_pointer = tbyte_be(0x1E7769)
+boss_pointer = tbyte_be(0x1ff7b9)
 
 flag_stage_clear = byte(0x1cc1aa)
 flag_stage_key = byte(0x1cc1ac)
@@ -54,6 +130,7 @@ player_lives = word_be(0x1cc1cc)
 player_rings = word_be(0x1cc1d0)
 player_score = word_be(0x1cc1f8)
 player_total_rings = dword_be(0x1cc204)
+player_hidden_animals = byte(0x195f17)
 
 //Unlockables
 u_light_shoes = byte(0x1e50b4)
@@ -84,6 +161,208 @@ u_protective_armor = byte(0x1e50cb)
 u_pick_nails = byte(0x1e50cd)
 u_treasure_scope = byte(0x1e50ce)
 u_iron_boots = byte(0x1e50cf)
+
+
+rank_a_value_story = 2
+rank_a_value_rings = 2
+rank_a_value_chao = 2
+rank_a_value_time = 5
+rank_a_value_hard = 5
+
+//RANK A FLAGS
+//0x00 - Not Cleared
+//0x01 - E
+//0x02 - D
+//0x03 - C
+//0x04 - B
+//0x05 - A
+rank_green_forest_1 = byte(0x1F25C4)
+rank_green_forest_2 = byte(0x1F25C5)
+rank_green_forest_3 = byte(0x1F25C6)
+rank_green_forest_4 = byte(0x1F25C7)
+rank_green_forest_5 = byte(0x1F25C8)
+
+rank_white_jungle_1 = byte(0x1F2688)
+rank_white_jungle_2 = byte(0x1F2689)
+rank_white_jungle_3 = byte(0x1F268A)
+rank_white_jungle_4 = byte(0x1F268B)
+rank_white_jungle_5 = byte(0x1F268C)
+
+rank_pumpkin_hill_1 = byte(0x1F274C)
+rank_pumpkin_hill_2 = byte(0x1F274D)
+rank_pumpkin_hill_3 = byte(0x1F274E)
+rank_pumpkin_hill_4 = byte(0x1F274F)
+rank_pumpkin_hill_5 = byte(0x1F2750)
+
+rank_sky_rail_1 = byte(0x1F2810)
+rank_sky_rail_2 = byte(0x1F2811)
+rank_sky_rail_3 = byte(0x1F2812)
+rank_sky_rail_4 = byte(0x1F2813)
+rank_sky_rail_5 = byte(0x1F2814)
+
+rank_aquatic_mine_1 = byte(0x1F28D4)
+rank_aquatic_mine_2 = byte(0x1F28D5)
+rank_aquatic_mine_3 = byte(0x1F28D6)
+rank_aquatic_mine_4 = byte(0x1F28D7)
+rank_aquatic_mine_5 = byte(0x1F28D8)
+
+rank_security_hall_1 = byte(0x1F2998)
+rank_security_hall_2 = byte(0x1F2999)
+rank_security_hall_3 = byte(0x1F299A)
+rank_security_hall_4 = byte(0x1F299B)
+rank_security_hall_5 = byte(0x1F299C)
+
+rank_prison_lane_1 = byte(0x1F2A5C)
+rank_prison_lane_2 = byte(0x1F2A5D)
+rank_prison_lane_3 = byte(0x1F2A5E)
+rank_prison_lane_4 = byte(0x1F2A5F)
+rank_prison_lane_5 = byte(0x1F2A60)
+
+rank_metal_harbor_1 = byte(0x1F2B20)
+rank_metal_harbor_2 = byte(0x1F2B21)
+rank_metal_harbor_3 = byte(0x1F2B22)
+rank_metal_harbor_4 = byte(0x1F2B23)
+rank_metal_harbor_5 = byte(0x1F2B24)
+
+rank_iron_gate_1 = byte(0x1F2BE4)
+rank_iron_gate_2 = byte(0x1F2BE5)
+rank_iron_gate_3 = byte(0x1F2BE6)
+rank_iron_gate_4 = byte(0x1F2BE7)
+rank_iron_gate_5 = byte(0x1F2BE8)
+
+rank_weapons_bed_1 = byte(0x1F2CA8)
+rank_weapons_bed_2 = byte(0x1F2CA9)
+rank_weapons_bed_3 = byte(0x1F2CAA)
+rank_weapons_bed_4 = byte(0x1F2CAB)
+rank_weapons_bed_5 = byte(0x1F2CAC)
+
+rank_city_escape_1 = byte(0x1F2D6C)
+rank_city_escape_2 = byte(0x1F2D6D)
+rank_city_escape_3 = byte(0x1F2D6E)
+rank_city_escape_4 = byte(0x1F2D6F)
+rank_city_escape_5 = byte(0x1F2D70)
+
+rank_radical_highway_1 = byte(0x1F2E30)
+rank_radical_highway_2 = byte(0x1F2E31)
+rank_radical_highway_3 = byte(0x1F2E32)
+rank_radical_highway_4 = byte(0x1F2E33)
+rank_radical_highway_5 = byte(0x1F2E34)
+
+rank_wild_canyon_1 = byte(0x1F2FB8)
+rank_wild_canyon_2 = byte(0x1F2FB9)
+rank_wild_canyon_3 = byte(0x1F2FBA)
+rank_wild_canyon_4 = byte(0x1F2FBB)
+rank_wild_canyon_5 = byte(0x1F2FBC)
+
+rank_mission_street_1 = byte(0x1F307C)
+rank_mission_street_2 = byte(0x1F307D)
+rank_mission_street_3 = byte(0x1F307E)
+rank_mission_street_4 = byte(0x1F307F)
+rank_mission_street_5 = byte(0x1F3080)
+
+rank_dry_lagoon_1 = byte(0x1F3140)
+rank_dry_lagoon_2 = byte(0x1F3141)
+rank_dry_lagoon_3 = byte(0x1F3142)
+rank_dry_lagoon_4 = byte(0x1F3143)
+rank_dry_lagoon_5 = byte(0x1F3144)
+
+rank_sand_ocean_1 = byte(0x1F338C)
+rank_sand_ocean_2 = byte(0x1F338D)
+rank_sand_ocean_3 = byte(0x1F338E)
+rank_sand_ocean_4 = byte(0x1F338F)
+rank_sand_ocean_5 = byte(0x1F3390)
+
+rank_crazy_gadget_1 = byte(0x1F3450)
+rank_crazy_gadget_2 = byte(0x1F3451)
+rank_crazy_gadget_3 = byte(0x1F3452)
+rank_crazy_gadget_4 = byte(0x1F3453)
+rank_crazy_gadget_5 = byte(0x1F3454)
+
+rank_hidden_base_1 = byte(0x1F3514)
+rank_hidden_base_2 = byte(0x1F3515)
+rank_hidden_base_3 = byte(0x1F3516)
+rank_hidden_base_4 = byte(0x1F3517)
+rank_hidden_base_5 = byte(0x1F3518)
+
+rank_eternal_engine_1 = byte(0x1F35D8)
+rank_eternal_engine_2 = byte(0x1F35D9)
+rank_eternal_engine_3 = byte(0x1F35DA)
+rank_eternal_engine_4 = byte(0x1F35DB)
+rank_eternal_engine_5 = byte(0x1F35DC)
+
+rank_death_chamber_1 = byte(0x1F369C)
+rank_death_chamber_2 = byte(0x1F369D)
+rank_death_chamber_3 = byte(0x1F369E)
+rank_death_chamber_4 = byte(0x1F369F)
+rank_death_chamber_5 = byte(0x1F36A0)
+
+rank_egg_quarters_1 = byte(0x1F3760)
+rank_egg_quarters_2 = byte(0x1F3761)
+rank_egg_quarters_3 = byte(0x1F3762)
+rank_egg_quarters_4 = byte(0x1F3763)
+rank_egg_quarters_5 = byte(0x1F3764)
+
+rank_lost_colony_1 = byte(0x1F3824)
+rank_lost_colony_2 = byte(0x1F3825)
+rank_lost_colony_3 = byte(0x1F3826)
+rank_lost_colony_4 = byte(0x1F3827)
+rank_lost_colony_5 = byte(0x1F3828)
+
+rank_pyramid_cave_1 = byte(0x1F38E8)
+rank_pyramid_cave_2 = byte(0x1F38E9)
+rank_pyramid_cave_3 = byte(0x1F38EA)
+rank_pyramid_cave_4 = byte(0x1F38EB)
+rank_pyramid_cave_5 = byte(0x1F38EC)
+
+rank_final_rush_1 = byte(0x1F3A70)
+rank_final_rush_2 = byte(0x1F3A71)
+rank_final_rush_3 = byte(0x1F3A72)
+rank_final_rush_4 = byte(0x1F3A73)
+rank_final_rush_5 = byte(0x1F3A74)
+
+rank_meteor_herd_1 = byte(0x1F3BF8)
+rank_meteor_herd_2 = byte(0x1F3BF9)
+rank_meteor_herd_3 = byte(0x1F3BFA)
+rank_meteor_herd_4 = byte(0x1F3BFB)
+rank_meteor_herd_5 = byte(0x1F3BFC)
+
+rank_cannons_core_1 = byte(0x1F3D80)
+rank_cannons_core_2 = byte(0x1F3D81)
+rank_cannons_core_3 = byte(0x1F3D82)
+rank_cannons_core_4 = byte(0x1F3D83)
+rank_cannons_core_5 = byte(0x1F3D84)
+
+rank_final_chase_1 = byte(0x1F4218)
+rank_final_chase_2 = byte(0x1F4219)
+rank_final_chase_3 = byte(0x1F421A)
+rank_final_chase_4 = byte(0x1F421B)
+rank_final_chase_5 = byte(0x1F421C)
+
+rank_cosmic_wall_1 = byte(0x1F4464)
+rank_cosmic_wall_2 = byte(0x1F4465)
+rank_cosmic_wall_3 = byte(0x1F4466)
+rank_cosmic_wall_4 = byte(0x1F4467)
+rank_cosmic_wall_5 = byte(0x1F4468)
+
+rank_mad_space_1 = byte(0x1F4528)
+rank_mad_space_2 = byte(0x1F4529)
+rank_mad_space_3 = byte(0x1F452A)
+rank_mad_space_4 = byte(0x1F452B)
+rank_mad_space_5 = byte(0x1F452C)
+
+rank_route_101_1 = byte(0x1F5168)
+rank_route_101_2 = byte(0x1F5169)
+rank_route_101_3 = byte(0x1F516A)
+rank_route_101_4 = byte(0x1F516B)
+rank_route_101_5 = byte(0x1F516C)
+
+rank_route_280_1 = byte(0x1F522C)
+rank_route_280_2 = byte(0x1F522D)
+rank_route_280_3 = byte(0x1F522E)
+rank_route_280_4 = byte(0x1F522F)
+rank_route_280_5 = byte(0x1F5230)
+
+
 
 //FUNCTIONS
 //Build and return requirements to checks if two arrays contain same values
@@ -427,7 +706,7 @@ achievement(
 )
 
 achievement(
-    title = "Final Rush", points = 2, type="progression",
+    title = "Iron Gate", points = 2, type="progression",
     description = "Hurry and find the point of the Cannon [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
@@ -2282,7 +2561,18 @@ achievement(
 //BONUS MISSION RANK A
 
 achievement(
-    title = "City Escape - Rings Challenge - Rank A", points = 2, type="progression",
+    title = "City Escape - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish City Escape and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0xd &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_city_escape_1, 0x5)
+)
+
+achievement(
+    title = "City Escape - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
     description = "Find 100 rings in City Escape and get a Rank A [Bonus Mission]",
     trigger = 
         GlobalChecks() &&
@@ -2290,61 +2580,2269 @@ achievement(
         flag_stage_clear == 0x1 && 
         level_id == 0xd &&
         mission_id == 0x1 &&
-        PrevIncreasedTo(byte(0x1f307d), 0x5)
+        PrevIncreasedTo(rank_city_escape_2, 0x5)
+)
+
+achievement(
+    title = "City Escape - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in City Escape and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xd &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_city_escape_3, 0x5)
+)
+
+achievement(
+    title = "City Escape - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish City Escape in less than 3'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xd &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_city_escape_4, 0x5)
+)
+
+achievement(
+    title = "City Escape - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete City Escape in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xd &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_city_escape_5, 0x5)
 )
 
 
 
-0x04 - White Jungle
-0x06 - Sky Rail
-0x08 - Security Hall
-0x0B - Iron Gate
-0x0C - Weapons Bed
-0x0E - Radical Highway
-0x0F - Weapons Bed (2P)
-0x12 - Dry Lagoon
-0x13 - Sonic vs. Shadow (First Battle)
-0x14 - Tails vs. Dr. Eggman (First Battle)
-0x15 - Sand Ocean
-0x1A - Egg Quarters
-0x1B - Lost Colony
-0x1D - Tails vs. Dr. Eggman (Second Battle)
-0x1F - Green Hill
-0x21 - Knuckles vs. Rouge
-0x22 - Cannon's Core (Sonic)
-0x23 - Cannon's Core (Eggman)
-0x24 - Cannon's Core (Tails)
-0x25 - Cannon's Core (Rouge)
-0x26 - Cannon's Core (Knuckles)
-0x27 - Mission Street (2P)
-0x28 - Final Chase
-0x29 - Wild Canyon (2P)
-0x2A - Sonic vs. Shadow (Second Battle)
-0x2B - Cosmic Wall
-0x2C - Mad Space
-0x2D - Sand Ocean (2P)
-0x2E - Dry Lagoon (2P)
-0x2F - Pyramid Race
-0x30 - Hidden Base (2P)
-0x31 - Pool Quest
-0x32 - Planet Quest
-0x33 - Deck Race
-0x34 - Downtown Race
-0x35 - Cosmic Wall (2P)
-0x36 - Grind Race
-0x37 - Lost Colony (2P)
-0x38 - Eternal Engine (2P)
-0x39 - Metal Harbor (2P)
-0x3A - Iron Gate (2P)
-0x3B - Death Chamber (2P)
-0x3C - F-6t Big Foot
-0x3D - B-3x Hot Shot
-0x3E - R-1/A Flying Dog
-0x3F - King Boom Boo
-0x40 - Egg Golem (Sonic)
-0x41 - The Biolizard
-0x42 - The Finalhazard
-0x43 - Egg Golem (Eggman)
-0x46 - Route 101/Route 280
-0x47 - Kart Race
-0x5A - Chao World
+
+
+achievement(
+    title = "Wild Canyon - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Wild Canyon and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x10 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_wild_canyon_1, 0x5)
+)
+
+achievement(
+    title = "Wild Canyon - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Wild Canyon and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x10 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_wild_canyon_2, 0x5)
+)
+
+achievement(
+    title = "Wild Canyon - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Wild Canyon and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x10 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_wild_canyon_3, 0x5)
+)
+
+achievement(
+    title = "Wild Canyon - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Wild Canyon in less than 2'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x10 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_wild_canyon_4, 0x5)
+)
+
+achievement(
+    title = "Wild Canyon - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Wild Canyon in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x10 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_wild_canyon_5, 0x5)
+)
+
+achievement(
+    title = "Prison Lane - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Prison Lane and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x9 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_prison_lane_1, 0x5)
+)
+
+achievement(
+    title = "Prison Lane - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Prison Lane and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x9 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_prison_lane_2, 0x5)
+)
+
+achievement(
+    title = "Prison Lane - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Prison Lane and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x9 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_prison_lane_3, 0x5)
+)
+
+achievement(
+    title = "Prison Lane - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Prison Lane in less than 3'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x9 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_prison_lane_4, 0x5)
+)
+
+achievement(
+    title = "Prison Lane - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Prison Lane in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x9 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_prison_lane_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "Metal Harbor - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Metal Harbor and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0xa &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_metal_harbor_1, 0x5)
+)
+
+achievement(
+    title = "Metal Harbor - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Metal Harbor and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xa &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_metal_harbor_2, 0x5)
+)
+
+achievement(
+    title = "Metal Harbor - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Metal Harbor and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xa &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_metal_harbor_3, 0x5)
+)
+
+achievement(
+    title = "Metal Harbor - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Metal Harbor in less than 2'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xa &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_metal_harbor_4, 0x5)
+)
+
+achievement(
+    title = "Metal Harbor - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Metal Harbor in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xa &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_metal_harbor_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Green Forest - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Green Forest and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x3 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_green_forest_1, 0x5)
+)
+
+achievement(
+    title = "Green Forest - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Green Forest and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x3 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_green_forest_2, 0x5)
+)
+
+achievement(
+    title = "Green Forest - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Green Forest and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x3 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_green_forest_3, 0x5)
+)
+
+achievement(
+    title = "Green Forest - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Green Forest in less than 4'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x3 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_green_forest_4, 0x5)
+)
+
+achievement(
+    title = "Green Forest - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Green Forest in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x3 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_green_forest_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "Pumpkin Hill - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Pumpkin Hill and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x5 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_pumpkin_hill_1, 0x5)
+)
+
+achievement(
+    title = "Pumpkin Hill - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Pumpkin Hill and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x5 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_pumpkin_hill_2, 0x5)
+)
+
+achievement(
+    title = "Pumpkin Hill - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Pumpkin Hill and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x5 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_pumpkin_hill_3, 0x5)
+)
+
+achievement(
+    title = "Pumpkin Hill - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Pumpkin Hill in less than 3'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x5 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_pumpkin_hill_4, 0x5)
+)
+
+achievement(
+    title = "Pumpkin Hill - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Pumpkin Hill in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x5 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_pumpkin_hill_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "Mission Street - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Mission Street and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x11 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_mission_street_1, 0x5)
+)
+
+achievement(
+    title = "Mission Street - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Mission Street and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x11 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_mission_street_2, 0x5)
+)
+
+achievement(
+    title = "Mission Street - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Mission Street and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x11 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_mission_street_3, 0x5)
+)
+
+achievement(
+    title = "Mission Street - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Mission Street in less than 3'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x11 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_mission_street_4, 0x5)
+)
+
+achievement(
+    title = "Mission Street - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Mission Street in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x11 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_mission_street_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "Aquatic Mine - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Aquatic Mine and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x7 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_aquatic_mine_1, 0x5)
+)
+
+achievement(
+    title = "Aquatic Mine - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Aquatic Mine and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x7 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_aquatic_mine_2, 0x5)
+)
+
+achievement(
+    title = "Aquatic Mine - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Aquatic Mine and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x7 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_aquatic_mine_3, 0x5)
+)
+
+achievement(
+    title = "Aquatic Mine - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Aquatic Mine in less than 3'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x7 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_aquatic_mine_4, 0x5)
+)
+
+achievement(
+    title = "Aquatic Mine - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Aquatic Mine in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x7 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_aquatic_mine_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Hidden Base - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Hidden Base and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x17 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_hidden_base_1, 0x5)
+)
+
+achievement(
+    title = "Hidden Base - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Hidden Base and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x17 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_hidden_base_2, 0x5)
+)
+
+achievement(
+    title = "Hidden Base - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Hidden Base and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x17 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_hidden_base_3, 0x5)
+)
+
+achievement(
+    title = "Hidden Base - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Hidden Base in less than 3'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x17 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_hidden_base_4, 0x5)
+)
+
+achievement(
+    title = "Hidden Base - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Hidden Base in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x17 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_hidden_base_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "Route 101 - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Route 101 and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x0 &&
+        current_character == 0x2 &&
+        PrevIncreasedTo(rank_route_101_1, 0x5)
+)
+
+achievement(
+    title = "Route 101 - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Route 101 and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x1 &&
+        current_character == 0x2 &&
+        PrevIncreasedTo(rank_route_101_2, 0x5)
+)
+
+achievement(
+    title = "Route 101 - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Route 101 and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x2 &&
+        current_character == 0x2 &&
+        PrevIncreasedTo(rank_route_101_3, 0x5)
+)
+
+achievement(
+    title = "Route 101 - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Route 101 in less than 3'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x3 &&
+        current_character == 0x2 &&
+        PrevIncreasedTo(rank_route_101_4, 0x5)
+)
+
+achievement(
+    title = "Route 101 - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Route 101 in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x4 &&
+        current_character == 0x2 &&
+        PrevIncreasedTo(rank_route_101_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Pyramid Cave - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Pyramid Cave and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1c &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_pyramid_cave_1, 0x5)
+)
+
+achievement(
+    title = "Pyramid Cave - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Pyramid Cave and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1c &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_pyramid_cave_2, 0x5)
+)
+
+achievement(
+    title = "Pyramid Cave - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Pyramid Cave and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1c &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_pyramid_cave_3, 0x5)
+)
+
+achievement(
+    title = "Pyramid Cave - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Pyramid Cave in less than 4'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1c &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_pyramid_cave_4, 0x5)
+)
+
+achievement(
+    title = "Pyramid Cave - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Pyramid Cave in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1c &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_pyramid_cave_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "Death Chamber - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Death Chamber and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x19 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_death_chamber_1, 0x5)
+)
+
+achievement(
+    title = "Death Chamber - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Death Chamber and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x19 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_death_chamber_2, 0x5)
+)
+
+achievement(
+    title = "Death Chamber - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Death Chamber and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x19 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_death_chamber_3, 0x5)
+)
+
+achievement(
+    title = "Death Chamber - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Death Chamber in less than 5'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x19 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_death_chamber_4, 0x5)
+)
+
+achievement(
+    title = "Death Chamber - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Death Chamber in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x19 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_death_chamber_5, 0x5)
+)
+
+
+
+
+
+
+achievement(
+    title = "Eternal Engine - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Eternal Engine and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x18 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_eternal_engine_1, 0x5)
+)
+
+achievement(
+    title = "Eternal Engine - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Eternal Engine and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x18 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_eternal_engine_2, 0x5)
+)
+
+achievement(
+    title = "Eternal Engine - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Eternal Engine and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x18 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_eternal_engine_3, 0x5)
+)
+
+achievement(
+    title = "Eternal Engine - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Eternal Engine in less than 5'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x18 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_eternal_engine_4, 0x5)
+)
+
+achievement(
+    title = "Eternal Engine - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Eternal Engine in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x18 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_eternal_engine_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Meteor Herd - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Meteor Herd and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x20 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_eternal_engine_1, 0x5)
+)
+
+achievement(
+    title = "Meteor Herd - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Meteor Herd and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x20 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_eternal_engine_2, 0x5)
+)
+
+achievement(
+    title = "Meteor Herd - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Meteor Herd and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x20 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_eternal_engine_3, 0x5)
+)
+
+achievement(
+    title = "Meteor Herd - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Meteor Herd in less than 4'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x20 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_eternal_engine_4, 0x5)
+)
+
+achievement(
+    title = "Meteor Herd - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Meteor Herd in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x20 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_eternal_engine_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Crazy Gadget - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Crazy Gadget and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x16 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_crazy_gadget_1, 0x5)
+)
+
+achievement(
+    title = "Crazy Gadget - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Crazy Gadget and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x16 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_crazy_gadget_2, 0x5)
+)
+
+achievement(
+    title = "Crazy Gadget - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Crazy Gadget and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x16 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_crazy_gadget_3, 0x5)
+)
+
+achievement(
+    title = "Crazy Gadget - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Crazy Gadget in less than 5'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x16 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_crazy_gadget_4, 0x5)
+)
+
+achievement(
+    title = "Crazy Gadget - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Crazy Gadget in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x16 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_crazy_gadget_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "Final Rush - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Final Rush and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1e &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_final_rush_1, 0x5)
+)
+
+achievement(
+    title = "Final Rush - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Final Rush and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1e &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_final_rush_2, 0x5)
+)
+
+achievement(
+    title = "Final Rush - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Final Rush and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1e &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_final_rush_3, 0x5)
+)
+
+achievement(
+    title = "Final Rush - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Final Rush in less than 5'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1e &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_final_rush_4, 0x5)
+)
+
+achievement(
+    title = "Final Rush - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Final Rush in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1e &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_final_rush_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Iron Gate - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Iron Gate and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0xb &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_iron_gate_1, 0x5)
+)
+
+achievement(
+    title = "Iron Gate - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Iron Gate and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xb &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_iron_gate_2, 0x5)
+)
+
+achievement(
+    title = "Iron Gate - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Iron Gate and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xb &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_iron_gate_3, 0x5)
+)
+
+achievement(
+    title = "Iron Gate - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Iron Gate in less than 4'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xb &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_iron_gate_4, 0x5)
+)
+
+achievement(
+    title = "Iron Gate - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Iron Gate in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xb &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_iron_gate_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Dry Lagoon - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Dry Lagoon and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x12 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_dry_lagoon_1, 0x5)
+)
+
+achievement(
+    title = "Dry Lagoon - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Dry Lagoon and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x12 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_dry_lagoon_2, 0x5)
+)
+
+achievement(
+    title = "Dry Lagoon - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Dry Lagoon and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x12 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_dry_lagoon_3, 0x5)
+)
+
+achievement(
+    title = "Dry Lagoon - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Dry Lagoon in less than 3'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x12 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_dry_lagoon_4, 0x5)
+)
+
+achievement(
+    title = "Dry Lagoon - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Dry Lagoon in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x12 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_dry_lagoon_5, 0x5)
+)
+
+
+
+
+
+
+
+achievement(
+    title = "Sand Ocean - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Sand Ocean and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x15 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_sand_ocean_1, 0x5)
+)
+
+achievement(
+    title = "Sand Ocean - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Sand Ocean and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x15 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_sand_ocean_2, 0x5)
+)
+
+achievement(
+    title = "Sand Ocean - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Sand Ocean and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x15 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_sand_ocean_3, 0x5)
+)
+
+achievement(
+    title = "Sand Ocean - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Sand Ocean in less than 4'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x15 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_sand_ocean_4, 0x5)
+)
+
+achievement(
+    title = "Sand Ocean - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Sand Ocean in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x15 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_sand_ocean_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "Radical Highway - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Radical Highway and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0xe &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_radical_highway_1, 0x5)
+)
+
+achievement(
+    title = "Radical Highway - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Radical Highway and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xe &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_radical_highway_2, 0x5)
+)
+
+achievement(
+    title = "Radical Highway - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Radical Highway and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xe &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_radical_highway_3, 0x5)
+)
+
+achievement(
+    title = "Radical Highway - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Radical Highway in less than 3'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xe &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_radical_highway_4, 0x5)
+)
+
+achievement(
+    title = "Radical Highway - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Radical Highway in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0xe &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_radical_highway_5, 0x5)
+)
+
+
+
+achievement(
+    title = "Egg Quarters - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Egg Quarters and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1a &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_egg_quarters_1, 0x5)
+)
+
+achievement(
+    title = "Egg Quarters - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Egg Quarters and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1a &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_egg_quarters_2, 0x5)
+)
+
+achievement(
+    title = "Egg Quarters - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Egg Quarters and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1a &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_egg_quarters_3, 0x5)
+)
+
+achievement(
+    title = "Egg Quarters - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Egg Quarters in less than 3'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1a &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_egg_quarters_4, 0x5)
+)
+
+achievement(
+    title = "Egg Quarters - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Egg Quarters in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1a &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_egg_quarters_5, 0x5)
+)
+
+
+
+
+
+
+achievement(
+    title = "Lost Colony - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Lost Colony and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1b &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_lost_colony_1, 0x5)
+)
+
+achievement(
+    title = "Lost Colony - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Lost Colony and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1b &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_lost_colony_2, 0x5)
+)
+
+achievement(
+    title = "Lost Colony - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Lost Colony and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1b &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_lost_colony_3, 0x5)
+)
+
+achievement(
+    title = "Lost Colony - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Lost Colony in less than 3'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1b &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_lost_colony_4, 0x5)
+)
+
+achievement(
+    title = "Lost Colony - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Lost Colony in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x1b &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_lost_colony_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Security Hall - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Security Hall and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x8 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_security_hall_1, 0x5)
+)
+
+achievement(
+    title = "Security Hall - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Security Hall and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x8 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_security_hall_2, 0x5)
+)
+
+achievement(
+    title = "Security Hall - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Security Hall and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x8 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_security_hall_3, 0x5)
+)
+
+achievement(
+    title = "Security Hall - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Security Hall in less than 3'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x8 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_security_hall_4, 0x5)
+)
+
+achievement(
+    title = "Security Hall - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Security Hall in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x8 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_security_hall_5, 0x5)
+)
+
+
+
+
+achievement(
+    title = "White Jungle - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish White Jungle and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x4 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_white_jungle_1, 0x5)
+)
+
+achievement(
+    title = "White Jungle - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in White Jungle and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x4 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_white_jungle_2, 0x5)
+)
+
+achievement(
+    title = "White Jungle - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in White Jungle and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x4 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_white_jungle_3, 0x5)
+)
+
+achievement(
+    title = "White Jungle - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish White Jungle in less than 3'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x4 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_white_jungle_4, 0x5)
+)
+
+achievement(
+    title = "White Jungle - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete White Jungle in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x4 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_white_jungle_5, 0x5)
+)
+
+
+
+
+
+
+
+achievement(
+    title = "Route 280 - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Route 280 and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x0 &&
+        current_character == 0x5 &&
+        PrevIncreasedTo(rank_route_280_1, 0x5)
+)
+
+achievement(
+    title = "Route 280 - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Route 280 and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x1 &&
+        current_character == 0x5 &&
+        PrevIncreasedTo(rank_route_280_2, 0x5)
+)
+
+achievement(
+    title = "Route 280 - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Route 280 and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x2 &&
+        current_character == 0x5 &&
+        PrevIncreasedTo(rank_route_280_3, 0x5)
+)
+
+achievement(
+    title = "Route 280 - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Route 280 in less than 3'45\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x3 &&
+        current_character == 0x5 &&
+        PrevIncreasedTo(rank_route_280_4, 0x5)
+)
+
+achievement(
+    title = "Route 280 - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Route 280 in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x46 &&
+        mission_id == 0x4 &&
+        current_character == 0x5 &&
+        PrevIncreasedTo(rank_route_280_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Sky Rail - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Sky Rail and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x6 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_sky_rail_1, 0x5)
+)
+
+achievement(
+    title = "Sky Rail - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Sky Rail and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x6 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_sky_rail_2, 0x5)
+)
+
+achievement(
+    title = "Sky Rail - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Sky Rail and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x6 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_sky_rail_3, 0x5)
+)
+
+achievement(
+    title = "Sky Rail - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Sky Rail in less than 2'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x6 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_sky_rail_4, 0x5)
+)
+
+achievement(
+    title = "Sky Rail - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Sky Rail in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x6 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_sky_rail_5, 0x5)
+)
+
+
+
+
+
+
+
+achievement(
+    title = "Mad Space - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Mad Space and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2c &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_mad_space_1, 0x5)
+)
+
+achievement(
+    title = "Mad Space - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Mad Space and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2c &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_mad_space_2, 0x5)
+)
+
+achievement(
+    title = "Mad Space - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Mad Space and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2c &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_mad_space_3, 0x5)
+)
+
+achievement(
+    title = "Mad Space - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Mad Space in less than 4'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2c &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_mad_space_4, 0x5)
+)
+
+achievement(
+    title = "Mad Space - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Mad Space in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2c &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_mad_space_5, 0x5)
+)
+
+
+
+
+
+
+achievement(
+    title = "Cosmic Wall - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Cosmic Wall and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2b &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_cosmic_wall_1, 0x5)
+)
+
+achievement(
+    title = "Cosmic Wall - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Cosmic Wall and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2b &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_cosmic_wall_2, 0x5)
+)
+
+achievement(
+    title = "Cosmic Wall - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Cosmic Wall and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2b &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_cosmic_wall_3, 0x5)
+)
+
+achievement(
+    title = "Cosmic Wall - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Cosmic Wall in less than 8'00\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2b &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_cosmic_wall_4, 0x5)
+)
+
+achievement(
+    title = "Cosmic Wall - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Cosmic Wall in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x2b &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_cosmic_wall_5, 0x5)
+)
+
+
+
+
+
+achievement(
+    title = "Final Chase - Rank A", points = rank_a_value_story, type="progression",
+    description = "Finish Final Chase and get a Rank A [Story Mission]",
+    trigger = 
+        GlobalChecks() &&
+        flag_stage_clear == 0x1 && 
+        level_id == 0x28 &&
+        mission_id == 0x0 &&
+        PrevIncreasedTo(rank_final_rush_1, 0x5)
+)
+
+achievement(
+    title = "Final Chase - Rings Challenge - Rank A", points = rank_a_value_rings, type="progression",
+    description = "Find 100 rings in Final Chase and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x28 &&
+        mission_id == 0x1 &&
+        PrevIncreasedTo(rank_final_rush_2, 0x5)
+)
+
+achievement(
+    title = "Final Chase - Chao Challenge - Rank A", points = rank_a_value_chao, type="progression",
+    description = "Find the hidden Chao in Final Chase and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x28 &&
+        mission_id == 0x2 &&
+        PrevIncreasedTo(rank_final_rush_3, 0x5)
+)
+
+achievement(
+    title = "Final Chase - Time Attack - Rank A", points = rank_a_value_time, type="progression",
+    description = "Finish Final Chase in less than 5'30\" and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x28 &&
+        mission_id == 0x3 &&
+        PrevIncreasedTo(rank_final_rush_4, 0x5)
+)
+
+achievement(
+    title = "Final Chase - Hard Mode - Rank A", points = rank_a_value_hard, type="progression",
+    description = "Complete Final Chase in Hard Mode and get a Rank A [Bonus Mission]",
+    trigger = 
+        GlobalChecks() &&
+        game_mode == 0x0 && 
+        flag_stage_clear == 0x1 && 
+        level_id == 0x28 &&
+        mission_id == 0x4 &&
+        PrevIncreasedTo(rank_final_rush_5, 0x5)
+)
+
+//BOSS CHALLENGES 
+
+
+
+achievement(
+    title = "T-6T Big Fool", points = 2,
+    description = "Beat the T-6T Big Foot with Sonic without losing a single ring [Any Mode]",
+    trigger =   level_id == levels["F6T_BIG_FOOT"] && 
+                current_character == characters["SONIC"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(player_rings < prev(player_rings))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Dr Eggmeh", points = 2,
+    description = "Beat Dr Eggman with Tails during the first encounter without taking any damage [Any Mode]",
+    trigger =   level_id == levels["TAILS_VS_EGG_MAN_1"] && 
+                current_character == characters["TAILS_MECHA"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(float_be(player_pointer + 0x000168) < prev(float_be(player_pointer + 0x000168)))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Shaduh", points = 2,
+    description = "Beat Shadow with Sonic during the first encounter without losing a single ring [Any Mode]",
+    trigger =   level_id == levels["SONIC_VS_SHADOW_1"] && 
+                current_character == characters["SONIC"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(player_rings < prev(player_rings))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "King Boom Poo", points = 2,
+    description = "Hit King Boom Boo Twice before the hourglass ends [Any Mode]",
+    trigger =   level_id == levels["KING_BOOM_BOO"] && 
+                current_character == characters["KNUCKLES"] && 
+                dword_be(boss_pointer + 0x000A88) > 0x00 &&
+                trigger_when(repeated(2, float(boss_pointer + 0x00000C) < prev(float(boss_pointer + 0x00000C)))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                never(dword_be(boss_pointer + 0x000A88) == 0x00) && always_true()))
+)
+
+achievement(
+    title = "Egg Golame", points = 2,
+    description = "Beat the Egg Golem with Sonic without losing a single ring [Any Mode]",
+    trigger =   level_id == levels["EGG_GOLEM_SONIC"] && 
+                current_character == characters["SONIC"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(player_rings < prev(player_rings))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "You're so Bat", points = 2,
+    description = "Beat Rouge with Knuckles without losing a single ring [Any Mode]",
+    trigger =   level_id == levels["KNUCKLES_VS_ROUGE"] && 
+                current_character == characters["KNUCKLES"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(player_rings < prev(player_rings))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Untouchable", points = 2,
+    description = "Beat Dr Eggman with tails during the second encounter without taking any damage [Any Mode]",
+    trigger =   level_id == levels["TAILS_VS_EGG_MAN_2"] && 
+                current_character == characters["TAILS_MECHA"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(float_be(player_pointer + 0x000168) < prev(float_be(player_pointer + 0x000168)))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Investment", points = 2,
+    description = "Beat Shadow with Sonic during the second encounter with at least 250 rings [Any Mode]",
+    trigger =   level_id == levels["SONIC_VS_SHADOW_2"] && 
+                current_character == characters["SONIC"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                once(player_rings >= 0xFA) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Boss Attack - Hero Side", points = 5,
+    description = "Finish the Boss Attack mode on Hero side",
+    trigger = word_be(0x3AD820) == 0x2A && byte(0x1CC1AA) == 0x01 && prev(byte(0x1F57D6)) == 0x00 &&
+              byte(0x1F57D6) == 0x01 && byte(0x1E50D4) == 0x0C
+)
+
+achievement(
+    title = "Boss Attack - Dark Side", points = 5,
+    description = "Finish the Boss Attack mode on Dark side",
+    trigger = word_be(0x3AD820) == 0x2A && byte(0x1CC1AA) == 0x01 && prev(byte(0x1F57D7)) == 0x00 &&
+              byte(0x1F57D7) == 0x01 && byte(0x1E50D4) == 0x0D
+)
+
+achievement(
+    title = "B-3x HOT SHUT DOWN", points = 2,
+    description = "Beat the B-3x HOT SHOT with Shadow without losing a single ring [Any Mode]",
+    trigger =   level_id == levels["B3X_HOT_SHOT"] && 
+                current_character == characters["SHADOW"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(player_rings < prev(player_rings))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Fails", points = 2,
+    description = "Beat Tails with Dr Eggman tails during the first encounter without taking any damage [Any Mode]",
+    trigger =   level_id == levels["TAILS_VS_EGG_MAN_1"] && 
+                current_character == characters["EGGMAN_MECHA"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(float_be(player_pointer + 0x000168) < prev(float_be(player_pointer + 0x000168)))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "R-1/A Crashing Dog", points = 2,
+    description = "Beat R-1/A Flying Dog with Rouge without taking any damage [Any Mode]",
+    trigger =   level_id == levels["R1A_FLYING_DOG"] && 
+                current_character == characters["ROUGE"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(player_rings < prev(player_rings))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Sonice to Beat You", points = 2,
+    description = "Beat Sonic with Shadow during the first encounter without losing a single ring [Any Mode]",
+    trigger =   level_id == levels["SONIC_VS_SHADOW_1"] && 
+                current_character == characters["SHADOW"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(player_rings < prev(player_rings))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Geologist", points = 2,
+    description = "Beat the Egg Golem with Dr Eggman without taking any damage [Any Mode]",
+    trigger =   level_id == levels["EGG_GOLEM_EGGMAN"] && 
+                current_character == characters["EGGMAN_MECHA"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(float_be(player_pointer + 0x000168) < prev(float_be(player_pointer + 0x000168)))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Rap on the Knuckles", points = 2,
+    description = "Beat Knuckles with Rouge without losing a single ring [Any Mode]",
+    trigger =   level_id == levels["KNUCKLES_VS_ROUGE"] && 
+                current_character == characters["ROUGE"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(player_rings < prev(player_rings))) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Shake a Tail Feather", points = 2,
+    description = "Beat Tails with Dr Eggman during the second encounter without taking any damage [Any Mode]",
+    trigger =   level_id == levels["TAILS_VS_EGG_MAN_2"] && 
+                current_character == characters["EGGMAN_MECHA"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(float_be(player_pointer + 0x000168) < prev(float_be(player_pointer + 0x000168)))) &&
+                 (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+achievement(
+    title = "Speed Dating", points = 2,
+    description = "Beat Sonic with Shadow during the second encounter in less than 60 seconds [Any Mode]",
+    trigger =   level_id == levels["SONIC_VS_SHADOW_2"] && 
+                current_character == characters["SHADOW"] &&
+                prev(flag_stage_clear) == 0x00 && trigger_when(flag_stage_clear == 0x01) &&
+                unless(once(byte(0x1CC183) >= 0x01)) &&
+                (always_false() || (never(level_id != prev(level_id)) &&
+                never((prev(game_state) == 0x07 && game_state == 0x10)) && never(game_state == 0x09) &&
+                always_true()))
+)
+
+//ZOOLOGIST CHALLENGES
+
+achievement(
+    title = "City Zoologist", points = 2,
+    description = "In City Escape, find 20 hidden animals with Sonic (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["CITY_ESCAPE"]) &&
+              current_character == characters["SONIC"]
+)
+
+achievement(
+    title = "Canyon Zoologist", points = 2,
+    description = "In Wild Canyon, find 10 hidden animals with Knuckles (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 9 && 
+              measured(player_hidden_animals == 10, when=level_id == levels["WILD_CANYON"]) &&
+              current_character == characters["KNUCKLES"]
+)
+
+achievement(
+    title = "Prison Zoologist", points = 2,
+    description = "In Prison Lane, find 15 hidden animals with Tails (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["PRISON_LANE"]) &&
+              current_character == characters["TAILS_MECHA"]
+)
+
+achievement(
+    title = "Harbor Zoologist", points = 2,
+    description = "In Metal Harbor, find 20 hidden animals with Sonic (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["METAL_HARBOR"]) &&
+              current_character == characters["SONIC"]
+)
+
+achievement(
+    title = "Forest Zoologist", points = 2,
+    description = "In Green Forest, find 20 hidden animals with Sonic (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["GREEN_FOREST"]) &&
+              current_character == characters["SONIC"]
+)
+
+achievement(
+    title = "Pumpkin Hill Zoologist", points = 2,
+    description = "In Pumpkin Hill, find 10 hidden animals with Knuckles (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 9 && 
+              measured(player_hidden_animals == 10, when=level_id == levels["PUMPKIN_HILL"]) &&
+              current_character == characters["KNUCKLES"]
+)
+
+achievement(
+    title = "Street Zoologist", points = 2,
+    description = "In Mission Street, find 15 hidden animals with Tails (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["MISSION_STREET"]) &&
+              current_character == characters["TAILS_MECHA"]
+)
+
+achievement(
+    title = "Aquatic Zoologist", points = 2,
+    description = "In Aquatic Mine, find 10 hidden animals with Knuckles (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 9 && 
+              measured(player_hidden_animals == 10, when=level_id == levels["AQUATIC_MINE"]) &&
+              current_character == characters["KNUCKLES"]
+)
+
+achievement(
+    title = "Base Zoologist", points = 2,
+    description = "In Hidden Base, find 15 hidden animals with Tails (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["HIDDEN_BASE"]) &&
+              current_character == characters["TAILS_MECHA"]
+)
+
+achievement(
+    title = "Pyramid Zoologist", points = 2,
+    description = "In Pyramid Cave, find 20 hidden animals with Sonic (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["PYRAMID_CAVE"]) &&
+              current_character == characters["SONIC"]
+)
+
+achievement(
+    title = "Death Chamber Zoologist", points = 2,
+    description = "In Death Chamber, find 10 hidden animals with Knuckles (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 9 && 
+              measured(player_hidden_animals == 10, when=level_id == levels["DEATH_CHAMBER"]) &&
+              current_character == characters["KNUCKLES"]
+)
+
+achievement(
+    title = "Engine Zoologist", points = 2,
+    description = "In Eternal Engine, find 15 hidden animals with Tails (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["ETERNAL_ENGINE"]) &&
+              current_character == characters["TAILS_MECHA"]
+)
+
+achievement(
+    title = "Meteor Zoologist", points = 2,
+    description = "In Meteor Herd, find 10 hidden animals with Knuckles (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 9 && 
+              measured(player_hidden_animals == 10, when=level_id == levels["METEOR_HERD"]) &&
+              current_character == characters["KNUCKLES"]
+)
+
+achievement(
+    title = "Gadget Zoologist", points = 2,
+    description = "In Crazy Gadget, find 20 hidden animals with Sonic (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["CRAZY_GADGET"]) &&
+              current_character == characters["SONIC"]
+)
+
+achievement(
+    title = "Final Rush Zoologist", points = 2,
+    description = "In Final Rush, find 20 hidden animals with Sonic (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["FINAL_RUSH"]) &&
+              current_character == characters["SONIC"]
+)
+
+achievement(
+    title = "Iron Gate Zoologist", points = 2,
+    description = "In Iron Gate, find 15 hidden animals with Dr. Eggman (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["IRON_GATE"]) &&
+              current_character == characters["EGGMAN_MECHA"]
+)
+
+achievement(
+    title = "Lagoon Zoologist", points = 2,
+    description = "In Dry Lagoon, find 10 hidden animals with Rouge (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 9 && 
+              measured(player_hidden_animals == 10, when=level_id == levels["DRY_LAGOON"]) &&
+              current_character == characters["ROUGE"]
+)
+
+achievement(
+    title = "Ocean Zoologist", points = 2,
+    description = "In Sand Ocean, find 15 hidden animals with Dr. Eggman (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["SAND_OCEAN"]) &&
+              current_character == characters["EGGMAN_MECHA"]
+)
+
+achievement(
+    title = "Highway Zoologist", points = 2,
+    description = "In Radical Highway, find 20 hidden animals with Shadow (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["RADICAL_HIGHWAY"]) &&
+              current_character == characters["SHADOW"]
+)
+
+achievement(
+    title = "Egg Quarters Zoologist", points = 2,
+    description = "In Egg Quarters, find 10 hidden animals with Rouge (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 9 && 
+              measured(player_hidden_animals == 10, when=level_id == levels["EGG_QUARTERS"]) &&
+              current_character == characters["ROUGE"]
+)
+
+achievement(
+    title = "Colony Zoologist", points = 2,
+    description = "In Lost Colony, find 15 hidden animals with Dr. Eggman (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["LOST_COLONY"]) &&
+              current_character == characters["EGGMAN_MECHA"]
+)
+
+achievement(
+    title = "Weapons Bed Zoologist", points = 2,
+    description = "In Weapons Bed, find 15 hidden animals with Dr. Eggman (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["WEAPONS_BED"]) &&
+              current_character == characters["EGGMAN_MECHA"]
+)
+
+achievement(
+    title = "Security Hall Zoologist", points = 2,
+    description = "In Security Hall, find 15 hidden animals with Dr. Eggman (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["SECURITY_HALL"]) &&
+              current_character == characters["EGGMAN_MECHA"]
+)
+
+achievement(
+    title = "Jungle Zoologist", points = 2,
+    description = "In White Jungle, find 20 hidden animals with Shadow (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["WHITE_JUNGLE"]) &&
+              current_character == characters["SHADOW"]
+)
+
+achievement(
+    title = "Sky Zoologist", points = 2,
+    description = "In Sky Rail, find 20 hidden animals with Shadow (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["SKY_RAIL"]) &&
+              current_character == characters["SHADOW"]
+)
+
+achievement(
+    title = "Space Zoologist", points = 2,
+    description = "In Mad Space, find 10 hidden animals with Rouge (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 9 && 
+              measured(player_hidden_animals == 10, when=level_id == levels["MAD_SPACE"]) &&
+              current_character == characters["ROUGE"]
+)
+
+achievement(
+    title = "Cosmic Zoologist", points = 2,
+    description = "In Cosmic Wall, find 15 hidden animals with Dr. Eggman (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 14 && 
+              measured(player_hidden_animals == 15, when=level_id == levels["COSMIC_WALL"]) &&
+              current_character == characters["EGGMAN_MECHA"]
+)
+
+achievement(
+    title = "Final Chase Zoologist", points = 2,
+    description = "In Final Chase, find 20 hidden animals with Shadow (Blue Boxes excluded)",
+    trigger = prev(player_hidden_animals) == 19 && 
+              measured(player_hidden_animals == 20, when=level_id == levels["FINAL_CHASE"]) &&
+              current_character == characters["SHADOW"]
+)
+
+//MISC
+achievement(
+    title = "Cool Boarder", points = 2,
+    description = "Perform at least 2 Awesome snowboard tricks in City Escape [Any Mission]",
+    trigger = never(level_id != prev(level_id)) &&
+              level_id == 0xd &&
+              repeated(2,
+                  (prev(word_be(player_pointer + 0x296)) != 0x8E) && 
+                   word_be(player_pointer + 0x296) == 0x8E) &&
+              never((prev(game_state) == 0x07 && game_state == 0x10)) && 
+              never(game_state == 0x09)
+)
+
+achievement(
+    title = "Sick Speed", points = 1,
+    description = "In City Escape, go at full speed for more than 30 seconds without slown down with Sonic [Any Mission]",
+    trigger = never(word_be(0x3AD820) != prev(word_be(0x3AD820))) &&
+              word_be(tbyte_be(0x1E7769) + 0x000296) == 0x0A &&
+              measured(repeated(30,
+                  byte(0x1CC184) != prev(byte(0x1CC184)) && never(word_be(tbyte_be(0x1E7769) + 0x000296) != 0x0A)),
+                  when=word_be(0x3AD820) == 0x0D
+              ) && byte(0x3AD82B) == 0x00
+)
