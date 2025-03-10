@@ -4823,7 +4823,7 @@ achievement(
               current_character == characters["SHADOW"]
 )
 
-//MISC
+//TRICKY CHALLENGES
 achievement(
     title = "Cool Boarder", points = 2,
     description = "Perform at least 2 Awesome snowboard tricks in City Escape [Any Mission]",
@@ -4846,3 +4846,38 @@ achievement(
                   when=word_be(0x3AD820) == 0x0D
               ) && byte(0x3AD82B) == 0x00
 )
+
+achievement(
+    title = "Tarzan", points = 2,
+    description = "Escape from Green Forest using only 4 jumps [Any Mission]",
+    trigger = prev(byte(0x1CC1AA)) == 0x00 && trigger_when(byte(0x1CC1AA) == 0x01) && word_be(0x3AD820) == 0x03 &&
+              byte(0x3AD82B) == 0x00 &&
+              unless(repeated(5,
+                  (prev(word_be(tbyte_be(0x1E7769) + 0x000296)) != 0x41) && word_be(tbyte_be(0x1E7769) + 0x000296) == 0x41)
+              ) &&
+              (always_false() || (never(word_be(0x3AD820) != prev(word_be(0x3AD820))) && never(byte(0x3AD81B) == 0x0D)))
+)
+
+//RACE CHALLENGES
+
+achievement(
+    title = "Beginner Race", points = 2,
+    description = "Win the Beginner Race in Kart Mode and earn an emblem",
+    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x00 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
+              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
+)
+
+achievement(
+    title = "Standard Race", points = 3,
+    description = "Win the Standard Race in Kart Mode and earn an emblem",
+    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x01 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
+              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
+)
+
+achievement(
+    title = "Expert Race", points = 5,
+    description = "Win the Expert Race in Kart Mode and earn an emblem",
+    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
+              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
+)
+
