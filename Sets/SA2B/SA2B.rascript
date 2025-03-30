@@ -490,9 +490,10 @@ achievement(
     description = "Escape from the City [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x01
+        level_id == levels["CITY_ESCAPE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SONIC"]
 )
 
 achievement(
@@ -510,10 +511,10 @@ achievement(
     description = "Find 3 pieces of the Master Emerald in Wild Canyon [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x04
-
+        level_id == levels["WILD_CANYON"] &&
+        mission_id == 0x0 && 
+        current_character == characters["KNUCKLES"]
 )
 
 achievement(
@@ -527,13 +528,14 @@ achievement(
 )
 
 achievement(
-    title = "Prison Break", points = 2, type="progression",
+    title = "Prison Lane", points = 2, type="progression",
     description = "Escape from the prison [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x08
+        level_id == levels["PRISON_LANE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["TAILS_MECHA"]
 )
 
 achievement(
@@ -541,9 +543,10 @@ achievement(
     description = "Escape from Metal Harbor [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x0a
+        level_id == levels["METAL_HARBOR"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SONIC"]
 )
 
 achievement(
@@ -561,9 +564,10 @@ achievement(
     description = "Escape from Green Forest [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x0c
+        level_id == levels["GREEN_FOREST"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SONIC"]
 )
 
 achievement(
@@ -571,9 +575,10 @@ achievement(
     description = "Find 3 pieces of the Master Emerald in Pumpkin Hill [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x0e
+        level_id == levels["PUMPKIN_HILL"] &&
+        mission_id == 0x0 && 
+        current_character == characters["KNUCKLES"]
 )
 
 achievement(
@@ -581,9 +586,10 @@ achievement(
     description = "Elude enemy pursuit [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x10
+        level_id == levels["MISSION_STREET"] &&
+        mission_id == 0x0 && 
+        current_character == characters["TAILS_MECHA"]
 )
 
 achievement(
@@ -591,9 +597,10 @@ achievement(
     description = "Find 3 pieces of the Master Emerald in Aquatic Mine [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x12
+        level_id == levels["AQUATIC_MINE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["KNUCKLES"]
 )
 
 achievement(
@@ -610,9 +617,10 @@ achievement(
     description = "Find the entrance into Hidden Base [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x16
+        level_id == levels["HIDDEN_BASE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["TAILS_MECHA"]
 )
 
 achievement(
@@ -620,9 +628,10 @@ achievement(
     description = "Infiltrate Eggman's Hidden Base [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x17
+        level_id == levels["PYRAMID_CAVE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SONIC"]
 )
 
 achievement(
@@ -630,9 +639,10 @@ achievement(
     description = "Find 3 Gate keys in Death Chamber [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x19
+        level_id == levels["DEATH_CHAMBER"] &&
+        mission_id == 0x0 && 
+        current_character == characters["KNUCKLES"]
 )
 
 achievement(
@@ -660,9 +670,10 @@ achievement(
     description = "Destroy the colony's power generator [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x1e
+        level_id == levels["ETERNAL_ENGINE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["TAILS_MECHA"]
 )
 
 achievement(
@@ -670,9 +681,10 @@ achievement(
     description = "Find 3 pieces of the Master Emerald on Meteor Herd [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x20
+        level_id == levels["METEOR_HERD"] &&
+        mission_id == 0x0 && 
+        current_character == characters["KNUCKLES"]
 )
 
 achievement(
@@ -690,9 +702,10 @@ achievement(
     description = "Hurry and find Eggman in Crazy Gadget [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x23
+        level_id == levels["CRAZY_GADGET"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SONIC"]
 )
 
 achievement(
@@ -706,13 +719,14 @@ achievement(
 )
 
 achievement(
-    title = "Iron Gate", points = 2, type="progression",
+    title = "Final Rush", points = 2, type="progression",
     description = "Hurry and find the point of the Cannon [Hero Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x01 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_heroes == 0x27
+        level_id == levels["FINAL_RUSH"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SONIC"]
 )
 
 achievement(
@@ -4389,8 +4403,6 @@ achievement(
 
 //BOSS CHALLENGES 
 
-
-
 achievement(
     title = "T-6T Big Fool", points = 2,
     description = "Beat the T-6T Big Foot with Sonic without losing a single ring [Any Mode]",
@@ -4489,14 +4501,14 @@ achievement(
 
 achievement(
     title = "Boss Attack - Hero Side", points = 5,
-    description = "Finish the Boss Attack mode on Hero side",
+    description = "Finish the Boss Attack mode on Hero side and earn an emblem",
     trigger = word_be(0x3AD820) == 0x2A && byte(0x1CC1AA) == 0x01 && prev(byte(0x1F57D6)) == 0x00 &&
               byte(0x1F57D6) == 0x01 && byte(0x1E50D4) == 0x0C
 )
 
 achievement(
     title = "Boss Attack - Dark Side", points = 5,
-    description = "Finish the Boss Attack mode on Dark side",
+    description = "Finish the Boss Attack mode on Dark side and earn an emblem",
     trigger = word_be(0x3AD820) == 0x2A && byte(0x1CC1AA) == 0x01 && prev(byte(0x1F57D7)) == 0x00 &&
               byte(0x1F57D7) == 0x01 && byte(0x1E50D4) == 0x0D
 )
@@ -4823,6 +4835,29 @@ achievement(
               current_character == characters["SHADOW"]
 )
 
+//RACE CHALLENGES
+
+achievement(
+    title = "Beginner Race", points = 2,
+    description = "Win the Beginner Race in Kart Mode and earn an emblem",
+    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x00 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
+              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
+)
+
+achievement(
+    title = "Standard Race", points = 3,
+    description = "Win the Standard Race in Kart Mode and earn an emblem",
+    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x01 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
+              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
+)
+
+achievement(
+    title = "Expert Race", points = 5,
+    description = "Win the Expert Race in Kart Mode and earn an emblem",
+    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
+              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
+)
+
 //TRICKY CHALLENGES
 achievement(
     title = "Cool Boarder", points = 2,
@@ -4857,27 +4892,3 @@ achievement(
               ) &&
               (always_false() || (never(word_be(0x3AD820) != prev(word_be(0x3AD820))) && never(byte(0x3AD81B) == 0x0D)))
 )
-
-//RACE CHALLENGES
-
-achievement(
-    title = "Beginner Race", points = 2,
-    description = "Win the Beginner Race in Kart Mode and earn an emblem",
-    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x00 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
-              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
-)
-
-achievement(
-    title = "Standard Race", points = 3,
-    description = "Win the Standard Race in Kart Mode and earn an emblem",
-    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x01 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
-              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
-)
-
-achievement(
-    title = "Expert Race", points = 5,
-    description = "Win the Expert Race in Kart Mode and earn an emblem",
-    trigger = word_be(0x3AD820) == 0x47 && byte(0x1CC21B) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A0) == 0x01 &&
-              prev(dword_be(tbyte_be(0x1E2FB1) + 0x0001A4)) == 0x02 && dword_be(tbyte_be(0x1E2FB1) + 0x0001A4) == 0x03
-)
-
