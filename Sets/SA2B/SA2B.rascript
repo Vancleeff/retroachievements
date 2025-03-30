@@ -745,9 +745,10 @@ achievement(
     description = "Get to the core of the military base [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x01
+        level_id == levels["IRON_GATE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["EGGMAN_MECHA"]
 )
 
 achievement(
@@ -765,9 +766,10 @@ achievement(
     description = "Find 3 pieces of the Master Emerald in Dry Lagoon [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x05
+        level_id == levels["DRY_LAGOON"] &&
+        mission_id == 0x0 && 
+        current_character == characters["ROUGE"]
 )
 
 achievement(
@@ -775,9 +777,10 @@ achievement(
     description = "Return to Hidden Base [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x07
+        level_id == levels["SAND_OCEAN"] &&
+        mission_id == 0x0 && 
+        current_character == characters["EGGMAN_MECHA"]
 )
 
 achievement(
@@ -785,9 +788,10 @@ achievement(
     description = "Break through the besieging military [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x09
+        level_id == levels["RADICAL_HIGHWAY"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SHADOW"]
 )
 
 achievement(
@@ -795,9 +799,10 @@ achievement(
     description = "Find 3 Gate keys in Egg Quarters [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x0b
+        level_id == levels["EGG_QUARTERS"] &&
+        mission_id == 0x0 && 
+        current_character == characters["ROUGE"]
 )
 
 achievement(
@@ -805,9 +810,10 @@ achievement(
     description = "Find the way to the colony's core [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x0d
+        level_id == levels["LOST_COLONY"] &&
+        mission_id == 0x0 && 
+        current_character == characters["EGGMAN_MECHA"]
 )
 
 achievement(
@@ -815,9 +821,10 @@ achievement(
     description = "Rush into the military base [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x0f
+        level_id == levels["WEAPONS_BED"] &&
+        mission_id == 0x0 && 
+        current_character == characters["EGGMAN_MECHA"]
 )
 
 achievement(
@@ -835,9 +842,10 @@ achievement(
     description = "Steal 3 Chaos Emerald in 5 minutes in Security Hall [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x12
+        level_id == levels["SECURITY_HALL"] &&
+        mission_id == 0x0 && 
+        current_character == characters["ROUGE"]
 )
 
 achievement(
@@ -855,9 +863,10 @@ achievement(
     description = "Cut through the Jungle in 10 minutes [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x15
+        level_id == levels["WHITE_JUNGLE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SHADOW"]
 )
 
 achievement(
@@ -884,9 +893,10 @@ achievement(
     description = "Continue to chase the Tornado [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x1a
+        level_id == levels["SKY_RAIL"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SHADOW"]
 )
 
 achievement(
@@ -904,9 +914,10 @@ achievement(
     description = "Find 3 pieces of the Master Emerald in Mad Space [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x1e
+        level_id == levels["MAD_SPACE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["ROUGE"]
 )
 
 achievement(
@@ -924,9 +935,10 @@ achievement(
     description = "Get and confront the trespassers [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x21
+        level_id == levels["COSMIC_WALL"] &&
+        mission_id == 0x0 && 
+        current_character == characters["EGGMAN_MECHA"]
 )
 
 achievement(
@@ -944,9 +956,10 @@ achievement(
     description = "Hurry to the Eclipse Cannon [Dark Story Mode]",
     trigger = 
         GlobalChecks() &&
-        game_mode == 0x02 && 
         PrevFromTo(flag_stage_clear, 0x0, 0x1) && 
-        story_progress_vilains == 0x25
+        level_id == levels["FINAL_CHASE"] &&
+        mission_id == 0x0 && 
+        current_character == characters["SHADOW"]
 )
 
 achievement(
